@@ -54,7 +54,6 @@ public class Home extends AppCompatActivity
     }
 
 
-    hi
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
