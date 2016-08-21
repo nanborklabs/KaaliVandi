@@ -18,8 +18,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.view.animation.LinearInterpolator;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.android.volley.Request;
@@ -42,6 +45,8 @@ public class LoginFragment extends Fragment {
 
     private View mView;
 
+  @BindView(R.id.login_root)
+  RelativeLayout mlayout;
     private static final String TAG = "LOGIN";
 
     private static  final String LOGIN_URL = "http://";
@@ -85,20 +90,16 @@ public class LoginFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
        mView  = inflater.inflate(R.layout.login_fragment,container,false);
+
         ButterKnife.bind(this,mView);
         final Typeface tf = Typeface.createFromAsset(mContext.getAssets(),"fonts/GrandHotel-Regular.otf");
         final Typeface tf1 = Typeface.createFromAsset(mContext.getAssets(),"fonts/FFF_Tusj.ttf");
         mTitleText.setTypeface(tf);
         mSignUp.setTypeface(tf1);
+        mTitleText.animate().scaleX(1.1f).scaleY(1.1f).setDuration(400).setInterpolator(new LinearInterpolator()).start();
 
 
-      Blurry.with(getContext())
-              .async()
-              .radius(10)
-              .sampling(2)
-              .color(Color.argb(1))
-              .capture((View) mbackgraoundimage)
-              .into(mbackgraoundimage);
+
 
 
         final Button mSubmitButton = (Button ) mView.findViewById(R.id.login_enter_button);
@@ -127,11 +128,25 @@ public class LoginFragment extends Fragment {
 
 
             }
+
+        });
+        mlayout.post(new Runnable() {
+            @Override
+            public void run() {
+                Blurry.with(getContext())
+                        .async()
+                        .radius(25)
+                        .sampling(1)
+                        .color(Color.argb(0,25,24,32))
+                        .capture(mlayout)
+                        .into(mbackgraoundimage);
+            }
         });
 
         mSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Fragment mFragment = RegisterFragment.newInstance();
                 getFragmentManager().beginTransaction()
                         .replace(R.id.frag_holder,new RegisterFragment())
                         .commit();
@@ -211,6 +226,7 @@ public class LoginFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
+
     }
 
     @Override

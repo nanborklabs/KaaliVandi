@@ -42,6 +42,8 @@ public class BookNowFragment extends Fragment implements OnMapReadyCallback, Goo
 
     //the switch to check stops
     @BindView(R.id.frag_stop_switch) Switch mStopSwitch;
+
+    //log tag
     private static final String TAG = "BOOK NOW";
 
     @Override
@@ -70,6 +72,7 @@ public class BookNowFragment extends Fragment implements OnMapReadyCallback, Goo
         //intiate switch listeneres
         mOverSwitch.setOnCheckedChangeListener(this);
         mStopSwitch.setOnCheckedChangeListener(this);
+
 
 
         return mView;
@@ -134,10 +137,14 @@ public class BookNowFragment extends Fragment implements OnMapReadyCallback, Goo
        int id = buttonView.getId();
         if(id == R.id.frag_stop_switch){
             if(isChecked){
-
+                //stops exist ask how may
             }
         }
-        if
+        if(id == R.id.frag_more_switch){
+            if(isChecked){
+                //more tha 700 kg , computer new rate
+            }
+        }
 
     }
 }

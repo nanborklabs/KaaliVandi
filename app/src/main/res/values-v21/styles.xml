@@ -13,4 +13,10 @@
     </style>
 
     <style name="frag_switch"></style>
+
+    <style name="login_edittext">
+        <item name="android:gravity">center</item>
+        <item name="android:padding">8dp</item>
+        <item name="android:textColor">@color/whites</item>
+    </style>
 </resources>

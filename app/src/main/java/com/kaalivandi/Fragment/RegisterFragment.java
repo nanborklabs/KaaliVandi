@@ -44,6 +44,7 @@ public class RegisterFragment extends Fragment {
     private static final String TAG = "REGISTER";
 
     private View mView;
+    private static RegisterFragment mFragment = null;
 
     private KaalivandRequestQueue mRequestQueue;
     @Override
@@ -155,5 +156,14 @@ public class RegisterFragment extends Fragment {
     @Override
     public void setArguments(Bundle args) {
         super.setArguments(args);
+    }
+
+    public static Fragment newInstance() {
+       if (mFragment == null){
+           mFragment =  new RegisterFragment();
+       }else {
+           return mFragment;
+       }
+        return mFragment;
     }
 }

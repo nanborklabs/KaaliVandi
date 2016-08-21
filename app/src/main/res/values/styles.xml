@@ -25,7 +25,13 @@
     <style name="frag_switch">
         <item name="android:textSize">@dimen/switch_text_size</item>
         <item name="android:gravity">center</item>
-        android:gravity="center"
+
+    </style>
+
+    <style name="login_edittext">
+        <item name="android:gravity">center</item>
+        <item name="android:padding">8dp</item>
+        <item name="android:textColor">@color/whites</item>
     </style>
 
 </resources>
