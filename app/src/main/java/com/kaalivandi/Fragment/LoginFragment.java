@@ -1,20 +1,39 @@
 package com.kaalivandi.Fragment;
 
+import android.app.Activity;
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.Typeface;
+import android.graphics.drawable.BitmapDrawable;
+import android.os.Build;
 import android.os.Bundle;
+import android.renderscript.Type;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputLayout;
+import android.support.v4.app.ActivityManagerCompat;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.StringRequest;
 import com.kaalivandi.Network.KaalivandRequestQueue;
 import com.kaalivandi.R;
+import com.kaalivandi.UI.BlurBuilder;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import jp.wasabeef.blurry.Blurry;
 
 /**
  * Created by user on 19-08-2016.
@@ -22,7 +41,21 @@ import com.kaalivandi.R;
 public class LoginFragment extends Fragment {
 
     private View mView;
+
+    private static final String TAG = "LOGIN";
+
+    private static  final String LOGIN_URL = "http://";
     KaalivandRequestQueue mRequestQueue;
+
+    private login callback;
+    private Context mContext;
+
+    @BindView(R.id.login_signup_text)
+    TextView mSignUp;
+    @BindView(R.id.login_title_text) TextView mTitleText;
+
+
+    @BindView(R.id.login_image) ImageView mbackgraoundimage;
     @Override
     public void onDestroyView() {
         super.onDestroyView();
@@ -37,30 +70,71 @@ public class LoginFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
          mRequestQueue = KaalivandRequestQueue.getInstance(getContext());
+
+    }
+
+
+    @Override
+    public void onAttach(Context context) {
+        callback = (login)context;
+        this.mContext = context;
+        super.onAttach(context);
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
        mView  = inflater.inflate(R.layout.login_fragment,container,false);
+        ButterKnife.bind(this,mView);
+        final Typeface tf = Typeface.createFromAsset(mContext.getAssets(),"fonts/GrandHotel-Regular.otf");
+        final Typeface tf1 = Typeface.createFromAsset(mContext.getAssets(),"fonts/FFF_Tusj.ttf");
+        mTitleText.setTypeface(tf);
+        mSignUp.setTypeface(tf1);
+
+
+      Blurry.with(getContext())
+              .async()
+              .radius(10)
+              .sampling(2)
+              .color(Color.argb(1))
+              .capture((View) mbackgraoundimage)
+              .into(mbackgraoundimage);
+
+
         final Button mSubmitButton = (Button ) mView.findViewById(R.id.login_enter_button);
         final TextInputLayout mUserBox = (TextInputLayout)mView.findViewById(R.id.login_user_ted);
         final TextInputLayout mPassBox = (TextInputLayout)mView.findViewById(R.id.login_pas_ted);
         mSubmitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final String mUser =  mUserBox.getEditText().toString();
-                final String mPass =  mPassBox.getEditText().toString();
+                final String mUser =  mUserBox.getEditText().getText().toString();
+                final String mPass =  mPassBox.getEditText().getText().toString();
+                Log.d(TAG, "username : "+mUser);
+                Log.d(TAG, "password : "+mPass);
+                if (callback != null){
+                    callback.loggedin(true);
+                }
                 if (validateSuccess(mPass,mUser)){
 
+
                     //valid credential type , then log in
-                    login(mUser,mPass);
+// todo:send to server                    login(mUser,mPass);
+
                 }
                 else {
                     //something is wrong, may be email id , password text count etc
                 }
 
 
+            }
+        });
+
+        mSignUp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getFragmentManager().beginTransaction()
+                        .replace(R.id.frag_holder,new RegisterFragment())
+                        .commit();
             }
         });
 
@@ -79,7 +153,7 @@ public class LoginFragment extends Fragment {
             return false;
 
         }
-        if (!mUser.contains("@")){
+        if ( ! mUser.contains("@")){
             return false;
         }
         return true;
@@ -147,5 +221,9 @@ public class LoginFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+    }
+
+   public interface login{
+        void loggedin(boolean ok );
     }
 }

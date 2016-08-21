@@ -1,15 +1,103 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical" android:layout_width="match_parent"
 
-android:background="@color/whites"
     android:layout_height="match_parent">
 
-    <fragment
 
-        android:id="@+id/map"
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="60dp"
+        android:inputType="textMultiLine"
+        android:ems="10"
+        android:id="@+id/from_et"
+        android:text="Click to select"
+
+        android:layout_alignTop="@+id/from_text"
+        android:layout_alignLeft="@+id/to_et"
+        android:layout_alignStart="@+id/to_et" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/from_to_text"
+
+        android:text="From"
+        android:gravity="center"
+        android:id="@+id/from_text"
+        android:layout_marginTop="@dimen/frag_margin_top"
+        android:layout_marginLeft="@dimen/frag_margin_left"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="To"
+        android:id="@+id/to_text"
+        style="@style/from_to_text"
+        android:layout_marginTop="48dp"
+        android:layout_below="@+id/from_et"
+        android:layout_alignRight="@+id/from_text"
+        android:layout_alignEnd="@+id/from_text" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textMultiLine"
+        android:ems="10"
+        android:id="@+id/to_et"
+        android:text="Click to select Destination"
+        android:layout_alignBottom="@+id/to_text"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <Switch
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Stops"
+        android:id="@+id/frag_stop_switch"
+        style="@style/frag_switch"
+        android:layout_marginTop="@dimen/frag_stop_switch_margin_top"
+        android:checked="false"
+        android:layout_below="@+id/frag_rg"
+        android:layout_alignLeft="@+id/to_et"
+        android:layout_alignStart="@+id/to_et"
+        android:layout_alignRight="@+id/to_et"
+        android:layout_alignEnd="@+id/to_et" />
+
+
+    <RadioGroup
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        class="com.google.android.gms.maps.SupportMapFragment"/>
+        android:layout_height="@dimen/frag_type_height"
+        android:id="@id/frag_rg"
+        android:orientation="horizontal"
+        android:weightSum="2"
+        android:layout_below="@+id/to_text"
+        android:layout_alignLeft="@+id/from_text"
+        android:layout_alignStart="@+id/from_text">
+        <RadioButton
+            android:layout_width="0dp"
+            android:text="ACE"
+            android:layout_weight="1"
+            android:layout_height="match_parent" />
+        <RadioButton
+            android:layout_width="0dp"
+            android:text="TRUCK"
+            android:layout_weight="1"
+            android:layout_height="match_parent" />
+    </RadioGroup>
 
-</LinearLayout>
+    <Switch
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="More Than 700KG"
+        style="@style/frag_switch"
+        android:id="@+id/frag_more_switch"
+        android:layout_below="@+id/frag_stop_switch"
+        android:layout_alignLeft="@+id/frag_stop_switch"
+        android:layout_alignStart="@+id/frag_stop_switch"
+        android:checked="false" />
+</RelativeLayout>

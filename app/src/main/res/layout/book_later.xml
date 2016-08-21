@@ -58,7 +58,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Stops"
-        android:id="@+id/switch1"
+        android:id="@+id/frag_stop_switch"
         style="@style/frag_switch"
         android:layout_marginTop="@dimen/frag_stop_switch_margin_top"
         android:checked="false"
@@ -95,8 +95,8 @@
         android:layout_height="wrap_content"
         android:text="More Than 700KG"
         android:id="@+id/switch2"
-        android:layout_below="@+id/switch1"
-        android:layout_alignLeft="@+id/switch1"
-        android:layout_alignStart="@+id/switch1"
+        android:layout_below="@+id/frag_stop_switch"
+        android:layout_alignLeft="@+id/frag_stop_switch"
+        android:layout_alignStart="@+id/frag_stop_switch"
         android:checked="false" />
 </RelativeLayout>

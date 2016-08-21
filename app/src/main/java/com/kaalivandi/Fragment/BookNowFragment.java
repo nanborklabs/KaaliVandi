@@ -11,6 +11,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
+import android.widget.Switch;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -19,17 +21,27 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.kaalivandi.R;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
  * Created by user on 18-08-2016.
  */
-public class BookNowFragment extends Fragment implements OnMapReadyCallback, GoogleMap.OnMapClickListener {
+public class BookNowFragment extends Fragment implements OnMapReadyCallback, GoogleMap.OnMapClickListener, CompoundButton.OnCheckedChangeListener {
     private View mView;
-    SupportMapFragment mapFragment;
-    FragmentManager fManager;
+
+
     private GoogleMap mMap;
 
+
+    //the switch to to identify is mpre than 700kg
+
+    @BindView(R.id.frag_more_switch)
+    Switch mOverSwitch;
+
+
+    //the switch to check stops
+    @BindView(R.id.frag_stop_switch) Switch mStopSwitch;
     private static final String TAG = "BOOK NOW";
 
     @Override
@@ -45,7 +57,7 @@ public class BookNowFragment extends Fragment implements OnMapReadyCallback, Goo
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        fManager = getFragmentManager();
+
     }
 
     @Nullable
@@ -53,13 +65,11 @@ public class BookNowFragment extends Fragment implements OnMapReadyCallback, Goo
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.book_fragment, container, false);
         ButterKnife.bind(this,mView);
-        if (fManager != null) {
-            mapFragment = (SupportMapFragment) fManager.findFragmentById(R.id.map);
-        } else {
-            fManager = getActivity().getSupportFragmentManager();
-            mapFragment = (SupportMapFragment)fManager.findFragmentById(R.id.map);
-        }
 
+
+        //intiate switch listeneres
+        mOverSwitch.setOnCheckedChangeListener(this);
+        mStopSwitch.setOnCheckedChangeListener(this);
 
 
         return mView;
@@ -88,7 +98,7 @@ public class BookNowFragment extends Fragment implements OnMapReadyCallback, Goo
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mapFragment.getMapAsync(this);
+
     }
 
     @Override
@@ -116,5 +126,18 @@ public class BookNowFragment extends Fragment implements OnMapReadyCallback, Goo
         final  double mLon = latLng.longitude;
 
         Log.d(TAG, "onMapClick: ");
+    }
+
+    @Override
+    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+
+       int id = buttonView.getId();
+        if(id == R.id.frag_stop_switch){
+            if(isChecked){
+
+            }
+        }
+        if
+
     }
 }

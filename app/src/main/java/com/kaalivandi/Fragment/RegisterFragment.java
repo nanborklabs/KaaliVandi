@@ -20,6 +20,7 @@ import com.kaalivandi.Network.KaalivandRequestQueue;
 import com.kaalivandi.R;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 
 /**
  * Created by user on 21-08-2016.
@@ -65,11 +66,15 @@ public class RegisterFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
        mView = inflater.inflate(R.layout.register_fragment,container,false);
+        ButterKnife.bind(this,mView);
 
 
 
         //set Custom Fonts faces to Texts
-        final Typeface tf = Typeface.createFromAsset(getActivity().getAssets(),"fonts/Pacifico.ttf");
+        final Typeface tf = Typeface.createFromAsset(getContext().getAssets(), "fonts/GrandHotel-Regular.otf");
+        if (tf == null){
+            Log.d(TAG, "type face null");
+        }
         mTitle.setTypeface(tf);
 
 

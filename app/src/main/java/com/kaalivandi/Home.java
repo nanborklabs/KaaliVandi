@@ -16,52 +16,41 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.kaalivandi.Adapter.BookPageAdapter;
+import com.kaalivandi.Fragment.HomeFragment;
+import com.kaalivandi.Fragment.LoginFragment;
 import com.kaalivandi.Fragment.RegisterFragment;
 
 public class Home extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements LoginFragment.login {
 
 
-    private ViewPager mViewPager;
-    private TabLayout mTabLayout;
-    BookPageAdapter mPagerAdpater;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        mViewPager = (ViewPager)findViewById(R.id.mPager);
-        mTabLayout = (TabLayout)findViewById(R.id.mTab);
-        mPagerAdpater = new BookPageAdapter(getSupportFragmentManager());
-        mViewPager.setAdapter(mPagerAdpater);
-        mTabLayout.setupWithViewPager(mViewPager);
 
 
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
-        toggle.syncState();
+
+        //shwo  Login fragment if first time else
+         //take to home page
 
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.frag_holder,new RegisterFragment())
+                .replace(R.id.frag_holder,new LoginFragment())
                 .commit();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
+
+
+
+
+
+
     }
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
-        }
-
+     super.onBackPressed();
 
     }
 
@@ -89,15 +78,21 @@ public class Home extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
+
+
     @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
-        int id = item.getItemId();
+    public void loggedin(boolean ok) {
+        if (ok){
+            //ok loggede in
+            showHomeFragment();
 
+        }
+    }
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
-        return true;
+    private void showHomeFragment() {
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.frag_holder,new HomeFragment())
+                .commit();
+
     }
 }

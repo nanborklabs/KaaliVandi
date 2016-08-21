@@ -3,6 +3,11 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:background="@color/login_back"
     android:layout_height="match_parent">
+    <ImageView
+        android:layout_width="match_parent"
+        android:background="@color/colorPrimary"
+        android:id="@+id/login_image"
+        android:layout_height="match_parent" />
 
 
     <TextView
@@ -13,7 +18,7 @@
         android:textSize="@dimen/login_title_text_size"
 
         android:textColor="@color/login_text_color"
-        android:id="@+id/textView2"
+        android:id="@+id/login_title_text"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="44dp" />
@@ -21,10 +26,10 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="6dp"
-        android:layout_alignLeft="@id/textView2"
-        android:layout_alignRight="@id/textView2"
+        android:layout_alignLeft="@id/login_title_text"
+        android:layout_alignRight="@id/login_title_text"
         android:layout_marginTop="8dp"
-        android:layout_below="@id/textView2"
+        android:layout_below="@id/login_title_text"
         android:background="@color/login_text_color"
         android:id="@+id/view" />
 
@@ -80,7 +85,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="or Sign up"
-        android:id="@+id/textView3"
+        android:id="@+id/login_signup_text"
+        android:textSize="18sp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="89dp" />
