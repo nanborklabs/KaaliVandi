@@ -86,9 +86,13 @@
         android:layout_marginBottom="89dp" />
 
     <Button
-        android:layout_width="140dp"
+        android:layout_width="match_parent"
         android:layout_height="60dp"
+
+        android:layout_alignRight="@id/login_pas_ted"
+        android:layout_alignLeft="@id/login_pas_ted"
         android:layout_marginTop="30dp"
+
         android:background="@drawable/edi_text_rounded"
         android:text="Enter"
         android:id="@+id/login_enter_button"
