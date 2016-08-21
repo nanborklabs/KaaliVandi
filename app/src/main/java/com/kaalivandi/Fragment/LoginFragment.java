@@ -16,8 +16,6 @@ import com.android.volley.toolbox.StringRequest;
 import com.kaalivandi.Network.KaalivandRequestQueue;
 import com.kaalivandi.R;
 
-import java.net.URL;
-
 /**
  * Created by user on 19-08-2016.
  */
@@ -84,6 +82,7 @@ public class LoginFragment extends Fragment {
         if (!mUser.contains("@")){
             return false;
         }
+        return true;
     }
 
     private void login(String mUser, String mPass) {
@@ -108,7 +107,7 @@ public class LoginFragment extends Fragment {
 
         //add to Rquest Que
 
-        mRequestQueue.addToElfREquestQue(mLoginrequest);
+        mRequestQueue.addTokaalivandiQueue(mLoginrequest);
 
 
 

@@ -58,7 +58,7 @@ public class BookNowFragment extends Fragment implements OnMapReadyCallback, Goo
         }
 
 
-        mapFragment.getMapAsync(this);
+
         return mView;
     }
 
@@ -85,6 +85,7 @@ public class BookNowFragment extends Fragment implements OnMapReadyCallback, Goo
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        mapFragment.getMapAsync(this);
     }
 
     @Override

@@ -39,12 +39,12 @@ public class KaalivandRequestQueue {
         return mRequestQueue;
     }
 
-    public <T> void addToElfREquestQue(Request<T> req) {
+    public <T> void addTokaalivandiQueue(Request<T> req) {
         getRequestQueue().add(req);
     }
 
 
-    public void cancelElfReques(String netTag) {
+    public void cancelRequest(String netTag) {
         if (mRequestQueue!=null){
             getRequestQueue().cancelAll(netTag);
         }
