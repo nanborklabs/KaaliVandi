@@ -6,4 +6,11 @@
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
     </style>
+
+    <style name="from_to_text">
+        <item name="android:textSize">@dimen/frag_text_size_to_from</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="frag_switch"></style>
 </resources>

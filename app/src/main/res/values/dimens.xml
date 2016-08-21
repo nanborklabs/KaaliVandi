@@ -8,4 +8,11 @@
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="login_title_text_size">32sp</dimen>
     <dimen name="register_page_title_text_size">24sp</dimen>
+    <dimen name="frag_margin_left">16dp</dimen>
+    <dimen name="frag_margin_top">36dp</dimen>
+    <dimen name="frag_text_size_to_from">36sp</dimen>
+    <dimen name="switch_margin_top">48dp</dimen>
+    <dimen name="switch_text_size">20sp</dimen>
+    <dimen name="frag_stop_switch_margin_top">30dp</dimen>
+    <dimen name="frag_type_height">80dp</dimen>
 </resources>

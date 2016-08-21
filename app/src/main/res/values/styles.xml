@@ -17,4 +17,15 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+    <style name="from_to_text">
+        <item name="android:textSize">@dimen/frag_text_size_to_from</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="frag_switch">
+        <item name="android:textSize">@dimen/switch_text_size</item>
+        <item name="android:gravity">center</item>
+        android:gravity="center"
+    </style>
+
 </resources>

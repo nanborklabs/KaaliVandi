@@ -19,6 +19,8 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.kaalivandi.R;
 
+import butterknife.ButterKnife;
+
 /**
  * Created by user on 18-08-2016.
  */
@@ -50,6 +52,7 @@ public class BookNowFragment extends Fragment implements OnMapReadyCallback, Goo
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.book_fragment, container, false);
+        ButterKnife.bind(this,mView);
         if (fManager != null) {
             mapFragment = (SupportMapFragment) fManager.findFragmentById(R.id.map);
         } else {
