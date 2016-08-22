@@ -37,7 +37,7 @@ public class Home extends AppCompatActivity
          //take to home page
 
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.frag_holder,new LoginFragment())
+                .replace(R.id.frag_holder,new RegisterFragment())
                 .commit();
 
 

@@ -2,6 +2,7 @@ package com.kaalivandi.Fragment;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -52,6 +53,8 @@ public class LoginFragment extends Fragment {
     private static  final String LOGIN_URL = "http://";
     KaalivandRequestQueue mRequestQueue;
 
+
+
     private login callback;
     private Context mContext;
 
@@ -84,6 +87,12 @@ public class LoginFragment extends Fragment {
         callback = (login)context;
         this.mContext = context;
         super.onAttach(context);
+    }
+
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     @Nullable

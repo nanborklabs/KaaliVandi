@@ -18,5 +18,14 @@
         <item name="android:gravity">center</item>
         <item name="android:padding">8dp</item>
         <item name="android:textColor">@color/whites</item>
+        <item name="android:background">@drawable/edi_text_rounded</item>
+    </style>
+
+    <style name="register_tel">
+        <item name="android:paddingTop">4dp</item>
+        <item name="android:layout_height">@dimen/regsiter_box_height</item>
+        <item name="android:layout_marginLeft">@dimen/register_margin_left</item>
+        <item name="android:layout_marginRight">@dimen/register_margin_right</item>
+        <item name="android:layout_marginTop">@dimen/register_margin_top</item>
     </style>
 </resources>

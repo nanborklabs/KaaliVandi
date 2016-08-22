@@ -1,6 +1,8 @@
 package com.kaalivandi.Fragment;
 
 import android.Manifest;
+import android.app.Activity;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -38,6 +40,9 @@ public class BookNowFragment extends Fragment implements OnMapReadyCallback, Goo
 
     @BindView(R.id.frag_more_switch)
     Switch mOverSwitch;
+    int  PLACE_PICKER_RESULT = 1;
+
+
 
 
     //the switch to check stops
@@ -57,8 +62,19 @@ public class BookNowFragment extends Fragment implements OnMapReadyCallback, Goo
     }
 
     @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == PLACE_PICKER_RESULT){
+            if (resultCode == Activity.RESULT_OK  ){
+
+            }
+        }
+    }
+
+    @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
 
     }
 

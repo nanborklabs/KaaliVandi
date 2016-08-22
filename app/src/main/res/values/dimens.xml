@@ -7,7 +7,7 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="login_title_text_size">32sp</dimen>
-    <dimen name="register_page_title_text_size">24sp</dimen>
+    <dimen name="register_page_title_text_size">28sp</dimen>
     <dimen name="frag_margin_left">16dp</dimen>
     <dimen name="frag_margin_top">36dp</dimen>
     <dimen name="frag_text_size_to_from">36sp</dimen>
@@ -18,4 +18,9 @@
     <dimen name="login_box_margin">32dp</dimen>
     <dimen name="login_signup_bottom_margin">36dp</dimen>
     <dimen name="login_button_margin_top">78dp</dimen>
+    <dimen name="register_margin_right">32dp</dimen>
+    <dimen name="register_margin_top">10dp</dimen>
+    <dimen name="regsiter_subtitle_text">20sp</dimen>
+    <dimen name="register_button_margin_top">60dp</dimen>
+    <dimen name="regsiter_box_height">50dp</dimen>
 </resources>
