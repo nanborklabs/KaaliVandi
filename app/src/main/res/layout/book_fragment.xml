@@ -6,11 +6,14 @@
     android:layout_height="match_parent">
 
 
-    <EditText
+
+
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="60dp"
-        android:inputType="textMultiLine"
+
         android:ems="10"
+        android:background="?android:selectableItemBackground"
         android:id="@+id/from_et"
         android:text="Click to select"
 
@@ -43,7 +46,7 @@
         android:layout_alignRight="@+id/from_text"
         android:layout_alignEnd="@+id/from_text" />
 
-    <EditText
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:inputType="textMultiLine"
@@ -100,4 +103,12 @@
         android:layout_alignLeft="@+id/frag_stop_switch"
         android:layout_alignStart="@+id/frag_stop_switch"
         android:checked="false" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:id="@+id/book_now_button"
+        android:text="Book"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
 </RelativeLayout>

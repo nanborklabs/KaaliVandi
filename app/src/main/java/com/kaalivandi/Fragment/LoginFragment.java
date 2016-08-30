@@ -101,10 +101,10 @@ public class LoginFragment extends Fragment {
        mView  = inflater.inflate(R.layout.login_fragment,container,false);
 
         ButterKnife.bind(this,mView);
-        final Typeface tf = Typeface.createFromAsset(mContext.getAssets(),"fonts/GrandHotel-Regular.otf");
-        final Typeface tf1 = Typeface.createFromAsset(mContext.getAssets(),"fonts/FFF_Tusj.ttf");
-        mTitleText.setTypeface(tf);
-        mSignUp.setTypeface(tf1);
+//        final Typeface tf = Typeface.createFromAsset(mContext.getAssets(),"fonts/GrandHotel-Regular.otf");
+//        final Typeface tf1 = Typeface.createFromAsset(mContext.getAssets(),"fonts/FFF_Tusj.ttf");
+//        mTitleText.setTypeface(tf);
+//        mSignUp.setTypeface(tf1);
         mTitleText.animate().scaleX(1.1f).scaleY(1.1f).setDuration(400).setInterpolator(new LinearInterpolator()).start();
 
 
@@ -193,12 +193,12 @@ public class LoginFragment extends Fragment {
         final StringRequest mLoginrequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-
+                Log.d(TAG, "onResponse: "+response.toString());
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-
+                Log.d(TAG, "onErrorResponse: ");
             }
         });
 

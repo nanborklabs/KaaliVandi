@@ -2,6 +2,7 @@ package com.kaalivandi.Fragment;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -13,14 +14,28 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.Switch;
+import android.widget.TextView;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
+import com.google.android.gms.common.GooglePlayServicesRepairableException;
+import com.google.android.gms.location.places.Place;
+import com.google.android.gms.location.places.ui.PlacePicker;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.kaalivandi.Home;
+import com.kaalivandi.Network.KaalivandRequestQueue;
+import com.kaalivandi.Prefs.MyPrefs;
 import com.kaalivandi.R;
 
 import butterknife.BindView;
@@ -33,6 +48,8 @@ public class BookNowFragment extends Fragment implements OnMapReadyCallback, Goo
     private View mView;
 
 
+
+    MyPrefs myPrefs ;
     private GoogleMap mMap;
 
 
@@ -40,13 +57,37 @@ public class BookNowFragment extends Fragment implements OnMapReadyCallback, Goo
 
     @BindView(R.id.frag_more_switch)
     Switch mOverSwitch;
+
+
+
+    @BindView(R.id.from_et)
+    TextView mFrom;
+    @BindView(R.id.to_et) TextView mTo;
+
+    @BindView(R.id.book_now_button)
+    Button mBookButton;
     int  PLACE_PICKER_RESULT = 1;
 
+    private Context mContext;
+
+    private boolean moreKg =false;
+    private boolean mStops =false;
+
+
+
+
+    KaalivandRequestQueue mRequestQueue;
 
 
 
     //the switch to check stops
     @BindView(R.id.frag_stop_switch) Switch mStopSwitch;
+
+    @Override
+    public void onAttach(Context context) {
+        this.mContext = context;
+        super.onAttach(context);
+    }
 
     //log tag
     private static final String TAG = "BOOK NOW";
@@ -55,6 +96,8 @@ public class BookNowFragment extends Fragment implements OnMapReadyCallback, Goo
     public void onDestroyView() {
         super.onDestroyView();
     }
+
+
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -65,6 +108,9 @@ public class BookNowFragment extends Fragment implements OnMapReadyCallback, Goo
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == PLACE_PICKER_RESULT){
             if (resultCode == Activity.RESULT_OK  ){
+                Place selectedPlace = PlacePicker.getPlace(getContext(),data);
+                Log.d(TAG, "Selected Place  "+selectedPlace.getLatLng());
+                mFrom.setText(selectedPlace.getAddress().toString());
 
             }
         }
@@ -73,7 +119,9 @@ public class BookNowFragment extends Fragment implements OnMapReadyCallback, Goo
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        myPrefs = new MyPrefs(mContext);
 
+        mRequestQueue = KaalivandRequestQueue.getInstance(mContext);
 
 
     }
@@ -83,15 +131,98 @@ public class BookNowFragment extends Fragment implements OnMapReadyCallback, Goo
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.book_fragment, container, false);
         ButterKnife.bind(this,mView);
+        final PlacePicker.IntentBuilder builder  = new PlacePicker.IntentBuilder();
 
 
         //intiate switch listeneres
         mOverSwitch.setOnCheckedChangeListener(this);
         mStopSwitch.setOnCheckedChangeListener(this);
 
+        mFrom.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    Log.d(TAG, "onClick: edittext");
+
+                   startActivityForResult(builder.build(getParentFragment().getActivity()),PLACE_PICKER_RESULT);
+                } catch (GooglePlayServicesRepairableException e) {
+                    Log.d(TAG, "repairable exception");
+                } catch (GooglePlayServicesNotAvailableException e) {
+                    Log.d(TAG, "NOt available exception");
+                }
+
+                catch (Exception e ){
+                    Log.d(TAG, "Exception "+e.getLocalizedMessage());
+                }
+            }
+        });
+
+
+
+
+
+        String userId = myPrefs.getUserId();
+
+        mBookButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+                sendRequest();
+
+
+
+
+
+            }
+        });
+
 
 
         return mView;
+    }
+
+    private void sendRequest() {
+        // make Request
+
+        String userid= myPrefs.getUserId();
+        if (moreKg&&mStops){
+            //both more kg and stops exist
+            Log.d(TAG, "both");
+        }
+        if (moreKg && !mStops){
+            //only more kg
+            Log.d(TAG, "only kg");
+
+        }
+
+        if (!moreKg && mStops){
+            //only stops
+            Log.d(TAG, "only stops");
+        }
+        if (!moreKg && !mStops){
+            //no stops and more kg
+            Log.d(TAG, "plain");
+        }
+
+        String mURL = "https://googel.com?user="+userid+"&";
+
+        StringRequest mRequest = new StringRequest(Request.Method.GET, mURL, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Log.d(TAG, "onResponse: "+response.toString());
+                boolean succees=true;
+                if (succees){
+
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d(TAG, "onErrorResponse: ");
+
+            }
+        });
     }
 
     @Override
@@ -154,13 +285,26 @@ public class BookNowFragment extends Fragment implements OnMapReadyCallback, Goo
         if(id == R.id.frag_stop_switch){
             if(isChecked){
                 //stops exist ask how may
+                mStops = true;
+            }
+            else {
+                mStops = false;
             }
         }
         if(id == R.id.frag_more_switch){
             if(isChecked){
                 //more tha 700 kg , computer new rate
+                moreKg =true;
+            }
+            else {
+                moreKg = false;
             }
         }
 
+    }
+
+
+    public interface Kaalivandi{
+        void booked();
     }
 }

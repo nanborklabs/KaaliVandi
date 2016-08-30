@@ -16,29 +16,36 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.kaalivandi.Adapter.BookPageAdapter;
+import com.kaalivandi.Fragment.BookNowFragment;
+import com.kaalivandi.Fragment.BookedFragment;
 import com.kaalivandi.Fragment.HomeFragment;
 import com.kaalivandi.Fragment.LoginFragment;
 import com.kaalivandi.Fragment.RegisterFragment;
+import com.kaalivandi.Prefs.MyPrefs;
 
 public class Home extends AppCompatActivity
-        implements LoginFragment.login {
+        implements LoginFragment.login ,BookNowFragment.Kaalivandi , BookedFragment.Booking {
 
 
 
+
+    MyPrefs myPrefs;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+        myPrefs = new MyPrefs(this);
+        if (myPrefs.isFirstTime()){
+            // show login Fragment
 
-
-
-
-        //shwo  Login fragment if first time else
-         //take to home page
-
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.frag_holder,new RegisterFragment())
-                .commit();
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.frag_holder,new LoginFragment())
+                    .commit();
+        }else {
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.frag_holder,new HomeFragment())
+                    .commit();
+        }
 
 
 
@@ -94,5 +101,19 @@ public class Home extends AppCompatActivity
                 .replace(R.id.frag_holder,new HomeFragment())
                 .commit();
 
+    }
+
+    @Override
+    public void booked() {
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.frag_holder,new BookedFragment())
+                .commit();
+    }
+
+    @Override
+    public void showBookFramgent() {
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.frag_holder,new HomeFragment())
+                .commit();
     }
 }
