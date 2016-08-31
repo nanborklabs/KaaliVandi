@@ -85,11 +85,13 @@
             android:layout_width="0dp"
             android:text="ACE"
             android:layout_weight="1"
+            android:id="@+id/ace_radio"
             android:layout_height="match_parent" />
         <RadioButton
             android:layout_width="0dp"
             android:text="TRUCK"
             android:layout_weight="1"
+            android:id="@+id/truck_radio"
             android:layout_height="match_parent" />
     </RadioGroup>
 
@@ -111,4 +113,5 @@
         android:text="Book"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true" />
-</RelativeLayout>
+
+   </RelativeLayout>

@@ -1,10 +1,13 @@
 package com.kaalivandi.Fragment;
 
+import android.content.Context;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -46,11 +49,23 @@ public class RegisterFragment extends Fragment {
     private View mView;
     private static RegisterFragment mFragment = null;
 
+    private Context mContext;
+
+    private Registration mCallback;
+
     private KaalivandRequestQueue mRequestQueue;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mRequestQueue =KaalivandRequestQueue.getInstance(getContext());
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        this.mContext = context;
+        mCallback = (Registration)context;
+
+        super.onAttach(context);
     }
 
     @Override
@@ -83,13 +98,13 @@ public class RegisterFragment extends Fragment {
         mRegisterButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               final String mPass = mPassBox.getEditText().toString();
-                final String mRepass = mRePassBox.getEditText().toString();
+               final String mPass = mPassBox.getEditText().getText().toString();
+                final String mRepass = mRePassBox.getEditText().getText().toString();
                 if (mPass.equals(mRepass)){
                     //same password procced to register
-                    final String muser = muserNameBox.getEditText().toString();
-                    final String mPhone = mPhoneBox.getEditText().toString();
-                    final String mEmail = mEmailBox.getEditText().toString();
+                    final String muser = muserNameBox.getEditText().getText().toString();
+                    final String mPhone = mPhoneBox.getEditText().getText().toString();
+                    final String mEmail = mEmailBox.getEditText().getText().toString();
                     register(muser,mPass,mPhone,mEmail);
                 }
             }
@@ -104,18 +119,45 @@ public class RegisterFragment extends Fragment {
             @Override
             public void onResponse(String response) {
                 Log.d(TAG, "onResponse: "+ response);
+                if (response.equals("True")){
+
+                    if (mCallback!=null){
+                        mCallback.registered();
+                    }
+                    else {
+                        throw  new NullPointerException("Activity must implement Method");
+                    }
+
+                }
+                else if (response.equals("False")){
+                    if (mCallback!=null){
+                        mCallback.notRegisterered();
+                    }
+                }
+                else {
+                    Snackbar n = Snackbar.make(mView,"Some Error Occurred, x Please Try again later",Snackbar.LENGTH_SHORT);
+                    n.show();
+                }
+
+
+                return response;
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                AlertDialog.Builder alertDialog = new AlertDialog.Builder(getContext());
+                alertDialog.setMessage("Some Error occurred Please try again");
+                alertDialog.show();
 
+                return null;
             }
         });
         mRequestQueue.addTokaalivandiQueue(mRegisterReq);
     }
 
     private String prepareURL(String muser, String mPass, String mPhone, String mEmail) {
-        return "http://www.kaalivandi.com/newuser "+muser+"&pass="+mPass+"&phone="+mPhone+"&email="+mEmail;
+        return "http://www.kaalivandi.com/MobileApp/NewRegistration?Number="+mPhone+"&Email="+mEmail+"&Name="+muser+"&Password="+mPass;
+
     }
 
     @Override
@@ -165,5 +207,9 @@ public class RegisterFragment extends Fragment {
            return mFragment;
        }
         return mFragment;
+    }
+    public interface Registration{
+        void registered();
+        void notRegisterered();
     }
 }

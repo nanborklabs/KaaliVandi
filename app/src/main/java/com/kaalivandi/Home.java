@@ -1,10 +1,14 @@
 package com.kaalivandi;
 
+import android.app.Activity;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -14,34 +18,42 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.android.gms.common.GoogleApiAvailability;
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
+import com.google.android.gms.common.GooglePlayServicesRepairableException;
+import com.google.android.gms.common.GooglePlayServicesUtil;
+import com.google.android.gms.location.places.Place;
+import com.google.android.gms.location.places.ui.PlacePicker;
 import com.kaalivandi.Adapter.BookPageAdapter;
 import com.kaalivandi.Fragment.BookNowFragment;
 import com.kaalivandi.Fragment.BookedFragment;
+import com.kaalivandi.Fragment.CheckRegistrationFragment;
 import com.kaalivandi.Fragment.HomeFragment;
 import com.kaalivandi.Fragment.LoginFragment;
 import com.kaalivandi.Fragment.RegisterFragment;
 import com.kaalivandi.Prefs.MyPrefs;
 
 public class Home extends AppCompatActivity
-        implements LoginFragment.login ,BookNowFragment.Kaalivandi , BookedFragment.Booking {
+        implements LoginFragment.login ,BookNowFragment.Kaalivandi , BookedFragment.Booking, DialogInterface.OnCancelListener , RegisterFragment.Registration {
 
 
-
-
+    private static final String TAG = "HOME";
     MyPrefs myPrefs;
+    public int PLACE_REQUEST = 2;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         myPrefs = new MyPrefs(this);
-        if (myPrefs.isFirstTime()){
-            // show login Fragment
 
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.frag_holder,new LoginFragment())
-                    .commit();
-        }else {
+
+
+
+
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.frag_holder,new HomeFragment())
                     .commit();
@@ -53,11 +65,31 @@ public class Home extends AppCompatActivity
 
 
 
-    }
+
 
     @Override
     public void onBackPressed() {
      super.onBackPressed();
+
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+            if (requestCode == PLACE_REQUEST){
+                Log.d(TAG, "onActivityResult: ");
+                if (resultCode == Activity.RESULT_OK){
+                    Place place = PlacePicker.getPlace(this,data);
+                    Log.d(TAG, "onActivityResult: "+place.getLatLng());
+                }
+            }else {
+                super.onActivityResult(requestCode, resultCode, data);
+            }
+
+        if (requestCode == 0){
+            Log.d(TAG, "on activity Result");
+        }
+
 
     }
 
@@ -91,10 +123,42 @@ public class Home extends AppCompatActivity
     public void loggedin(boolean ok) {
         if (ok){
             //ok loggede in
-            showHomeFragment();
+//            showHomeFragment();
 
         }
     }
+
+    private void palce() {
+        PlacePicker.IntentBuilder  builder  = new PlacePicker.IntentBuilder();
+
+
+
+        try {
+            Intent intent =  builder.build(this);
+            startActivityForResult(intent,PLACE_REQUEST);
+        } catch (GooglePlayServicesRepairableException e) {
+
+            Log.d(TAG, "Exception in Repair");
+            GoogleApiAvailability.getInstance().getErrorDialog(this, e.getConnectionStatusCode(),
+                    0 /* requestCode */).show();
+        } catch (GooglePlayServicesNotAvailableException e) {
+
+
+            Log.d(TAG, "Not available Exception");
+            String message = "Google Play Services is not available: " +
+                    GoogleApiAvailability.getInstance().getErrorString(e.errorCode);
+
+            Log.e(TAG, message);
+            Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+        }
+
+
+
+        catch (Exception e){
+            Log.d(TAG, "Exception");
+        }
+    }
+
 
     private void showHomeFragment() {
         getSupportFragmentManager().beginTransaction()
@@ -115,5 +179,23 @@ public class Home extends AppCompatActivity
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.frag_holder,new HomeFragment())
                 .commit();
+    }
+
+    @Override
+    public void onCancel(DialogInterface dialog) {
+        dialog.dismiss();
+    }
+
+    @Override
+    public void registered() {
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.frag_holder,new HomeFragment())
+                .addToBackStack(null)
+                .commit();
+    }
+
+    @Override
+    public void notRegisterered() {
+
     }
 }

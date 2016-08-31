@@ -3,10 +3,16 @@
 <FrameLayout xmlns:andorid="http://schemas.android.com/apk/res/android"
     andorid:layout_width="match_parent"
     andorid:layout_height="match_parent"
+    andorid:id="@+id/frag_holder"
     xmlns:android="http://schemas.android.com/apk/res-auto">
-    <include
-        layout="@layout/app_bar_home"
-         />
+
+
+    <Button
+        andorid:layout_width="match_parent"
+        andorid:layout_height="60dp"
+        andorid:background="?android:selectableItemBackground"
+        andorid:id="@+id/place"
+        andorid:text="hello there"/>
 </FrameLayout>
 
 
