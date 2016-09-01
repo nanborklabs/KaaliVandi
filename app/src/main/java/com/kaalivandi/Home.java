@@ -4,32 +4,14 @@ import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
 import android.util.Log;
-import android.view.View;
-import android.support.design.widget.NavigationView;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Button;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import com.google.android.gms.common.GoogleApiAvailability;
-import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
-import com.google.android.gms.common.GooglePlayServicesRepairableException;
-import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlacePicker;
-import com.kaalivandi.Adapter.BookPageAdapter;
 import com.kaalivandi.Fragment.BookNowFragment;
 import com.kaalivandi.Fragment.BookedFragment;
 import com.kaalivandi.Fragment.CheckRegistrationFragment;
@@ -171,7 +153,11 @@ public class Home extends AppCompatActivity implements LoginFragment.login ,Book
     }
 
     @Override
-    public void registered() {
+    public void registered(String muser, String mPhone, String mEmail) {
+        myPrefs.setUsername(muser);
+        myPrefs.setEmail(mEmail);
+        myPrefs.setPhone(mPhone);
+        myPrefs.setIsFirsttime(false);
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.frag_holder, new HomeFragment())
                 .addToBackStack(null)

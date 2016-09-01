@@ -37,6 +37,7 @@ import com.kaalivandi.Network.KaalivandRequestQueue;
 import com.kaalivandi.Prefs.MyPrefs;
 import com.kaalivandi.R;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import butterknife.BindView;
@@ -90,10 +91,10 @@ public class BookNowFragment extends Fragment implements OnMapReadyCallback, Goo
 
 
     //position variables
-    private double origin_Lat ;
-    private double orgin_Lon ;
-    private double dest_Lat;
-    private double dest_Lon;
+    private double origin_Lat=10.99 ;
+    private double orgin_Lon =76.96 ;
+    private double dest_Lat=11.34;
+    private double dest_Lon=77.71;
 
 
    //the singleton Request queue for this class
@@ -111,8 +112,8 @@ public class BookNowFragment extends Fragment implements OnMapReadyCallback, Goo
 
 
     //From & To places in String
-    private String mFromPlace;
-    private String mToPlace;
+    private String mFromPlace="coimbatore";
+    private String mToPlace="ukkadam";
 
 
 
@@ -277,6 +278,7 @@ public class BookNowFragment extends Fragment implements OnMapReadyCallback, Goo
                 snackbar.show();
             }
                 else {
+                sendRequest();
                 Snackbar snackbar = Snackbar
                         .make(mView, "Please select Starting and Ending Location", Snackbar.LENGTH_LONG);
 
@@ -297,14 +299,24 @@ public class BookNowFragment extends Fragment implements OnMapReadyCallback, Goo
         mDialog.setMessage("Please wait while confirming your order");
         mDialog.show();
 
-         String url ="http://maps.googleapis.com/maps/api/directions/json?units=metric&origin="+ origin_Lat +","
+         String url ="https://maps.googleapis.com/maps/api/directions/json?units=metric&origin="+ origin_Lat +","
                  +orgin_Lon +"&destination=" + dest_Lat + ","+dest_Lon+"&mode=driving&sensor=false&key=AIzaSyDR3Lwe6e3e1bggiRqvtJuubNHnGVfEPXA";
         final JsonObjectRequest mRequest  = new JsonObjectRequest(Request.Method.GET, url,null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
+                String distance="54" ;
+                try {
 
-                Log.d(TAG, "on Response from google Directions API "+response.toString());
-                String distance="" ;
+                    JSONObject object = response;
+                    Log.d(TAG, "onResponse: "+object.toString());
+
+
+
+
+                }
+                catch (Exception e ){
+                    Log.d(TAG,"Exception in parsing");
+                }
                 getRate(distance);
             }
         }, new Response.ErrorListener() {
@@ -325,15 +337,18 @@ public class BookNowFragment extends Fragment implements OnMapReadyCallback, Goo
        //construct url based on flags
         String URL = "http://www.kaalivandi.com/MobileApp/EstimatedFareOD?" +
                 "KM="+distance+"&VehicleType="+vehicleType+"&Weight="+moreKg +"&Weighbridge=1&Overhanging=1";
+        Log.d(TAG, "string "+URL);
 
         final StringRequest mRequest  = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 //rate has been Received ,
+
+                Log.d(TAG, "onResponse: from server "+response);
                  mDialog.dismiss();
 
 
-                String fare = "";
+                String fare = "180-220";
 
                 confirmOrder(fare,distance);
             }
@@ -347,13 +362,25 @@ public class BookNowFragment extends Fragment implements OnMapReadyCallback, Goo
     }
 
     private void confirmOrder(String fare, String distance) {
-
+        Log.d(TAG, "confirmOrder: ");
         MyPrefs myPrefs = new MyPrefs(getContext());
         String userid= myPrefs.getUserId();
         String mPhone = myPrefs.getPhoneNumber();
-        String url = "http://www.kaalivandi.com/MobileApp/BookOnDemand?From="+mFromPlace+"&To="+mTo+
+        String url = "http://www.kaalivandi.com/MobileApp/BookOnDemand?From="+mFromPlace+"&To="+mToPlace+
                 "&VehicleType=" +vehicleType+
                 "&Weight=1&Weighbridge=1&Overhanging=1&KM="+distance+"&EstimatedFare="+fare+"&Username="+userid+"&Number="+mPhone;
+        StringRequest mRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Log.d(TAG, "onResponse: "+response);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d(TAG, "onErrorResponse: "+error.getLocalizedMessage());
+            }
+        });
+        mRequestQueue.addTokaalivandiQueue(mRequest);
     }
 
 

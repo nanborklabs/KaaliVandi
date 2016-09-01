@@ -10,6 +10,8 @@ public class MyPrefs {
 
 
     private static final String PREFS = "KAALIVANDI";
+    private static final String EMAIL_ID = "EMAIL";
+    private static final String PHONE_TAG = "PHONE";
     private static final String USER_ID_TAG = "USER";
     private static final String PHONE_NUMBER_TAG = "PHONE_NUMBER";
     private Context mContext;
@@ -46,5 +48,25 @@ public class MyPrefs {
     public void setIsFirsttime(boolean b) {
         final SharedPreferences.Editor ed = sf.edit();
         ed.putBoolean("isFirstTime",b);
+        ed.apply();
+    }
+
+    public void setUsername(String muser) {
+        final SharedPreferences.Editor ed = sf.edit();
+        ed.putString(USER_ID_TAG,muser);
+        ed.apply();
+
+    }
+
+    public void setEmail(String mEmail) {
+        final SharedPreferences.Editor ed = sf.edit();
+        ed.putString(EMAIL_ID,mEmail);
+        ed.apply();
+    }
+
+    public void setPhone(String mPhone) {
+        final SharedPreferences.Editor ed = sf.edit();
+        ed.putString(PHONE_NUMBER_TAG,mPhone);
+        ed.apply();
     }
 }

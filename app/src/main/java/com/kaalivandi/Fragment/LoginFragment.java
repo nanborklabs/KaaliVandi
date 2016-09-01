@@ -133,22 +133,12 @@ public class LoginFragment extends Fragment {
                 final String mPass =  mPassBox.getEditText().getText().toString();
                 Log.d(TAG, "username : "+mUser);
                 Log.d(TAG, "password : "+mPass);
-                if (callback != null){
-                    callback.loggedin(true);
-                }
-                if (validateSuccess(mPass,mUser)){
+
+
 
 
                     //valid credential type , then log in
                           login(mUser,mPass);
-
-                }
-                else {
-                    Snackbar sn = Snackbar.make(mView,"Incorrect Details, please Try again",Snackbar.LENGTH_SHORT);
-                    sn.show();
-                    //something is wrong, may be email id , password text count etc
-                }
-
 
             }
 
@@ -199,9 +189,7 @@ public class LoginFragment extends Fragment {
             return false;
 
         }
-        if ( ! mUser.contains("@")){
-            return false;
-        }
+
         return true;
     }
 
@@ -220,7 +208,7 @@ public class LoginFragment extends Fragment {
                 if(true){
                     if(callback != null){
 
-                        callback.loggedin(true);
+//                        callback.loggedin(true);
                     }
                 }
 

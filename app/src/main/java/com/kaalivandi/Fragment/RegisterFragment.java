@@ -1,7 +1,7 @@
 package com.kaalivandi.Fragment;
 
+import android.app.ProgressDialog;
 import android.content.Context;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
@@ -14,7 +14,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -45,6 +44,8 @@ public class RegisterFragment extends Fragment {
     @BindView(R.id.register_button)
     Button mRegisterButton;
 
+    ProgressDialog mDialog;
+
     private static final String TAG = "REGISTER";
 
     private View mView;
@@ -59,6 +60,7 @@ public class RegisterFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mRequestQueue =KaalivandRequestQueue.getInstance(getContext());
+        mDialog = new ProgressDialog(getContext());
     }
 
     @Override
@@ -99,6 +101,10 @@ public class RegisterFragment extends Fragment {
         mRegisterButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mDialog.setIndeterminate(true);
+                mDialog.setTitle("Welcome");
+                mDialog.setMessage("Booking vechicle is Going to be easy again");
+                mDialog.show();
                final String mPass = mPassBox.getEditText().getText().toString();
                 final String mRepass = mRePassBox.getEditText().getText().toString();
                 if (mPass.equals(mRepass)){
@@ -117,7 +123,7 @@ public class RegisterFragment extends Fragment {
         return mView;
     }
 
-    private void register(String muser, String mPass, String mPhone, String mEmail) {
+    private void register(final String muser, final String mPass, final String mPhone, final String mEmail) {
         final String URl = prepareURL(muser,mPass,mPhone,mEmail);
         Log.d(TAG, "making Request "+URl);
         final StringRequest mRegisterReq = new StringRequest(Request.Method.GET, URl, new Response.Listener<String>() {
@@ -125,9 +131,11 @@ public class RegisterFragment extends Fragment {
             public void onResponse(String response) {
                 Log.d(TAG, "onResponse: "+ response);
                 if (response.equals("\"True\"")){
-
+                        if (mDialog.isShowing()){
+                            mDialog.dismiss();
+                        }
                     if (mCallback!=null){
-                        mCallback.registered();
+                        mCallback.registered(muser,mPhone,mEmail);
                     }
                     else {
                         throw  new NullPointerException("Activity must implement Method");
@@ -135,18 +143,22 @@ public class RegisterFragment extends Fragment {
 
                 }
                 else if (response.equals("\"False\"")){
+                    if (mDialog.isShowing()){
+                        mDialog.dismiss();
+                    }
                     AlertDialog.Builder alertDialog = new AlertDialog.Builder(getContext());
                     alertDialog.setMessage("Some Error occurred Please try again");
                     alertDialog.show();
-                    
+
                     if (mCallback!=null){
-                        mCallback.notRegisterered();
+                        mCallback.registered(muser, mPass, mEmail);
                     }
                 }
                 else {
                     AlertDialog.Builder alertDialog = new AlertDialog.Builder(getContext());
                     alertDialog.setMessage("Some Error occurred Please try again");
                     alertDialog.show();
+                    mCallback.notRegisterered();
 
                 }
 
@@ -156,10 +168,15 @@ public class RegisterFragment extends Fragment {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+
+                if (mDialog.isShowing()){
+                    mDialog.dismiss();
+                }
+
                 AlertDialog.Builder alertDialog = new AlertDialog.Builder(getContext());
                 alertDialog.setMessage("Some Error occurred Please try again");
                 alertDialog.show();
-
+                mCallback.notRegisterered();
 
             }
         });
@@ -167,6 +184,10 @@ public class RegisterFragment extends Fragment {
     }
 
     private String prepareURL(String muser, String mPass, String mPhone, String mEmail) {
+        mEmail = mEmail.trim();
+        mPass = mPass.trim();
+        mPhone = mPhone.trim();
+        muser = muser.trim();
         return "http://www.kaalivandi.com/MobileApp/NewRegistration?Number="+mPhone+"&Email="+mEmail+"&Name="+muser+"&Password="+mPass;
 
     }
@@ -220,7 +241,7 @@ public class RegisterFragment extends Fragment {
         return mFragment;
     }
     public interface Registration{
-        void registered();
+        void registered(String muser, String mPass, String mEmail);
         void notRegisterered();
     }
 }

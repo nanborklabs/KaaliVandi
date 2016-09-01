@@ -1,18 +1,29 @@
 package com.kaalivandi.Fragment;
 
+import android.animation.Animator;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.res.AssetManager;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AccelerateDecelerateInterpolator;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.BounceInterpolator;
+import android.view.animation.LinearInterpolator;
+import android.view.animation.OvershootInterpolator;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -20,6 +31,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.kaalivandi.Network.KaalivandRequestQueue;
 import com.kaalivandi.R;
+import com.kaalivandi.Utils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -34,6 +46,11 @@ public class CheckRegistrationFragment extends Fragment {
     private View mView;
 
 
+    @BindView(R.id.check_title)
+    TextView mTitle;
+
+    @BindView(R.id.textView2) TextView mSubTitle;
+
     @BindView(R.id.check_editext)
     TextInputLayout mPhoneNumber;
     @BindView(R.id.check_button)
@@ -44,6 +61,9 @@ public class CheckRegistrationFragment extends Fragment {
     KaalivandRequestQueue mRequestQueue;
 
     ProgressDialog mDialog;
+    AssetManager am;
+
+    Typeface tf;
     @Override
     public void onDestroyView() {
         super.onDestroyView();
@@ -54,6 +74,15 @@ public class CheckRegistrationFragment extends Fragment {
         super.onCreate(savedInstanceState);
         mRequestQueue = KaalivandRequestQueue.getInstance(getContext());
         mDialog = new ProgressDialog(getContext());
+
+        if (getContext()!=null){
+           am  = getContext().getAssets();
+        }
+        if (am !=null){
+            tf = Typeface.createFromAsset(am,"fonts/grand.otf");
+        }
+
+
     }
 
 
@@ -64,15 +93,88 @@ public class CheckRegistrationFragment extends Fragment {
             mView = inflater.inflate(R.layout.check_registration,container,false);
         ButterKnife.bind(this,mView);
 
+            //title animation
+
+        if (tf!=null){
+            mTitle.setTypeface(tf);
+
+        }
+
+        mSubTitle.setTranslationY(Utils.getScreenHeight(getContext()));
+        mPhoneNumber.setTranslationY(Utils.getScreenHeight(getContext()));
+        mCheckButton.setTranslationY(Utils.getScreenHeight(getContext()));
+        mTitle.animate().alphaBy(1f).scaleX(1.5f).scaleY(1.5f)
+                .setDuration(2500).setStartDelay(200)
+                .setInterpolator(new AccelerateInterpolator(3f))
+                .setListener(new Animator.AnimatorListener() {
+                    @Override
+                    public void onAnimationStart(Animator animation) {
+
+                    }
+
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        mSubTitle.animate().alpha(1f).setDuration(800)
+                                .translationY(0)
+
+                                .setInterpolator(new AccelerateDecelerateInterpolator())
+                                .start();
+                        mCheckButton.animate().alpha(1f).setDuration(800)
+                                .setInterpolator(new AccelerateDecelerateInterpolator())
+                                .translationY(0)
+                                .setStartDelay(400)
+                                .start();
+                        mPhoneNumber.animate().alpha(1f).setDuration(800)
+                                .setInterpolator(new AccelerateDecelerateInterpolator())
+                                .translationY(0)
+                                .setStartDelay(200)
+                                .start();
+                    }
+
+                    @Override
+                    public void onAnimationCancel(Animator animation) {
+
+                    }
+
+                    @Override
+                    public void onAnimationRepeat(Animator animation) {
+
+                    }
+                })
+                .start();
+
+        //remaining Elements animations
+
+
+
+
+
         mCheckButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 final String mNumber  = mPhoneNumber.getEditText().getText().toString();
-                        mDialog.setTitle("Checking");
-                        mDialog.setMessage("please wait....");
-                mDialog.setIndeterminate(true);
-                mDialog.show();
-                    sendServer(mNumber);
+                        if(Numbervalidation(mNumber)){
+
+                            //correct number ,see if he is already present
+                            mDialog.setTitle("Checking");
+                            mDialog.setMessage("please wait....");
+                            mDialog.setIndeterminate(true);
+                            mDialog.show();
+                            sendServer(mNumber);
+                        }else {
+
+                            //NO size is wrong
+                            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                            builder.setMessage("Please Enter Proper Number");
+                            builder.setTitle("Mobile Number");
+                            builder.setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    mPhoneNumber.getEditText().setText("");
+                                }
+                            });
+                        }
+
                 }
 
             }
@@ -80,6 +182,14 @@ public class CheckRegistrationFragment extends Fragment {
 
         return mView;
 
+    }
+
+    private boolean Numbervalidation(String mNumber) {
+        mNumber = mNumber.trim();
+        if (mNumber.length()<10){
+            return false;
+        }
+         return true;
     }
 
     private void sendServer(final String mNumber) {
@@ -91,13 +201,21 @@ public class CheckRegistrationFragment extends Fragment {
             @Override
             public void onResponse(String response) {
                 Log.d(TAG, "onResponse: "+response);
+                if (mDialog.isShowing()){
+                    mDialog.hide();
+                }
+                String tru = "\"True\"";
+                String fals = "\"False\"";
+                if(response.equals(tru)){
 
-                if(true){
+                    //user already a member, show login page
                         if(mCallback != null){
                             mCallback.AlreadyMember(mNumber);
                         }
 
-                }else{
+                }else if (response.equals(fals)){
+
+//                    user  is new member , show register page
                     if(mCallback !=null){
                         mCallback.NewMember(mNumber);
                     }
@@ -107,9 +225,14 @@ public class CheckRegistrationFragment extends Fragment {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                mDialog.hide();
-                mCallback.NewMember(mNumber);
-                Snackbar sm = Snackbar.make(mView,"Error Occured Please Check your Internet Connection",Snackbar.LENGTH_SHORT);
+                Log.d(TAG,"Error");
+
+                if (mDialog.isShowing()){
+                    mDialog.hide();
+                }
+
+
+                Snackbar sm = Snackbar.make(mView,"Network Problem , please Try again",Snackbar.LENGTH_SHORT);
                 sm.show();
 
             }
@@ -126,11 +249,17 @@ public class CheckRegistrationFragment extends Fragment {
     @Override
     public void onDetach() {
         super.onDetach();
+        if (mDialog.isShowing()){
+            mDialog.dismiss();
+        }
+
+
     }
 
     @Override
     public void onStop() {
         super.onStop();
+
     }
 
     @Override
