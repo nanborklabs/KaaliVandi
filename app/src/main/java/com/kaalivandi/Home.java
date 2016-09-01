@@ -58,11 +58,14 @@ public class Home extends AppCompatActivity implements LoginFragment.login ,Book
                     replace(R.id.frag_holder,new CheckRegistrationFragment())
                     .addToBackStack(null)
                     .commit();
+        }else{
+            getSupportFragmentManager().beginTransaction()
+                    .addToBackStack(null)
+                    .replace(R.id.frag_holder, new HomeFragment())
+                    .commit();
         }
 
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.frag_holder, new HomeFragment())
-                .commit();
+
     }
 
 
@@ -132,39 +135,17 @@ public class Home extends AppCompatActivity implements LoginFragment.login ,Book
 
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.frag_holder,new ForgotPassword())
+                .addToBackStack(null)
                 .commit();
     }
 
-    private void palce() {
-        PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
 
-
-        try {
-            Intent intent = builder.build(this);
-            startActivityForResult(intent, PLACE_REQUEST);
-        } catch (GooglePlayServicesRepairableException e) {
-
-            Log.d(TAG, "Exception in Repair");
-            GoogleApiAvailability.getInstance().getErrorDialog(this, e.getConnectionStatusCode(),
-                    0 /* requestCode */).show();
-        } catch (GooglePlayServicesNotAvailableException e) {
-
-
-            Log.d(TAG, "Not available Exception");
-            String message = "Google Play Services is not available: " +
-                    GoogleApiAvailability.getInstance().getErrorString(e.errorCode);
-
-            Log.e(TAG, message);
-            Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
-        } catch (Exception e) {
-            Log.d(TAG, "Exception");
-        }
-    }
 
 
     private void showHomeFragment() {
         myPrefs.setIsFirsttime(true);
         getSupportFragmentManager().beginTransaction()
+                .addToBackStack(null)
                 .replace(R.id.frag_holder, new HomeFragment())
                 .commit();
 

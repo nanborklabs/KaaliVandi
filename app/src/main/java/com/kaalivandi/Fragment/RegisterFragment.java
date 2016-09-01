@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -87,11 +88,11 @@ public class RegisterFragment extends Fragment {
 
 
         //set Custom Fonts faces to Texts
-        final Typeface tf = Typeface.createFromAsset(getContext().getAssets(), "fonts/GrandHotel-Regular.otf");
-        if (tf == null){
-            Log.d(TAG, "type face null");
-        }
-        mTitle.setTypeface(tf);
+//        final Typeface tf = Typeface.createFromAsset(getContext().getAssets(), "fonts/GrandHotel-Regular.otf");
+//        if (tf == null){
+//            Log.d(TAG, "type face null");
+//        }
+//        mTitle.setTypeface(tf);
 
 
 
@@ -107,6 +108,10 @@ public class RegisterFragment extends Fragment {
                     final String mEmail = mEmailBox.getEditText().getText().toString();
                     register(muser,mPass,mPhone,mEmail);
                 }
+                else {
+                    Snackbar sn = Snackbar.make(mView,"Enter same Password", Snackbar.LENGTH_SHORT);
+                    sn.show();
+                }
             }
         });
         return mView;
@@ -114,12 +119,12 @@ public class RegisterFragment extends Fragment {
 
     private void register(String muser, String mPass, String mPhone, String mEmail) {
         final String URl = prepareURL(muser,mPass,mPhone,mEmail);
-
-        final StringRequest mRegisterReq = new StringRequest(Request.Method.POST, URl, new Response.Listener<String>() {
+        Log.d(TAG, "making Request "+URl);
+        final StringRequest mRegisterReq = new StringRequest(Request.Method.GET, URl, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 Log.d(TAG, "onResponse: "+ response);
-                if (response.equals("True")){
+                if (response.equals("\"True\"")){
 
                     if (mCallback!=null){
                         mCallback.registered();
@@ -129,14 +134,20 @@ public class RegisterFragment extends Fragment {
                     }
 
                 }
-                else if (response.equals("False")){
+                else if (response.equals("\"False\"")){
+                    AlertDialog.Builder alertDialog = new AlertDialog.Builder(getContext());
+                    alertDialog.setMessage("Some Error occurred Please try again");
+                    alertDialog.show();
+                    
                     if (mCallback!=null){
                         mCallback.notRegisterered();
                     }
                 }
                 else {
-                    Snackbar n = Snackbar.make(mView,"Some Error Occurred, x Please Try again later",Snackbar.LENGTH_SHORT);
-                    n.show();
+                    AlertDialog.Builder alertDialog = new AlertDialog.Builder(getContext());
+                    alertDialog.setMessage("Some Error occurred Please try again");
+                    alertDialog.show();
+
                 }
 
 

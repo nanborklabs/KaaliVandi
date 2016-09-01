@@ -1,9 +1,11 @@
 package com.kaalivandi.Fragment;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -40,6 +42,8 @@ public class CheckRegistrationFragment extends Fragment {
     CheckUserPresent mCallback;
     
     KaalivandRequestQueue mRequestQueue;
+
+    ProgressDialog mDialog;
     @Override
     public void onDestroyView() {
         super.onDestroyView();
@@ -49,13 +53,10 @@ public class CheckRegistrationFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mRequestQueue = KaalivandRequestQueue.getInstance(getContext());
+        mDialog = new ProgressDialog(getContext());
     }
 
-    @Override
-    public void onAttach(Activity activity) {
-        mCallback = (CheckUserPresent) activity;
-        super.onAttach(activity);
-    }
+
 
     @Nullable
     @Override
@@ -67,7 +68,10 @@ public class CheckRegistrationFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 final String mNumber  = mPhoneNumber.getEditText().getText().toString();
-
+                        mDialog.setTitle("Checking");
+                        mDialog.setMessage("please wait....");
+                mDialog.setIndeterminate(true);
+                mDialog.show();
                     sendServer(mNumber);
                 }
 
@@ -103,8 +107,10 @@ public class CheckRegistrationFragment extends Fragment {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.d(TAG, "onErrorResponse: "+error.getMessage());
-                Log.d(TAG, "onErrorResponse: "+error.toString());
+                mDialog.hide();
+                mCallback.NewMember(mNumber);
+                Snackbar sm = Snackbar.make(mView,"Error Occured Please Check your Internet Connection",Snackbar.LENGTH_SHORT);
+                sm.show();
 
             }
         });
@@ -139,6 +145,7 @@ public class CheckRegistrationFragment extends Fragment {
 
     @Override
     public void onAttach(Context context) {
+        mCallback = (CheckUserPresent)context;
         super.onAttach(context);
     }
 

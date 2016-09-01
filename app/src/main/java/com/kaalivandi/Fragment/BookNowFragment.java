@@ -24,6 +24,7 @@ import android.widget.TextView;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
@@ -35,6 +36,8 @@ import com.google.android.gms.maps.model.LatLng;
 import com.kaalivandi.Network.KaalivandRequestQueue;
 import com.kaalivandi.Prefs.MyPrefs;
 import com.kaalivandi.R;
+
+import org.json.JSONObject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -296,11 +299,11 @@ public class BookNowFragment extends Fragment implements OnMapReadyCallback, Goo
 
          String url ="http://maps.googleapis.com/maps/api/directions/json?units=metric&origin="+ origin_Lat +","
                  +orgin_Lon +"&destination=" + dest_Lat + ","+dest_Lon+"&mode=driving&sensor=false&key=AIzaSyDR3Lwe6e3e1bggiRqvtJuubNHnGVfEPXA";
-        final StringRequest mRequest  = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+        final JsonObjectRequest mRequest  = new JsonObjectRequest(Request.Method.GET, url,null, new Response.Listener<JSONObject>() {
             @Override
-            public void onResponse(String response) {
+            public void onResponse(JSONObject response) {
 
-                Log.d(TAG, "on Response from google Directions API "+response);
+                Log.d(TAG, "on Response from google Directions API "+response.toString());
                 String distance="" ;
                 getRate(distance);
             }
