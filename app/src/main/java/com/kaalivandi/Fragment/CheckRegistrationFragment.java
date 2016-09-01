@@ -1,5 +1,6 @@
 package com.kaalivandi.Fragment;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -35,6 +36,8 @@ public class CheckRegistrationFragment extends Fragment {
     TextInputLayout mPhoneNumber;
     @BindView(R.id.check_button)
     Button mCheckButton;
+
+    CheckUserPresent mCallback;
     
     KaalivandRequestQueue mRequestQueue;
     @Override
@@ -46,6 +49,12 @@ public class CheckRegistrationFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mRequestQueue = KaalivandRequestQueue.getInstance(getContext());
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        mCallback = (CheckUserPresent) activity;
+        super.onAttach(activity);
     }
 
     @Nullable
@@ -69,23 +78,34 @@ public class CheckRegistrationFragment extends Fragment {
 
     }
 
-    private void sendServer(String mNumber) {
+    private void sendServer(final String mNumber) {
 
         Log.d(TAG, "sendServer: ");
-        String URL = "http://www.kaalivandi.com/MobileApp/EstimatedFareOD?KM=9&VehicleType=1&Weight=1&Weighbridge=1&Overhanging=1";
+        final String URL = "http://www.kaalivandi.com/MobileApp/CheckNumber?Number="+mNumber;
         
         final StringRequest mRequest = new StringRequest(Request.Method.GET, URL, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                Log.d(TAG, "onResponse: ");
-                return response;
+                Log.d(TAG, "onResponse: "+response);
+
+                if(true){
+                        if(mCallback != null){
+                            mCallback.AlreadyMember(mNumber);
+                        }
+
+                }else{
+                    if(mCallback !=null){
+                        mCallback.NewMember(mNumber);
+                    }
+                }
+
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.d(TAG, "onErrorResponse: "+error.getMessage());
                 Log.d(TAG, "onErrorResponse: "+error.toString());
-                return null;
+
             }
         });
         
@@ -120,5 +140,10 @@ public class CheckRegistrationFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+    }
+
+    public interface CheckUserPresent{
+        void AlreadyMember(String mNumber);
+        void NewMember(String mNumber);
     }
 }

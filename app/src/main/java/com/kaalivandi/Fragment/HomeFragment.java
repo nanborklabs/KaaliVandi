@@ -114,10 +114,6 @@ public class HomeFragment extends Fragment {
         super.onLowMemory();
     }
 
-    @Override
-    public void dump(String prefix, FileDescriptor fd, PrintWriter writer, String[] args) {
-        super.dump(prefix, fd, writer, args);
-    }
 
     @Override
     public LayoutInflater getLayoutInflater(Bundle savedInstanceState) {

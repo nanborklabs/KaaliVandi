@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.View;
@@ -32,18 +33,20 @@ import com.kaalivandi.Adapter.BookPageAdapter;
 import com.kaalivandi.Fragment.BookNowFragment;
 import com.kaalivandi.Fragment.BookedFragment;
 import com.kaalivandi.Fragment.CheckRegistrationFragment;
+import com.kaalivandi.Fragment.ForgotPassword;
 import com.kaalivandi.Fragment.HomeFragment;
 import com.kaalivandi.Fragment.LoginFragment;
 import com.kaalivandi.Fragment.RegisterFragment;
 import com.kaalivandi.Prefs.MyPrefs;
 
-public class Home extends AppCompatActivity
-        implements LoginFragment.login ,BookNowFragment.Kaalivandi , BookedFragment.Booking, DialogInterface.OnCancelListener , RegisterFragment.Registration {
-
+public class Home extends AppCompatActivity implements LoginFragment.login ,BookNowFragment.Kaalivandi
+        , BookedFragment.Booking, DialogInterface.OnCancelListener ,
+        RegisterFragment.Registration, CheckRegistrationFragment.CheckUserPresent ,ForgotPassword.forgotInterface {
 
     private static final String TAG = "HOME";
     MyPrefs myPrefs;
     public int PLACE_REQUEST = 2;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,42 +54,34 @@ public class Home extends AppCompatActivity
         myPrefs = new MyPrefs(this);
 
 
-
-
-
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.frag_holder,new HomeFragment())
-                    .commit();
-        }
-
-
-
-
-
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.frag_holder, new HomeFragment())
+                .commit();
+    }
 
 
 
 
     @Override
     public void onBackPressed() {
-     super.onBackPressed();
+        super.onBackPressed();
 
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-            if (requestCode == PLACE_REQUEST){
-                Log.d(TAG, "onActivityResult: ");
-                if (resultCode == Activity.RESULT_OK){
-                    Place place = PlacePicker.getPlace(this,data);
-                    Log.d(TAG, "onActivityResult: "+place.getLatLng());
-                }
-            }else {
-                super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == PLACE_REQUEST) {
+            Log.d(TAG, "onActivityResult: ");
+            if (resultCode == Activity.RESULT_OK) {
+                Place place = PlacePicker.getPlace(this, data);
+                Log.d(TAG, "onActivityResult: " + place.getLatLng());
             }
+        } else {
+            super.onActivityResult(requestCode, resultCode, data);
+        }
 
-        if (requestCode == 0){
+        if (requestCode == 0) {
             Log.d(TAG, "on activity Result");
         }
 
@@ -99,7 +94,6 @@ public class Home extends AppCompatActivity
         getMenuInflater().inflate(R.menu.home, menu);
         return true;
     }
-
 
 
     @Override
@@ -118,24 +112,29 @@ public class Home extends AppCompatActivity
     }
 
 
-
     @Override
     public void loggedin(boolean ok) {
-        if (ok){
+        if (ok) {
             //ok loggede in
-//            showHomeFragment();
+            showHomeFragment();
 
         }
     }
 
-    private void palce() {
-        PlacePicker.IntentBuilder  builder  = new PlacePicker.IntentBuilder();
+    @Override
+    public void forogotPassword() {
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.frag_holder,new ForgotPassword())
+                .commit();
+    }
 
+    private void palce() {
+        PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
 
 
         try {
-            Intent intent =  builder.build(this);
-            startActivityForResult(intent,PLACE_REQUEST);
+            Intent intent = builder.build(this);
+            startActivityForResult(intent, PLACE_REQUEST);
         } catch (GooglePlayServicesRepairableException e) {
 
             Log.d(TAG, "Exception in Repair");
@@ -150,11 +149,7 @@ public class Home extends AppCompatActivity
 
             Log.e(TAG, message);
             Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
-        }
-
-
-
-        catch (Exception e){
+        } catch (Exception e) {
             Log.d(TAG, "Exception");
         }
     }
@@ -162,7 +157,7 @@ public class Home extends AppCompatActivity
 
     private void showHomeFragment() {
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.frag_holder,new HomeFragment())
+                .replace(R.id.frag_holder, new HomeFragment())
                 .commit();
 
     }
@@ -170,14 +165,14 @@ public class Home extends AppCompatActivity
     @Override
     public void booked() {
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.frag_holder,new BookedFragment())
+                .replace(R.id.frag_holder, new BookedFragment())
                 .commit();
     }
 
     @Override
     public void showBookFramgent() {
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.frag_holder,new HomeFragment())
+                .replace(R.id.frag_holder, new HomeFragment())
                 .commit();
     }
 
@@ -189,13 +184,52 @@ public class Home extends AppCompatActivity
     @Override
     public void registered() {
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.frag_holder,new HomeFragment())
+                .replace(R.id.frag_holder, new HomeFragment())
                 .addToBackStack(null)
                 .commit();
     }
 
     @Override
     public void notRegisterered() {
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.frag_holder,new RegisterFragment())
+                .commit();
+    }
 
+
+    //user is already a member , show login page
+    @Override
+    public void AlreadyMember(String number) {
+        Fragment mFragment = new LoginFragment();
+        Bundle b = new Bundle();
+        b.putString("Number", number);
+        mFragment.setArguments(b);
+        getSupportFragmentManager().beginTransaction()
+                .addToBackStack(null)
+                .replace(R.id.frag_holder, mFragment)
+                .commit();
+    }
+
+    //use is a a new member, show registration page with phone number
+    @Override
+    public void NewMember(String number) {
+        Fragment mFragment = new RegisterFragment();
+        Bundle b = new Bundle();
+        b.putString("Number", number);
+        mFragment.setArguments(b);
+        getSupportFragmentManager().beginTransaction()
+                .addToBackStack(null)
+                .replace(R.id.frag_holder, mFragment)
+                .commit();
+    }
+
+    @Override
+    public void PasswordReset() {
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.frag_holder,new LoginFragment())
+                .addToBackStack(null)
+                .commit();
     }
 }
+
+

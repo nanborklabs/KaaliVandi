@@ -11,6 +11,7 @@ public class MyPrefs {
 
     private static final String PREFS = "KAALIVANDI";
     private static final String USER_ID_TAG = "USER";
+    private static final String PHONE_NUMBER_TAG = "PHONE_NUMBER";
     private Context mContext;
     private SharedPreferences sf;
     public MyPrefs(Context mContext) {
@@ -38,10 +39,7 @@ public class MyPrefs {
     }
 
 
-
-
-
-
-
-
+    public String getPhoneNumber() {
+        return sf.getString(PHONE_NUMBER_TAG,"null");
+    }
 }

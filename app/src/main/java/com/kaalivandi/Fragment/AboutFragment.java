@@ -9,6 +9,8 @@ import android.view.ViewGroup;
 
 import com.kaalivandi.R;
 
+import butterknife.ButterKnife;
+
 /**
  * Created by user on 17-08-2016.
  */
@@ -33,6 +35,7 @@ public class AboutFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
        mView=inflater.inflate(R.layout.about_fragment,container,false);
+        ButterKnife.bind(this,mView);
         return mView;
     }
 

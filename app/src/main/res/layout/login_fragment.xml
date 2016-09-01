@@ -119,4 +119,15 @@
 
     </Button>
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Forgot Password?"
+        android:id="@+id/login_forgot"
+        android:layout_below="@+id/login_pas_ted"
+        android:layout_alignRight="@+id/login_pas_ted"
+        android:layout_alignEnd="@+id/login_pas_ted"
+        android:layout_marginTop="8dp" />
+
 </RelativeLayout>

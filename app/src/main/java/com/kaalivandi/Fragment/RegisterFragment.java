@@ -140,7 +140,7 @@ public class RegisterFragment extends Fragment {
                 }
 
 
-                return response;
+
             }
         }, new Response.ErrorListener() {
             @Override
@@ -149,7 +149,7 @@ public class RegisterFragment extends Fragment {
                 alertDialog.setMessage("Some Error occurred Please try again");
                 alertDialog.show();
 
-                return null;
+
             }
         });
         mRequestQueue.addTokaalivandiQueue(mRegisterReq);

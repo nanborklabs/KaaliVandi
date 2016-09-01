@@ -111,6 +111,9 @@ public class BookNowFragment extends Fragment implements OnMapReadyCallback, Goo
     private String mFromPlace;
     private String mToPlace;
 
+
+
+    private ProgressDialog mDialog;
     @Override
     public void onAttach(Context context) {
         this.mContext = context;
@@ -164,14 +167,16 @@ public class BookNowFragment extends Fragment implements OnMapReadyCallback, Goo
         if (requestCode == TO_PLACE_RESULT){
             if (resultCode == Activity.RESULT_OK){
 
-
+                //get the place details
                 Place selePlace = PlacePicker.getPlace(getContext(),data);
 
-
+                //set textfiels and update globals
                 mTo.setText(selePlace.getName());
                 dest_Lat = selePlace.getLatLng().latitude;
                 dest_Lon = selePlace.getLatLng().longitude;
-                to_selected=false;
+
+                //infer that destination is over
+                to_selected=true;
             }
         }
     }
@@ -191,7 +196,9 @@ public class BookNowFragment extends Fragment implements OnMapReadyCallback, Goo
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.book_fragment, container, false);
         ButterKnife.bind(this,mView);
-        final PlacePicker.IntentBuilder builder  = new PlacePicker.IntentBuilder();
+
+
+        mDialog = new ProgressDialog(getContext());
 
 
 
@@ -206,33 +213,31 @@ public class BookNowFragment extends Fragment implements OnMapReadyCallback, Goo
             @Override
             public void onClick(View v) {
                 try {
-                    Log.d(TAG, "onClick: edittext");
 
+                    //initiate Place picker
+
+                    final PlacePicker.IntentBuilder builder  = new PlacePicker.IntentBuilder();
                    startActivityForResult(builder.build(getParentFragment().getActivity()),FROM_PLACE_RESULT);
-                } catch (GooglePlayServicesRepairableException e) {
-                    Log.d(TAG, "repairable exception");
-                } catch (GooglePlayServicesNotAvailableException e) {
-                    Log.d(TAG, "NOt available exception");
                 }
-
                 catch (Exception e ){
+
+                    //no place picker is available, switch to alternate way .. :P who knows?
                     Log.d(TAG, "Exception "+e.getLocalizedMessage());
                 }
+
             }
         });
 
 
+
+        // Destination place Selector
         mTo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 try {
-                    Log.d(TAG, "onClick: edittext");
 
+                    final PlacePicker.IntentBuilder builder  = new PlacePicker.IntentBuilder();
                     startActivityForResult(builder.build(getParentFragment().getActivity()), TO_PLACE_RESULT);
-                } catch (GooglePlayServicesRepairableException e) {
-                    Log.d(TAG, "repairable exception");
-                } catch (GooglePlayServicesNotAvailableException e) {
-                    Log.d(TAG, "NOt available exception");
                 }
 
                 catch (Exception e ){
@@ -246,20 +251,25 @@ public class BookNowFragment extends Fragment implements OnMapReadyCallback, Goo
 
         String userId = myPrefs.getUserId();
 
+
+        //Book Button
+
         mBookButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
+                Log.d(TAG, "Book BUtton pressed");
+                //
             if(from_selected && to_selected){
                 sendRequest();
             }
-                else if (from_selected && !to_selected){
+                else if (from_selected){
                 Snackbar snackbar = Snackbar
                         .make(mView, "Please Select a destination", Snackbar.LENGTH_SHORT);
 
                 snackbar.show();
             }
-                else if (!from_selected && to_selected){
+                else if (to_selected){
                 Snackbar snackbar = Snackbar.make(mView,"Please Select Starting Address",Snackbar.LENGTH_SHORT);
                 snackbar.show();
             }
@@ -279,17 +289,18 @@ public class BookNowFragment extends Fragment implements OnMapReadyCallback, Goo
     }
 
     private void sendRequest() {
-        ProgressDialog dialog  = new ProgressDialog(getContext());
-        dialog.setIndeterminate(true);
-        dialog.setMessage("Please wait while confirming your order");
 
-         String url ="http://maps.googleapis.com/maps/api/directions/json?origin="+ origin_Lat +","
-                 +orgin_Lon +"&destination=" + dest_Lat + ","+dest_Lon+"&mode=driving&sensor=false";
+        mDialog.setIndeterminate(true);
+        mDialog.setMessage("Please wait while confirming your order");
+        mDialog.show();
+
+         String url ="http://maps.googleapis.com/maps/api/directions/json?units=metric&origin="+ origin_Lat +","
+                 +orgin_Lon +"&destination=" + dest_Lat + ","+dest_Lon+"&mode=driving&sensor=false&key=AIzaSyDR3Lwe6e3e1bggiRqvtJuubNHnGVfEPXA";
         final StringRequest mRequest  = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
 
-
+                Log.d(TAG, "on Response from google Directions API "+response);
                 String distance="" ;
                 getRate(distance);
             }
@@ -306,23 +317,22 @@ public class BookNowFragment extends Fragment implements OnMapReadyCallback, Goo
 
     }
 
-    private void getRate(String distance) {
+    private void getRate(final String distance) {
 
-        if (moreKg && mStops &&){
-
-        }
+       //construct url based on flags
         String URL = "http://www.kaalivandi.com/MobileApp/EstimatedFareOD?" +
                 "KM="+distance+"&VehicleType="+vehicleType+"&Weight="+moreKg +"&Weighbridge=1&Overhanging=1";
 
         final StringRequest mRequest  = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-
+                //rate has been Received ,
+                 mDialog.dismiss();
 
 
                 String fare = "";
 
-                confirmOrder(fare);
+                confirmOrder(fare,distance);
             }
         }, new Response.ErrorListener() {
             @Override
@@ -333,9 +343,14 @@ public class BookNowFragment extends Fragment implements OnMapReadyCallback, Goo
         mRequestQueue.addTokaalivandiQueue(mRequest);
     }
 
-    private void confirmOrder(String fare) {
-        String url = "http://www.kaalivandi.com/MobileApp/BookOnDemand?From=krishna&To=hello&VehicleType=1" +
-                "&Weight=1&Weighbridge=1&Overhanging=1&KM=8.5&EstimatedFare=180-230&Username=Karthi&Number=1234567890\n"
+    private void confirmOrder(String fare, String distance) {
+
+        MyPrefs myPrefs = new MyPrefs(getContext());
+        String userid= myPrefs.getUserId();
+        String mPhone = myPrefs.getPhoneNumber();
+        String url = "http://www.kaalivandi.com/MobileApp/BookOnDemand?From="+mFromPlace+"&To="+mTo+
+                "&VehicleType=" +vehicleType+
+                "&Weight=1&Weighbridge=1&Overhanging=1&KM="+distance+"&EstimatedFare="+fare+"&Username="+userid+"&Number="+mPhone;
     }
 
 

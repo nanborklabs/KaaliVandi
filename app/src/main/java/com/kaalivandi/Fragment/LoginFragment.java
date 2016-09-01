@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.LinearInterpolator;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -35,8 +36,7 @@ public class LoginFragment extends Fragment {
 
     private View mView;
 
-  @BindView(R.id.login_root)
-  RelativeLayout mlayout;
+  @BindView(R.id.login_root) RelativeLayout mlayout;
     private static final String TAG = "LOGIN";
 
     private static  final String LOGIN_URL = "http://";
@@ -52,6 +52,17 @@ public class LoginFragment extends Fragment {
     @BindView(R.id.login_title_text) TextView mTitleText;
 
 
+
+    @BindView(R.id.login_forgot) TextView mForgot;
+
+    @BindView(R.id.login_username)
+    EditText mPhoneBox;
+
+    @BindView(R.id.login_password) EditText mPassBox;
+
+
+
+    String mNumber;
     @BindView(R.id.login_image) ImageView mbackgraoundimage;
     @Override
     public void onDestroyView() {
@@ -67,6 +78,10 @@ public class LoginFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
          mRequestQueue = KaalivandRequestQueue.getInstance(getContext());
+
+        if (getArguments() != null){
+            mNumber = getArguments().getString("Number");
+        }
 
     }
 
@@ -98,7 +113,9 @@ public class LoginFragment extends Fragment {
 
 
 
-
+            if(mNumber != null){
+                mPhoneBox.setText(mNumber);
+            }
 
         final Button mSubmitButton = (Button ) mView.findViewById(R.id.login_enter_button);
         final TextInputLayout mUserBox = (TextInputLayout)mView.findViewById(R.id.login_user_ted);
@@ -127,6 +144,14 @@ public class LoginFragment extends Fragment {
 
             }
 
+        });
+
+
+        mForgot.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
         });
         mlayout.post(new Runnable() {
             @Override
@@ -183,13 +208,19 @@ public class LoginFragment extends Fragment {
             @Override
             public void onResponse(String response) {
                 Log.d(TAG, "onResponse: "+response.toString());
-                return response;
+
+                if(true){
+                    if(callback != null){
+                        callback.loggedin(true);
+                    }
+                }
+
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.d(TAG, "onErrorResponse: ");
-                return null;
+
             }
         });
 
@@ -210,7 +241,8 @@ public class LoginFragment extends Fragment {
     }
 
     private String prepareURL(String mPass, String mUser) {
-        return "http://kaalivandi.com/login?user="+mUser+"&pass="+mPass;
+        return "http://www.kaalivandi.com/MobileApp/CredentialsCheck?Number="+mUser+"&Password="+mPass;
+
     }
 
     @Override
@@ -241,5 +273,6 @@ public class LoginFragment extends Fragment {
 
    public interface login{
         void loggedin(boolean ok );
+       void forogotPassword();
     }
 }
