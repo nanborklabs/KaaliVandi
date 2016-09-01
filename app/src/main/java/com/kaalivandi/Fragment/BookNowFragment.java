@@ -414,19 +414,23 @@ public class BookNowFragment extends Fragment implements OnMapReadyCallback, Goo
         if(id == R.id.frag_stop_switch){
             if(isChecked){
                 //stops exist ask how may
+                Log.d(TAG, "onCheckedChanged: stops "+mStops);
                mStops = 1;
             }
             else {
                 mStops = 0;
+                Log.d(TAG, "onCheckedChanged:stops "+mStops);
             }
         }
         if(id == R.id.frag_more_switch){
             if(isChecked){
                 //more tha 700 kg , computer new rate
                 moreKg = 1 ;
+                Log.d(TAG, "onCheckedChanged:morekg "+moreKg);
             }
             else {
                 moreKg = 0;
+                Log.d(TAG, "onCheckedChanged:morekg "+moreKg);
             }
         }
 
@@ -437,9 +441,11 @@ public class BookNowFragment extends Fragment implements OnMapReadyCallback, Goo
         if (group.getId() == R.id.frag_rg){
             if (checkedId == R.id.ace_radio){
                vehicleType = 0;
+                Log.d(TAG, "onradiogroup "+vehicleType);
             }
             if (checkedId == R.id.truck_radio){
                vehicleType = 1;
+                Log.d(TAG, "onradiogroup "+vehicleType);
             }
         }
     }

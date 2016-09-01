@@ -53,6 +53,12 @@ public class Home extends AppCompatActivity implements LoginFragment.login ,Book
         setContentView(R.layout.activity_home);
         myPrefs = new MyPrefs(this);
 
+        if (myPrefs.isFirstTime()){
+            getSupportFragmentManager().beginTransaction().
+                    replace(R.id.frag_holder,new CheckRegistrationFragment())
+                    .addToBackStack(null)
+                    .commit();
+        }
 
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.frag_holder, new HomeFragment())
@@ -123,6 +129,7 @@ public class Home extends AppCompatActivity implements LoginFragment.login ,Book
 
     @Override
     public void forogotPassword() {
+
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.frag_holder,new ForgotPassword())
                 .commit();
@@ -156,6 +163,7 @@ public class Home extends AppCompatActivity implements LoginFragment.login ,Book
 
 
     private void showHomeFragment() {
+        myPrefs.setIsFirsttime(true);
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.frag_holder, new HomeFragment())
                 .commit();

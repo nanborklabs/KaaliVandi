@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -23,6 +24,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.kaalivandi.Network.KaalivandRequestQueue;
+import com.kaalivandi.Prefs.MyPrefs;
 import com.kaalivandi.R;
 
 import butterknife.BindView;
@@ -62,6 +64,8 @@ public class LoginFragment extends Fragment {
 
 
 
+    MyPrefs myPrefs ;
+
     String mNumber;
     @BindView(R.id.login_image) ImageView mbackgraoundimage;
     @Override
@@ -82,6 +86,8 @@ public class LoginFragment extends Fragment {
         if (getArguments() != null){
             mNumber = getArguments().getString("Number");
         }
+
+        myPrefs= new MyPrefs(getContext());
 
     }
 
@@ -134,10 +140,12 @@ public class LoginFragment extends Fragment {
 
 
                     //valid credential type , then log in
-// todo:send to server                    login(mUser,mPass);
+                          login(mUser,mPass);
 
                 }
                 else {
+                    Snackbar sn = Snackbar.make(mView,"Incorrect Details, please Try again",Snackbar.LENGTH_SHORT);
+                    sn.show();
                     //something is wrong, may be email id , password text count etc
                 }
 
@@ -211,6 +219,7 @@ public class LoginFragment extends Fragment {
 
                 if(true){
                     if(callback != null){
+
                         callback.loggedin(true);
                     }
                 }

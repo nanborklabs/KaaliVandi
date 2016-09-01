@@ -42,4 +42,9 @@ public class MyPrefs {
     public String getPhoneNumber() {
         return sf.getString(PHONE_NUMBER_TAG,"null");
     }
+
+    public void setIsFirsttime(boolean b) {
+        final SharedPreferences.Editor ed = sf.edit();
+        ed.putBoolean("isFirstTime",b);
+    }
 }
