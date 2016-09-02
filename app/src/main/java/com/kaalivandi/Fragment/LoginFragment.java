@@ -41,7 +41,6 @@ public class LoginFragment extends Fragment {
   @BindView(R.id.login_root) RelativeLayout mlayout;
     private static final String TAG = "LOGIN";
 
-    private static  final String LOGIN_URL = "http://";
     KaalivandRequestQueue mRequestQueue;
 
 
@@ -205,10 +204,16 @@ public class LoginFragment extends Fragment {
             public void onResponse(String response) {
                 Log.d(TAG, "onResponse: "+response.toString());
 
-                if(true){
-                    if(callback != null){
-
-//                        callback.loggedin(true);
+               String tru = "\"True\"";
+                String fal = "\"False\"";
+                if (response.equals(tru)){
+                    if (callback!=null){
+                        callback.loggedin(true);
+                    }
+                }
+                else if (response.equals(fal)){
+                    if (callback!=null){
+                        callback.loggedin(false);
                     }
                 }
 
@@ -225,9 +230,6 @@ public class LoginFragment extends Fragment {
         //add to Rquest Que
 
         mRequestQueue.addTokaalivandiQueue(mLoginrequest);
-
-
-
 
 
 

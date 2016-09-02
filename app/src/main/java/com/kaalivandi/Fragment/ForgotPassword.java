@@ -19,6 +19,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.flipboard.bottomsheet.BottomSheetLayout;
 import com.kaalivandi.Network.KaalivandRequestQueue;
 import com.kaalivandi.R;
 
@@ -34,8 +35,7 @@ public class ForgotPassword extends Fragment {
     private View mView;
 
     
-    @BindView(R.id.forot_check) View mFirstView;
-    @BindView(R.id.forot_reset) View mSecondView;
+
     
     @BindView(R.id.forgot_phone)
     TextInputLayout mPhoneBox;
@@ -44,10 +44,8 @@ public class ForgotPassword extends Fragment {
     @BindView(R.id.forgot_check_button )
     Button mCheckButton;
 
-    @BindView(R.id.forgot_pass ) TextInputLayout mPassword;
-    @BindView(R.id.forgot_repass ) TextInputLayout mRePass;
-    
-    @BindView(R.id.forgot_reset_button) Button mResetButton;
+    @BindView(R.id.forgot_bottomsheet)
+    BottomSheetLayout mbottomSheet;
 
     forgotInterface mCallback;
 
@@ -75,12 +73,7 @@ public class ForgotPassword extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
        mView = inflater.inflate(R.layout.forgot_password,container,false);
         ButterKnife.bind(this,mView);
-        if (!mFirstView.isShown()){
-            mFirstView.setVisibility(View.VISIBLE);
-            if (mSecondView.isShown()){
-                mSecondView.setVisibility(View.INVISIBLE);
-            }
-            
+
             
             
 
@@ -97,62 +90,26 @@ public class ForgotPassword extends Fragment {
                 }
             });
 
-            mResetButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    final String mPass = mPassword.getEditText().getText().toString();
-                    final String mRepass = mRePass.getEditText().getText().toString();
-                    if (mPass.equals(mRepass)){
-                        setNewPassword(mPass);
-                    }
-                }
-            });
-        }
+
+
         
 
 
         return mView;
     }
 
-    private void setNewPassword(String mPass) {
-        String URl ="";
-        StringRequest mRequest = new StringRequest(Request.Method.GET, URl, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                Log.d(TAG, "onResponse: "+response);
-
-                if (true){
-                    if (mCallback!=null){
-                        mCallback.PasswordReset();
-                    }
-                }
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                    Snackbar sn = Snackbar.make(mView,"Some Error Occurred, Please Try again",Snackbar.LENGTH_SHORT);
-                        sn.show();
-            }
-        });
-        mRequestQueue.addTokaalivandiQueue(mRequest);
-    }
 
     private void Vaildate(String mPhone, String email) {
 
-        String URL  = "";
+        String URL  = "http://www.kaalivandi.com/MobileApp/ForgotPassword?Number="+mPhone+"&EmailID="+email;
         final StringRequest mRequest = new StringRequest(Request.Method.GET, URL, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 mDialog.hide();
+                Log.d(TAG, "onResponse: "+response);
 
-                if (true){
-                    if (mFirstView.isShown()){
-                        mFirstView.setVisibility(View.INVISIBLE);
-                        if (!mSecondView.isShown()){
-                            mSecondView.setVisibility(View.VISIBLE);
-                        }
-                    }
-                }
+                Log.d(TAG, "onResponse: "+response);
+
             }
         }, new Response.ErrorListener() {
             @Override

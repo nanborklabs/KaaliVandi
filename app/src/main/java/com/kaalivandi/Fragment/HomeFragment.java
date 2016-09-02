@@ -6,15 +6,18 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.kaalivandi.Adapter.BookPageAdapter;
 import com.kaalivandi.R;
-
-import java.io.FileDescriptor;
-import java.io.PrintWriter;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -25,7 +28,7 @@ import butterknife.ButterKnife;
 public class HomeFragment extends Fragment {
 
 
-
+    private static final String TAG = "HOME FRAGMENT";
     @BindView(R.id.mPager) ViewPager mPager;
     @BindView(R.id.mTab) TabLayout mTab;
     private View mView;
@@ -35,6 +38,8 @@ public class HomeFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mPagerAdpater = new BookPageAdapter(getChildFragmentManager());
+
+        setHasOptionsMenu(true);
     }
 
     @Override
@@ -51,6 +56,9 @@ public class HomeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.home_fragment,container,false);
+        Toolbar mToolbar =(Toolbar) mView.findViewById(R.id.toolbar);
+        ((AppCompatActivity)getActivity()).setSupportActionBar(mToolbar);
+
         ButterKnife.bind(this,mView);
 
        if (mPagerAdpater != null){
@@ -104,16 +112,32 @@ public class HomeFragment extends Fragment {
         super.onResume();
     }
 
+
     @Override
-    public void setArguments(Bundle args) {
-        super.setArguments(args);
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+      inflater.inflate(R.menu.kaalivandi_menu,menu);
+
+        super.onCreateOptionsMenu(menu,inflater);
+
     }
 
     @Override
-    public void onLowMemory() {
-        super.onLowMemory();
-    }
+    public boolean onOptionsItemSelected(MenuItem item) {
 
+        Log.d(TAG, "onOptionsItemSelected: "+item.getItemId());
+        switch (item.getItemId()){
+
+
+            case R.id.about_us :
+                   break;
+            case R.id.contact_us :
+                break;
+            case  R.id.share :
+                break;
+
+        }
+        return true;
+    }
 
     @Override
     public LayoutInflater getLayoutInflater(Bundle savedInstanceState) {

@@ -82,7 +82,7 @@ public class Home extends AppCompatActivity implements LoginFragment.login ,Book
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.home, menu);
+
         return true;
     }
 
@@ -92,12 +92,6 @@ public class Home extends AppCompatActivity implements LoginFragment.login ,Book
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
 
         return super.onOptionsItemSelected(item);
     }
@@ -109,7 +103,13 @@ public class Home extends AppCompatActivity implements LoginFragment.login ,Book
             //ok loggede in
             showHomeFragment();
 
+        }else{
+            showLoginPage();
         }
+    }
+
+    private void showLoginPage() {
+
     }
 
     @Override
@@ -125,7 +125,7 @@ public class Home extends AppCompatActivity implements LoginFragment.login ,Book
 
 
     private void showHomeFragment() {
-        myPrefs.setIsFirsttime(true);
+        myPrefs.setIsFirsttime(false);
         getSupportFragmentManager().beginTransaction()
                 .addToBackStack(null)
                 .replace(R.id.frag_holder, new HomeFragment())

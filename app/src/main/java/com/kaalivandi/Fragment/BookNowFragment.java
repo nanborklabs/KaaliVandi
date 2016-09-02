@@ -100,10 +100,10 @@ public class BookNowFragment extends Fragment implements OnMapReadyCallback, Goo
 
 
     //position variables
-    private double origin_Lat=10.99 ;
-    private double orgin_Lon =76.96 ;
-    private double dest_Lat=11.34;
-    private double dest_Lon=77.71;
+    private double origin_Lat ;
+    private double orgin_Lon ;
+    private double dest_Lat;
+    private double dest_Lon;
 
 
    //the singleton Request queue for this class
@@ -229,6 +229,8 @@ public class BookNowFragment extends Fragment implements OnMapReadyCallback, Goo
         if (text_tf !=null){
             mFromText.setTypeface(text_tf);
             mToText.setTypeface(text_tf);
+        }else{
+            Log.d(TAG, "onCreateView: Tyepe face is null");
         }
 
         mVehicleTypeGroup.setOnCheckedChangeListener(this);
@@ -302,7 +304,7 @@ public class BookNowFragment extends Fragment implements OnMapReadyCallback, Goo
                 snackbar.show();
             }
                 else {
-                sendRequest();
+               
                 Snackbar snackbar = Snackbar
                         .make(mView, "Please select Starting and Ending Location", Snackbar.LENGTH_LONG);
 
@@ -370,7 +372,7 @@ public class BookNowFragment extends Fragment implements OnMapReadyCallback, Goo
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-
+                Log.d(TAG, "onErrorResponse: ");
             }
         });
         mRequestQueue.addTokaalivandiQueue(mRequest);

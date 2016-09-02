@@ -1,10 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:id="@+id/app_bar"
+        android:layout_height="?android:attr/actionBarSize">
+        <android.support.v7.widget.Toolbar
+            android:layout_width="match_parent"
+            android:id="@+id/toolbar"
+            android:layout_gravity="center"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="match_parent"
+                android:text="Kaalivandi"
+                android:textColor="@color/whites"
+                android:gravity="center"
+                android:layout_height="match_parent"
+                android:textSize="28sp" />
+
+        </android.support.v7.widget.Toolbar>
+    </android.support.design.widget.AppBarLayout>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
+    android:layout_below="@id/app_bar"
+
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
+
     <android.support.design.widget.TabLayout
 
 
@@ -22,7 +53,7 @@
         app:tabMode="fixed"
         android:id="@+id/mTab"
 
-        >
+        android:fillViewport="true">
     </android.support.design.widget.TabLayout>
 
     <android.support.v4.view.ViewPager
@@ -33,3 +64,5 @@
     </android.support.v4.view.ViewPager>
 
 </LinearLayout>
+
+</RelativeLayout>

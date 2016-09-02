@@ -28,7 +28,7 @@ import butterknife.ButterKnife;
 /**
  * Created by user on 21-08-2016.
  */
-public class RegisterFragment extends Fragment {
+public class  RegisterFragment extends Fragment {
 
 
     @BindView(R.id.register_title)
