@@ -4,13 +4,17 @@ import android.Manifest;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.AssetManager;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,6 +30,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
+import com.flipboard.bottomsheet.BottomSheetLayout;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.gms.location.places.Place;
@@ -46,7 +51,7 @@ import butterknife.ButterKnife;
 /**
  * Created by user on 18-08-2016.
  */
-public class BookNowFragment extends Fragment implements OnMapReadyCallback, GoogleMap.OnMapClickListener, CompoundButton.OnCheckedChangeListener, RadioGroup.OnCheckedChangeListener {
+public class BookNowFragment extends Fragment implements OnMapReadyCallback, GoogleMap.OnMapClickListener, RadioGroup.OnCheckedChangeListener {
     private View mView;
 
 
@@ -57,10 +62,11 @@ public class BookNowFragment extends Fragment implements OnMapReadyCallback, Goo
 
     //the switch to to identify is mpre than 700kg
 
-    @BindView(R.id.frag_more_switch)
-    Switch mOverSwitch;
 
 
+
+    @BindView(R.id.from_text) TextView mFromText;
+    @BindView(R.id.to_text) TextView mToText;
     //to and from text boxes
     @BindView(R.id.from_et)
     TextView mFrom;
@@ -75,6 +81,9 @@ public class BookNowFragment extends Fragment implements OnMapReadyCallback, Goo
 
     @BindView(R.id.frag_rg)
     RadioGroup mVehicleTypeGroup;
+
+    @BindView(R.id.bottomsheet)
+    BottomSheetLayout mBottomSheet;
 
 
     int  FROM_PLACE_RESULT = 1;
@@ -104,17 +113,21 @@ public class BookNowFragment extends Fragment implements OnMapReadyCallback, Goo
 
 
 
-    //the switch to check stops
-    @BindView(R.id.frag_stop_switch) Switch mStopSwitch;
+
 
     //the vehicle type
-    private int vehicleType;
+    private int vehicleType = 1;
 
 
     //From & To places in String
     private String mFromPlace="coimbatore";
     private String mToPlace="ukkadam";
 
+
+
+    private AssetManager am ;
+    private Typeface text_tf;
+    private Typeface butto_tf;
 
 
     private ProgressDialog mDialog;
@@ -189,6 +202,10 @@ public class BookNowFragment extends Fragment implements OnMapReadyCallback, Goo
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         myPrefs = new MyPrefs(mContext);
+        if (getContext()!= null){
+            am = getContext().getAssets();
+            text_tf = Typeface.createFromAsset(am,"fonts/sans_regular.ttf");
+        }
 
         mRequestQueue = KaalivandRequestQueue.getInstance(mContext);
 
@@ -206,12 +223,19 @@ public class BookNowFragment extends Fragment implements OnMapReadyCallback, Goo
 
 
 
+
+
+
+        if (text_tf !=null){
+            mFromText.setTypeface(text_tf);
+            mToText.setTypeface(text_tf);
+        }
+
         mVehicleTypeGroup.setOnCheckedChangeListener(this);
 
 
-        //intiate switch listeneres
-        mOverSwitch.setOnCheckedChangeListener(this);
-        mStopSwitch.setOnCheckedChangeListener(this);
+
+
 
         mFrom.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -299,23 +323,47 @@ public class BookNowFragment extends Fragment implements OnMapReadyCallback, Goo
         mDialog.setMessage("Please wait while confirming your order");
         mDialog.show();
 
-         String url ="https://maps.googleapis.com/maps/api/directions/json?units=metric&origin="+ origin_Lat +","
-                 +orgin_Lon +"&destination=" + dest_Lat + ","+dest_Lon+"&mode=driving&sensor=false&key=AIzaSyDR3Lwe6e3e1bggiRqvtJuubNHnGVfEPXA";
+        String url ="https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&origins="+origin_Lat +","
+                +orgin_Lon +"&destinations="+ dest_Lat +","+dest_Lon+"&key=AIzaSyDR3Lwe6e3e1bggiRqvtJuubNHnGVfEPXA";
         final JsonObjectRequest mRequest  = new JsonObjectRequest(Request.Method.GET, url,null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                String distance="54" ;
+                String distance="" ;
                 try {
 
                     JSONObject object = response;
-                    Log.d(TAG, "onResponse: "+object.toString());
 
+                    String status = object.getString("status");
 
+                    if(status.equalsIgnoreCase("OK")){
+                        JSONArray mRows = object.getJSONArray("rows");
+                        JSONObject elements  = mRows.getJSONObject(0);
+                        JSONArray mArray = elements.getJSONArray("elements");
+                        JSONObject mObject= mArray.getJSONObject(0);
+                        JSONObject distnceobjct = mObject.getJSONObject("distance");
+                        String mdistance = distnceobjct.getString("text");
+                        mdistance = mdistance.replace(" km","");
+                        mdistance = mdistance.trim();
+                      distance = mdistance;
 
+                    }else {
+                        if (mDialog.isShowing()){
+                            mDialog.dismiss();
+                        }
+                        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                        builder.setTitle("Oops, Sorry");
+                        builder.setMessage("Please send us a feedback Regarding you situation");
+                        builder.setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                GoogleError();
+                            }
+                        });
+                    }
 
                 }
                 catch (Exception e ){
-                    Log.d(TAG,"Exception in parsing");
+                    ExceptionHardcoded();
                 }
                 getRate(distance);
             }
@@ -332,25 +380,38 @@ public class BookNowFragment extends Fragment implements OnMapReadyCallback, Goo
 
     }
 
+    private void ExceptionHardcoded() {
+        Log.d(TAG, "ExceptionHardcoded: ");
+    }
+
+    /*google error :P funny */
+    private void GoogleError() {
+        Log.d(TAG, "GoogleError: ");
+    }
+
     private void getRate(final String distance) {
 
        //construct url based on flags
-        String URL = "http://www.kaalivandi.com/MobileApp/EstimatedFareOD?" +
-                "KM="+distance+"&VehicleType="+vehicleType+"&Weight="+moreKg +"&Weighbridge=1&Overhanging=1";
+        String URL ="http://www.kaalivandi.com/MobileApp/CalculateRate?KM="+distance+"&VType="+vehicleType;
         Log.d(TAG, "string "+URL);
 
-        final StringRequest mRequest  = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
+        final StringRequest mRequest  = new StringRequest(Request.Method.GET, URL, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 //rate has been Received ,
 
                 Log.d(TAG, "onResponse: from server "+response);
                  mDialog.dismiss();
+                    String fare = response.replace("\"","");
+                Log.d(TAG, "fare "+fare);
 
-
-                String fare = "180-220";
 
                 confirmOrder(fare,distance);
+
+
+
+
+
             }
         }, new Response.ErrorListener() {
             @Override
@@ -361,14 +422,43 @@ public class BookNowFragment extends Fragment implements OnMapReadyCallback, Goo
         mRequestQueue.addTokaalivandiQueue(mRequest);
     }
 
-    private void confirmOrder(String fare, String distance) {
+    private void confirmOrder(final String fare, final String distance) {
         Log.d(TAG, "confirmOrder: ");
+
+        View v = LayoutInflater.from(getContext()).inflate(R.layout.book_bottomsheet, (ViewGroup) mView,false);
+        if (v!=null){
+            mBottomSheet.showWithSheetView(v);
+            TextView tv = (TextView )  v.findViewById(R.id.bottom_rate_text);
+            Button b = (Button)v.findViewById(R.id.bottom_button);
+            if (tv!=null){
+                tv.setText(fare);
+            }
+            if (b != null) {
+
+                b.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        finalConfirm(fare,distance);
+                    }
+                });
+            }
+        }
+
+
+
+
+    }
+
+    private void finalConfirm(String fare, String distance) {
         MyPrefs myPrefs = new MyPrefs(getContext());
         String userid= myPrefs.getUserId();
         String mPhone = myPrefs.getPhoneNumber();
-        String url = "http://www.kaalivandi.com/MobileApp/BookOnDemand?From="+mFromPlace+"&To="+mToPlace+
-                "&VehicleType=" +vehicleType+
-                "&Weight=1&Weighbridge=1&Overhanging=1&KM="+distance+"&EstimatedFare="+fare+"&Username="+userid+"&Number="+mPhone;
+        String url ="http://Kaalivandi.com/MobileApp/BookOnDemand?" +
+                "CustomerName="+userid+"&CustomerPhoneNumber="+mPhone+
+                "&From="+mFromPlace+"&To="+mToPlace+"&VehicleType="+vehicleType+
+                "&KM="+distance+"&EstimatedFare="+fare;
+
+        Log.d(TAG, "finalConfirm: "+url);
         StringRequest mRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -437,44 +527,16 @@ public class BookNowFragment extends Fragment implements OnMapReadyCallback, Goo
         Log.d(TAG, "onMapClick: ");
     }
 
-    @Override
-    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-
-       int id = buttonView.getId();
-        if(id == R.id.frag_stop_switch){
-            if(isChecked){
-                //stops exist ask how may
-                Log.d(TAG, "onCheckedChanged: stops "+mStops);
-               mStops = 1;
-            }
-            else {
-                mStops = 0;
-                Log.d(TAG, "onCheckedChanged:stops "+mStops);
-            }
-        }
-        if(id == R.id.frag_more_switch){
-            if(isChecked){
-                //more tha 700 kg , computer new rate
-                moreKg = 1 ;
-                Log.d(TAG, "onCheckedChanged:morekg "+moreKg);
-            }
-            else {
-                moreKg = 0;
-                Log.d(TAG, "onCheckedChanged:morekg "+moreKg);
-            }
-        }
-
-    }
 
     @Override
     public void onCheckedChanged(RadioGroup group, int checkedId) {
         if (group.getId() == R.id.frag_rg){
             if (checkedId == R.id.ace_radio){
-               vehicleType = 0;
+               vehicleType = 1;
                 Log.d(TAG, "onradiogroup "+vehicleType);
             }
             if (checkedId == R.id.truck_radio){
-               vehicleType = 1;
+               vehicleType = 2;
                 Log.d(TAG, "onradiogroup "+vehicleType);
             }
         }

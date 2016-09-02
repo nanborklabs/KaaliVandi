@@ -16,6 +16,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.kaalivandi.Network.KaalivandRequestQueue;
 import com.kaalivandi.R;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import butterknife.BindView;
@@ -69,8 +70,8 @@ public class RateChartFragment extends Fragment {
 
     private void sendSErver() {
 
-        String url ="https://maps.googleapis.com/maps/api/directions/json?units=metric&origin="+ origin_Lat +","
-                +orgin_Lon +"&destination=" + dest_Lat + ","+dest_Lon+"&mode=driving&sensor=false&key=AIzaSyDR3Lwe6e3e1bggiRqvtJuubNHnGVfEPXA";
+        String url ="https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&origins="+origin_Lat +","
+                +orgin_Lon +"&destinations="+ dest_Lat +","+dest_Lon+"&key=AIzaSyDR3Lwe6e3e1bggiRqvtJuubNHnGVfEPXA";
         final JsonObjectRequest mRequest  = new JsonObjectRequest(Request.Method.GET, url,null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
@@ -78,14 +79,28 @@ public class RateChartFragment extends Fragment {
                 try {
 
                     JSONObject object = response;
-                    Log.d(TAG, "onResponse: "+object.toString());
+
+                    String status = object.getString("status");
+
+                    if(status.equalsIgnoreCase("OK")){
+                        JSONArray mRows = object.getJSONArray("rows");
+                        JSONObject elements  = mRows.getJSONObject(0);
+                        JSONArray mArray = elements.getJSONArray("elements");
+                        JSONObject mObject= mArray.getJSONObject(0);
+                        JSONObject distnceobjct = mObject.getJSONObject("distance");
+                        String mdistance = distnceobjct.getString("text");
+                        mdistance = mdistance.replace(" km","");
+                        mdistance = mdistance.trim();
 
 
 
+                        Log.d(TAG, "onResponse: "+mdistance);
+
+                    }
 
                 }
                 catch (Exception e ){
-                    Log.d(TAG,"Exception in parsing");
+                    Log.d(TAG,"Exception in parsing "+e.getLocalizedMessage());
                 }
                 getRate(distance);
             }

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:background="@color/login_back">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:text="This is Botoom sheet"
+        android:textSize="20sp"
+        android:layout_marginTop="40dp"
+        android:id="@+id/bottom_rate_text" />
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:text="Book"
+        android:id="@+id/bottom_button"
+        android:layout_below="@+id/bottom_rate_text"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+</RelativeLayout>

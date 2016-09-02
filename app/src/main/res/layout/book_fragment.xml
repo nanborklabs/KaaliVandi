@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<com.flipboard.bottomsheet.BottomSheetLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/bottomsheet"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+<RelativeLayout
+
     android:orientation="vertical" android:layout_width="match_parent"
 
     android:layout_height="match_parent">
@@ -18,8 +25,8 @@
         android:text="Click to select"
 
         android:layout_alignTop="@+id/from_text"
-        android:layout_alignLeft="@+id/to_et"
-        android:layout_alignStart="@+id/to_et" />
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -33,7 +40,8 @@
         android:layout_marginLeft="@dimen/frag_margin_left"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:textSize="25sp" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -41,14 +49,15 @@
         android:text="To"
         android:id="@+id/to_text"
         style="@style/from_to_text"
-        android:layout_marginTop="48dp"
+        android:layout_marginTop="52dp"
+        android:textSize="25sp"
         android:layout_below="@+id/from_et"
-        android:layout_alignRight="@+id/from_text"
-        android:layout_alignEnd="@+id/from_text" />
+        android:layout_alignLeft="@+id/from_text"
+        android:layout_alignStart="@+id/from_text" />
 
     <TextView
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="60dp"
         android:inputType="textMultiLine"
         android:ems="10"
         android:id="@+id/to_et"
@@ -57,30 +66,17 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
 
-    <Switch
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Stops"
-        android:id="@+id/frag_stop_switch"
-        style="@style/frag_switch"
-        android:layout_marginTop="@dimen/frag_stop_switch_margin_top"
-        android:checked="false"
-        android:layout_below="@+id/frag_rg"
-        android:layout_alignLeft="@+id/to_et"
-        android:layout_alignStart="@+id/to_et"
-        android:layout_alignRight="@+id/to_et"
-        android:layout_alignEnd="@+id/to_et" />
+
 
 
     <RadioGroup
         android:layout_width="match_parent"
         android:layout_height="@dimen/frag_type_height"
-        android:id="@id/frag_rg"
+        android:id="@+id/frag_rg"
         android:orientation="horizontal"
         android:weightSum="2"
         android:layout_below="@+id/to_text"
-        android:layout_alignLeft="@+id/from_text"
-        android:layout_alignStart="@+id/from_text">
+        android:layout_marginTop="35dp">
         <RadioButton
             android:layout_width="0dp"
             android:text="ACE"
@@ -95,16 +91,7 @@
             android:layout_height="match_parent" />
     </RadioGroup>
 
-    <Switch
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="More Than 700KG"
-        style="@style/frag_switch"
-        android:id="@+id/frag_more_switch"
-        android:layout_below="@+id/frag_stop_switch"
-        android:layout_alignLeft="@+id/frag_stop_switch"
-        android:layout_alignStart="@+id/frag_stop_switch"
-        android:checked="false" />
+
 
     <Button
         android:layout_width="match_parent"
@@ -115,3 +102,4 @@
         android:layout_centerHorizontal="true" />
 
    </RelativeLayout>
+    </com.flipboard.bottomsheet.BottomSheetLayout>
