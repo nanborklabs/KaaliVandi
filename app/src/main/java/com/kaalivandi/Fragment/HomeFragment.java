@@ -1,6 +1,8 @@
 package com.kaalivandi.Fragment;
 
 import android.content.Intent;
+import android.content.res.AssetManager;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
@@ -15,6 +17,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.kaalivandi.Adapter.BookPageAdapter;
 import com.kaalivandi.R;
@@ -58,6 +61,10 @@ public class HomeFragment extends Fragment {
         mView = inflater.inflate(R.layout.home_fragment,container,false);
         Toolbar mToolbar =(Toolbar) mView.findViewById(R.id.toolbar);
         ((AppCompatActivity)getActivity()).setSupportActionBar(mToolbar);
+            final AssetManager am = getContext().getAssets();
+        final Typeface tf = Typeface.createFromAsset(am,"fonts/grand.otf");
+        TextView title = (TextView)mToolbar.findViewById(R.id.tool_bar_text);
+        title.setTypeface(tf);
 
         ButterKnife.bind(this,mView);
 

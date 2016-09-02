@@ -51,7 +51,7 @@ import butterknife.ButterKnife;
 /**
  * Created by user on 18-08-2016.
  */
-public class BookNowFragment extends Fragment implements OnMapReadyCallback, GoogleMap.OnMapClickListener, RadioGroup.OnCheckedChangeListener {
+public class BookNowFragment extends Fragment implements OnMapReadyCallback, GoogleMap.OnMapClickListener {
     private View mView;
 
 
@@ -79,8 +79,7 @@ public class BookNowFragment extends Fragment implements OnMapReadyCallback, Goo
 
     //the radio BUtton
 
-    @BindView(R.id.frag_rg)
-    RadioGroup mVehicleTypeGroup;
+
 
     @BindView(R.id.bottomsheet)
     BottomSheetLayout mBottomSheet;
@@ -91,9 +90,6 @@ public class BookNowFragment extends Fragment implements OnMapReadyCallback, Goo
     private Context mContext;
 
 
-    //variables to send in Request URL
-    private int moreKg =0;
-    private int mStops =0;
     //flag to know whether arrival and destination have been selected & saved
     boolean from_selected=false;
     boolean to_selected=false;
@@ -233,7 +229,7 @@ public class BookNowFragment extends Fragment implements OnMapReadyCallback, Goo
             Log.d(TAG, "onCreateView: Tyepe face is null");
         }
 
-        mVehicleTypeGroup.setOnCheckedChangeListener(this);
+
 
 
 
@@ -347,6 +343,7 @@ public class BookNowFragment extends Fragment implements OnMapReadyCallback, Goo
                         mdistance = mdistance.replace(" km","");
                         mdistance = mdistance.trim();
                       distance = mdistance;
+
 
                     }else {
                         if (mDialog.isShowing()){
@@ -530,19 +527,7 @@ public class BookNowFragment extends Fragment implements OnMapReadyCallback, Goo
     }
 
 
-    @Override
-    public void onCheckedChanged(RadioGroup group, int checkedId) {
-        if (group.getId() == R.id.frag_rg){
-            if (checkedId == R.id.ace_radio){
-               vehicleType = 1;
-                Log.d(TAG, "onradiogroup "+vehicleType);
-            }
-            if (checkedId == R.id.truck_radio){
-               vehicleType = 2;
-                Log.d(TAG, "onradiogroup "+vehicleType);
-            }
-        }
-    }
+
 
 
     public interface Kaalivandi{
