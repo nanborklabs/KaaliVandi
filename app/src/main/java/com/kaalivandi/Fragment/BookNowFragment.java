@@ -1,18 +1,15 @@
 package com.kaalivandi.Fragment;
 
-import android.Manifest;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.content.res.AssetManager;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
@@ -31,14 +28,16 @@ import com.flipboard.bottomsheet.BottomSheetLayout;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlacePicker;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.kaalivandi.Network.KaalivandRequestQueue;
 import com.kaalivandi.Prefs.MyPrefs;
 import com.kaalivandi.R;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+
+import java.net.URLEncoder;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -211,6 +210,9 @@ public class BookNowFragment extends Fragment {
 
 
         mDialog = new ProgressDialog(getContext());
+        LatLng msouth = new LatLng(10.97,76.96);
+        LatLng mnorht = new LatLng(11.7,76.94);
+       final LatLngBounds mBounds = new LatLngBounds(msouth,mnorht);
 
 
 
@@ -235,12 +237,13 @@ public class BookNowFragment extends Fragment {
             public void onClick(View v) {
 
 
-
                 try {
 
 
 
                      PlacePicker.IntentBuilder builder  = new PlacePicker.IntentBuilder();
+                    builder.setLatLngBounds(mBounds);
+
                    startActivityForResult(builder.build(getParentFragment().getActivity()),FROM_PLACE_RESULT);
                 }
                 catch (Exception e ){
@@ -261,6 +264,7 @@ public class BookNowFragment extends Fragment {
                 try {
 
                     final PlacePicker.IntentBuilder builder  = new PlacePicker.IntentBuilder();
+                    builder.setLatLngBounds(mBounds);
                     startActivityForResult(builder.build(getParentFragment().getActivity()), TO_PLACE_RESULT);
                 }
 
@@ -313,6 +317,8 @@ public class BookNowFragment extends Fragment {
         return mView;
     }
 
+
+
     private void sendRequest() {
 
         mDialog.setIndeterminate(true);
@@ -350,7 +356,7 @@ public class BookNowFragment extends Fragment {
                         }
                         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
                         builder.setTitle("Oops, Sorry");
-                        builder.setMessage("we could not place your order, Please send us a feedback Regarding you situation");
+                        builder.setMessage("we could not place your order, Please Call 8675753534 to book");
                         builder.setPositiveButton("ok", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
@@ -361,14 +367,26 @@ public class BookNowFragment extends Fragment {
 
                 }
                 catch (Exception e ){
-                    ExceptionHardcoded();
+                    if(mDialog.isShowing()){
+                        mDialog.dismiss();
+                    }
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                    builder.setTitle("Oops, Sorry");
+                    builder.setMessage("we could not place your order, Please Call 8675753534 to book");
+                    builder.setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            GoogleError();
+                        }
+                    });
                 }
 
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.d(TAG, "onErrorResponse: ");
+               Snackbar sn = Snackbar.make(mView,"Please Make Sure you have an active internet Connection",Snackbar.LENGTH_SHORT);
+                sn.show();
             }
         });
         mRequestQueue.addTokaalivandiQueue(mRequest);
@@ -414,7 +432,8 @@ public class BookNowFragment extends Fragment {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-
+                Snackbar sn = Snackbar.make(mView,"Please Make Sure you have an active internet Connection",Snackbar.LENGTH_SHORT);
+                sn.show();
             }
         });
         mRequestQueue.addTokaalivandiQueue(mRequest);
@@ -426,19 +445,20 @@ public class BookNowFragment extends Fragment {
         View v = LayoutInflater.from(getContext()).inflate(R.layout.book_bottomsheet, (ViewGroup) mView,false);
         if (v!=null){
             mBottomSheet.showWithSheetView(v);
-            TextView tv = (TextView )  v.findViewById(R.id.from_text);
+
             Button b = (Button)v.findViewById(R.id.bottom_button);
             TextView from =(TextView)v.findViewById(R.id.from_place_text);
             TextView to =(TextView)v.findViewById(R.id.to_place_text);
-            TextView rate =(TextView)v.findViewById(R.id.rate_display_text);
-            TextView km =(TextView)v.findViewById(R.id.km_text_display);
+            TextView rate =(TextView)v.findViewById(R.id.rate_display);
+            TextView km =(TextView)v.findViewById(R.id.kms_display);
             from.setText(mFromPlace);
             to.setText(mToPlace);
-            rate.setText(fare);
-            km.setText(distance);
-            if (tv!=null){
-                tv.setText(fare);
+            if (rate!=null){
+                rate.setText(fare);
             }
+
+            km.setText(distance);
+
             if (b != null) {
 
                 b.setOnClickListener(new View.OnClickListener() {
@@ -457,8 +477,8 @@ public class BookNowFragment extends Fragment {
 
     private void finalConfirm(String fare, String distance) {
         MyPrefs myPrefs = new MyPrefs(getContext());
-        String userid= myPrefs.getUserId();
-        String mPhone = myPrefs.getPhoneNumber();
+        final String userid= myPrefs.getUserId();
+        final String mPhone = myPrefs.getPhoneNumber();
         String url ="http://Kaalivandi.com/MobileApp/BookOnDemand?" +
                 "CustomerName="+userid+"&CustomerPhoneNumber="+mPhone+
                 "&From="+mFromPlace+"&To="+mToPlace+"&VehicleType="+vehicleType+
@@ -469,14 +489,77 @@ public class BookNowFragment extends Fragment {
             @Override
             public void onResponse(String response) {
                 Log.d(TAG, "onResponse: "+response);
+                if (response.equals("\"True\"")){
+                    SendSMS(userid,mPhone);
+                }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.d(TAG, "onErrorResponse: "+error.getLocalizedMessage());
+                Snackbar sn = Snackbar.make(mView,"Please Make Sure you have an active internet Connection",Snackbar.LENGTH_SHORT);
+                sn.show();
             }
         });
+
+
+
+        //send Message to Both customer and driver
+
+
+
         mRequestQueue.addTokaalivandiQueue(mRequest);
+    }
+
+    private void SendSMS(String userid, String mPhone) {
+
+        try {
+            Log.d(TAG, "Constructing link");
+
+            String user = "username=" + URLEncoder.encode("nandhu12195@gmail.com", "UTF-8");
+            String hash = "&hash=" + URLEncoder.encode("e2da5251130e9508fdb8862f9257f7ce72e74a16", "UTF-8");
+            String MessageBody = "New Booking \n From :"+mFromPlace+" \n To: "+mToPlace+ " User Name :"+userid+" \n User Phone number :"+mPhone;
+            String message = "&message=" + URLEncoder.encode(MessageBody, "UTF-8");
+            final String sender = "&sender=" + URLEncoder.encode("Kaalivandi", "UTF-8");
+            String numbers = "&numbers=" + URLEncoder.encode("+918675753534", "UTF-8");
+
+            // Construct data
+
+            // Send data
+            String data = "http://api.txtlocal.com/send/?" + user + hash + numbers + message + sender;
+
+            Log.d(TAG, "SendSMS:  URL "+data);
+
+            JsonObjectRequest mMsg = new JsonObjectRequest(Request.Method.GET, data, null, new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+                    try {
+                        Log.d(TAG, "onResponse: "+response.toString());
+                        String status = response.getString("status");
+                        if (status.equals("success")){
+                            showStatus();
+                        }
+                    }
+                    catch (Exception e ){
+                        Log.d(TAG, "onResponse: Exceoptin");
+                    }
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+
+                }
+            });
+            mRequestQueue.addTokaalivandiQueue(mMsg);
+
+        }
+        catch (Exception e ){
+            Log.d(TAG, "finalConfirm: ");
+        }
+    }
+
+    private void showStatus() {
+        Snackbar sn = Snackbar.make(mView,"Booked Order, please wait",Snackbar.LENGTH_SHORT);
+        sn.show();
     }
 
 

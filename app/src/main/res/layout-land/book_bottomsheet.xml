@@ -107,7 +107,7 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Large Text"
-        android:id="@+id/km_text_display"
+        android:id="@+id/kms_display"
         android:layout_above="@+id/rate_text"
         android:layout_toRightOf="@+id/bottom_title_text"
         android:layout_toEndOf="@+id/bottom_title_text" />
@@ -117,9 +117,9 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Large Text"
-        android:id="@+id/rate_display_text"
+        android:id="@+id/rate_display"
         android:layout_alignTop="@+id/rate_text"
-        android:layout_alignLeft="@+id/km_text_display"
-        android:layout_alignStart="@+id/km_text_display" />
+        android:layout_alignLeft="@+id/kms_display"
+        android:layout_alignStart="@+id/kms_display" />
 
 </RelativeLayout>

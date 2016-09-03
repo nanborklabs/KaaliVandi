@@ -99,17 +99,7 @@
         android:layout_alignParentEnd="true"
         android:layout_marginRight="32dp" />
 
-    <ImageView
-        android:layout_width="@dimen/book_land_image_width"
-        android:layout_height="@dimen/book_land_image_height"
-        android:id="@+id/imageView2"
-        android:src="@drawable/truck1"
-        android:layout_alignParentTop="true"
-        android:layout_alignLeft="@+id/from_text"
-        android:layout_alignStart="@+id/from_text"
-        android:layout_toStartOf="@+id/book_now_button"
-        android:layout_alignRight="@+id/from_et"
-        android:layout_alignEnd="@+id/from_et" />
+
 
 </RelativeLayout>
     </com.flipboard.bottomsheet.BottomSheetLayout>

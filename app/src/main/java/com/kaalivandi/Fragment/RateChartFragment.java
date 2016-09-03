@@ -13,11 +13,14 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.kaalivandi.Network.KaalivandRequestQueue;
 import com.kaalivandi.R;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+
+import java.net.URLEncoder;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -62,10 +65,53 @@ public class RateChartFragment extends Fragment {
         rate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-            sendSErver();
+                SendSMS("Nandha","9688612122");
             }
         });
         return mView;
+    }
+
+    private void SendSMS(String userid, String mPhone) {
+        String mFromPlace = "Gandhipuram";
+        String mToPlace = "Erode";
+        try {
+            Log.d(TAG, "Constructing link");
+
+            String user = "username=" + URLEncoder.encode("nandhu12195@gmail.com", "UTF-8");
+            String hash = "&password=" + URLEncoder.encode("Jabberwock12", "UTF-8");
+            String MessageBody = "New Booking ";
+            String message = "&message=" + URLEncoder.encode(MessageBody, "UTF-8");
+            final String sender = "&sender=" + URLEncoder.encode("Kaalivandi", "UTF-8");
+            String numbers = "&numbers=" + URLEncoder.encode("918675753534", "UTF-8");
+
+            // Construct data
+
+            // Send data
+            String data = "http://api.txtlocal.com/send/?" + user + hash + numbers + message + sender;
+
+            Log.d(TAG, "SendSMS:  URL "+data);
+
+            StringRequest mMsg = new StringRequest(Request.Method.GET, data, new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+                    Log.d(TAG, "onResponse: "+response);
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+
+                }
+            });
+            mRequestQueue.addTokaalivandiQueue(mMsg);
+
+        }
+        catch (Exception e ){
+            Log.d(TAG, "finalConfirm: ");
+        }
+    }
+
+    private void showStatus() {
+        Log.d(TAG, "showStatus: ");
     }
 
     private void sendSErver() {

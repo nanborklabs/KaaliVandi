@@ -30,7 +30,7 @@
     <dimen name="book_image_height">150dp</dimen>
     <dimen name="book_margin_top">20dp</dimen>
     <dimen name="book_land_image_width">150dp</dimen>
-    <dimen name="book_land_image_height">150dp</dimen>
+    <dimen name="book_land_image_height">80dp</dimen>
     <dimen name="button_width">150dp</dimen>
     <dimen name="book_text_margin_top">60dp</dimen>
     <dimen name="button_margin_top">20dp</dimen>

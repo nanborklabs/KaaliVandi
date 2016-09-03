@@ -37,35 +37,29 @@ public class SplashScreen extends AppCompatActivity {
 
         if(getAssets()!=null){
             final Typeface tf = Typeface.createFromAsset(getAssets(),"fonts/grand.otf");
-            title.setTypeface(tf);
+            if (tf!=null && title!=null){
+
+
+                title.setTypeface(tf);
+            }
         }
 
-            final boolean a= checkPlayAvailablity();
+        if (checkPlayAvailablity()){
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    // This method will be executed once the timer is over
+                    // Start your app main activity
 
-        new Handler().postDelayed(new Runnable() {
- 
-            /*
-             * Showing splash screen with a timer. This will be useful when you
-             * want to show case your app logo / company
-             */
-
-            @Override
-            public void run() {
-                // This method will be executed once the timer is over
-                // Start your app main activity
-                if (a){
-                    Intent i = new Intent(SplashScreen.this, Home.class);
-                    startActivity(i);
-                }else{
-                    showPlayError();
-
+                        Intent i = new Intent(SplashScreen.this, Home.class);
+                        startActivity(i);
+                    // close this activity
+                        finish();
                 }
+            }, SPLASH_TIME_OUT);
+        }
 
 
-                // close this activity
-                finish();
-            }
-        }, SPLASH_TIME_OUT);
     }
 
     private void showPlayError() {
