@@ -133,11 +133,12 @@ public class HomeFragment extends Fragment {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        Log.d(TAG, "onOptionsItemSelected: "+item.getItemId());
+        Log.d(TAG, "onOptionsItemSelected: Fragment"+item.getItemId());
         switch (item.getItemId()){
 
 
             case R.id.about_us :
+
                    break;
             case R.id.contact_us :
                 break;

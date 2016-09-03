@@ -55,7 +55,7 @@
         android:layout_below="@+id/register_sub_title"
 
         android:layout_marginTop="32dp">
-        <EditText
+        <com.kaalivandi.UI.CEditText
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             style="@style/login_edittext"
@@ -70,7 +70,7 @@
         android:background="@drawable/edi_text_rounded"
 
         style="@style/register_tel">
-        <EditText
+        <com.kaalivandi.UI.CEditText
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             style="@style/login_edittext"
@@ -85,7 +85,7 @@
         android:background="@drawable/edi_text_rounded"
 
         style="@style/register_tel">
-        <EditText
+        <com.kaalivandi.UI.CEditText
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             style="@style/login_edittext"
@@ -100,7 +100,7 @@
         android:background="@drawable/edi_text_rounded"
 
         style="@style/register_tel">
-        <EditText
+        <com.kaalivandi.UI.CEditText
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             style="@style/login_edittext"
@@ -115,7 +115,7 @@
         android:background="@drawable/edi_text_rounded"
 
         style="@style/register_tel">
-        <EditText
+        <com.kaalivandi.UI.CEditText
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             style="@style/login_edittext"

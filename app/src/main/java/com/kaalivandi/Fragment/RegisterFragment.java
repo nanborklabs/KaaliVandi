@@ -2,7 +2,10 @@ package com.kaalivandi.Fragment;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.graphics.Typeface;
 import android.os.Bundle;
+import android.renderscript.Type;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputLayout;
@@ -12,6 +15,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -21,6 +25,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.kaalivandi.Network.KaalivandRequestQueue;
 import com.kaalivandi.R;
+import com.kaalivandi.Utils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -90,11 +95,20 @@ public class  RegisterFragment extends Fragment {
 
 
         //set Custom Fonts faces to Texts
-//        final Typeface tf = Typeface.createFromAsset(getContext().getAssets(), "fonts/GrandHotel-Regular.otf");
-//        if (tf == null){
-//            Log.d(TAG, "type face null");
-//        }
-//        mTitle.setTypeface(tf);
+        final Typeface tf = Typeface.createFromAsset(getContext().getAssets(), "fonts/grand.otf");
+        final Typeface tf2 = Typeface.createFromAsset(getContext().getAssets(), "fonts/fallingsky.otf");
+
+
+        if (tf != null && tf2!=null){
+            mTitle.setTypeface(tf);
+            mSubTitle.setTypeface(tf2);
+            mRegisterButton.setTypeface(tf2);
+        }
+        mTitle.setTextScaleX(0);
+
+        mTitle.animate().scaleX(1).setDuration(400).setInterpolator(new AccelerateDecelerateInterpolator())
+                .start();
+
 
 
 
@@ -103,7 +117,7 @@ public class  RegisterFragment extends Fragment {
             public void onClick(View v) {
                 mDialog.setIndeterminate(true);
                 mDialog.setTitle("Welcome");
-                mDialog.setMessage("Booking vechicle is Going to be easy again");
+                mDialog.setMessage("Registering on Kaalivandi Network..");
                 mDialog.show();
                final String mPass = mPassBox.getEditText().getText().toString();
                 final String mRepass = mRePassBox.getEditText().getText().toString();
@@ -150,15 +164,18 @@ public class  RegisterFragment extends Fragment {
                     alertDialog.setMessage("Some Error occurred Please try again");
                     alertDialog.show();
 
-                    if (mCallback!=null){
-                        mCallback.registered(muser, mPass, mEmail);
-                    }
+
                 }
                 else {
                     AlertDialog.Builder alertDialog = new AlertDialog.Builder(getContext());
                     alertDialog.setMessage("Some Error occurred Please try again");
-                    alertDialog.show();
-                    mCallback.notRegisterered();
+                    alertDialog.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            //Dialog click
+                        }
+                    });
+                    alertDialog.show();  mCallback.notRegisterered();
 
                 }
 
@@ -176,6 +193,12 @@ public class  RegisterFragment extends Fragment {
                 AlertDialog.Builder alertDialog = new AlertDialog.Builder(getContext());
                 alertDialog.setMessage("Some Error occurred Please try again");
                 alertDialog.show();
+                alertDialog.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
                 mCallback.notRegisterered();
 
             }

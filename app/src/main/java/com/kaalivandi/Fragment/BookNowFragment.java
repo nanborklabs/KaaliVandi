@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.AssetManager;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
@@ -90,7 +91,7 @@ public class BookNowFragment extends Fragment {
 
 
     //position variables
-    private double origin_Lat ;
+    private double origin_Lat;
     private double orgin_Lon ;
     private double dest_Lat;
     private double dest_Lon;
@@ -223,7 +224,7 @@ public class BookNowFragment extends Fragment {
             mFromText.setTypeface(text_tf);
             mToText.setTypeface(text_tf);
         }else{
-            Log.d(TAG, "onCreateView: Tyepe face is null");
+           //do nothing
         }
 
 
@@ -277,7 +278,7 @@ public class BookNowFragment extends Fragment {
 
 
 
-        String userId = myPrefs.getUserId();
+
 
 
         //Book Button
@@ -376,7 +377,9 @@ public class BookNowFragment extends Fragment {
                     builder.setPositiveButton("ok", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            GoogleError();
+                            Intent intent = new Intent(Intent.ACTION_DIAL);
+                            intent.setData(Uri.parse("tel:8675753534"));
+                            startActivity(intent);
                         }
                     });
                 }
@@ -396,9 +399,7 @@ public class BookNowFragment extends Fragment {
 
     }
 
-    private void ExceptionHardcoded() {
-        Log.d(TAG, "ExceptionHardcoded: ");
-    }
+
 
     /*google error :P funny */
     private void GoogleError() {
@@ -546,14 +547,16 @@ public class BookNowFragment extends Fragment {
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-
+                    Snackbar sn = Snackbar.make(mView,"Please Make Sure you have an active Internet Connection",Snackbar.LENGTH_SHORT);
+                    sn.show();
                 }
             });
             mRequestQueue.addTokaalivandiQueue(mMsg);
 
         }
         catch (Exception e ){
-            Log.d(TAG, "finalConfirm: ");
+            Snackbar sn = Snackbar.make(mView,"Please Try booking Again, Some Error occured",Snackbar.LENGTH_SHORT);
+            sn.show();
         }
     }
 

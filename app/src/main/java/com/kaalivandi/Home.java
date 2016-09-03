@@ -56,6 +56,7 @@ public class Home extends AppCompatActivity implements LoginFragment.login ,Book
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+        finish();
 
     }
 
@@ -92,8 +93,8 @@ public class Home extends AppCompatActivity implements LoginFragment.login ,Book
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-
-        return super.onOptionsItemSelected(item);
+        Log.d(TAG, "onOptionsItemSelected: Activity "+item.getItemId());
+      return true;
     }
 
 
