@@ -20,9 +20,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.CompoundButton;
-import android.widget.RadioGroup;
-import android.widget.Switch;
 import android.widget.TextView;
 
 import com.android.volley.Request;
@@ -31,8 +28,6 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.flipboard.bottomsheet.BottomSheetLayout;
-import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
-import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlacePicker;
 import com.google.android.gms.maps.GoogleMap;
@@ -200,7 +195,7 @@ public class BookNowFragment extends Fragment implements OnMapReadyCallback, Goo
         myPrefs = new MyPrefs(mContext);
         if (getContext()!= null){
             am = getContext().getAssets();
-            text_tf = Typeface.createFromAsset(am,"fonts/sans_regular.ttf");
+            text_tf = Typeface.createFromAsset(am,"fonts/fallingsky.otf");
         }
 
         mRequestQueue = KaalivandRequestQueue.getInstance(mContext);
@@ -238,11 +233,14 @@ public class BookNowFragment extends Fragment implements OnMapReadyCallback, Goo
         mFrom.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+
+
                 try {
 
-                    //initiate Place picker
 
-                    final PlacePicker.IntentBuilder builder  = new PlacePicker.IntentBuilder();
+
+                     PlacePicker.IntentBuilder builder  = new PlacePicker.IntentBuilder();
                    startActivityForResult(builder.build(getParentFragment().getActivity()),FROM_PLACE_RESULT);
                 }
                 catch (Exception e ){
@@ -351,7 +349,7 @@ public class BookNowFragment extends Fragment implements OnMapReadyCallback, Goo
                         }
                         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
                         builder.setTitle("Oops, Sorry");
-                        builder.setMessage("Please send us a feedback Regarding you situation");
+                        builder.setMessage("we could not place your order, Please send us a feedback Regarding you situation");
                         builder.setPositiveButton("ok", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
@@ -427,7 +425,7 @@ public class BookNowFragment extends Fragment implements OnMapReadyCallback, Goo
         View v = LayoutInflater.from(getContext()).inflate(R.layout.book_bottomsheet, (ViewGroup) mView,false);
         if (v!=null){
             mBottomSheet.showWithSheetView(v);
-            TextView tv = (TextView )  v.findViewById(R.id.bottom_rate_text);
+            TextView tv = (TextView )  v.findViewById(R.id.from_text);
             Button b = (Button)v.findViewById(R.id.bottom_button);
             if (tv!=null){
                 tv.setText(fare);

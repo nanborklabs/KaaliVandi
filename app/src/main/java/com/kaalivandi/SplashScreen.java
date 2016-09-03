@@ -7,7 +7,12 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
 
 /**
  * Created by nandhu on 2/9/16.
@@ -16,6 +21,9 @@ public class SplashScreen extends AppCompatActivity {
 
 
     private static final int SPLASH_TIME_OUT = 2500;
+    private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 5;
+    private static final String TAG = "SPLASH";
+
 
 
     private AssetManager am ;
@@ -24,7 +32,7 @@ public class SplashScreen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.splash);
         TextView title = (TextView)findViewById(R.id.splash_text);
-
+        checkPlayAvailablity();
 
         if(getAssets()!=null){
             final Typeface tf = Typeface.createFromAsset(getAssets(),"fonts/grand.otf");
@@ -49,4 +57,21 @@ public class SplashScreen extends AppCompatActivity {
             }
         }, SPLASH_TIME_OUT);
     }
+
+    private boolean checkPlayAvailablity() {
+        GoogleApiAvailability apiAvailability = GoogleApiAvailability.getInstance();
+        int resultCode = apiAvailability.isGooglePlayServicesAvailable(this);
+        if (resultCode != ConnectionResult.SUCCESS) {
+            if (apiAvailability.isUserResolvableError(resultCode)) {
+                apiAvailability.getErrorDialog(this, resultCode, PLAY_SERVICES_RESOLUTION_REQUEST)
+                        .show();
+            } else {
+                Log.i(TAG, "This device is not supported.");
+                finish();
+            }
+            return false;
+        }
+        return true;
+    }
+
 }

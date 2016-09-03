@@ -5,24 +5,23 @@
 
     <TextView
         android:layout_width="100dp"
-        android:layout_height="60dp"
+        android:layout_height="40dp"
         android:text="From"
         android:textSize="20sp"
-        android:layout_marginTop="60dp"
         android:id="@+id/from_text"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
         android:gravity="left|center_vertical"
         android:paddingLeft="16dp"
-        android:paddingRight="4dp" />
+        android:paddingRight="4dp"
+        android:layout_below="@+id/bottom_title_text"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
     <Button
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="40dp"
         android:text="Confirm Booking"
         android:background="@drawable/register_button_background"
         android:id="@+id/bottom_button"
-        android:layout_marginBottom="@dimen/bottom_bottom_margin"
+        android:layout_marginBottom="20dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
@@ -31,7 +30,7 @@
 
     <TextView
         android:layout_width="100dp"
-        android:layout_height="60dp"
+        android:layout_height="50dp"
         android:text="To"
         android:textSize="20sp"
         android:layout_marginTop="2dp"
@@ -47,29 +46,14 @@
         android:layout_height="wrap_content"
         android:text="New Text"
         android:id="@+id/from_place_text"
+        android:gravity="left|center_vertical"
+        android:paddingLeft="4dp"
+        android:textSize="20sp"
         android:layout_alignTop="@+id/from_text"
+        android:layout_toRightOf="@+id/from_text"
         android:layout_alignBottom="@+id/from_text"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_toRightOf="@+id/from_text"
-        android:layout_toEndOf="@+id/from_text"
-        android:gravity="left|center_vertical"
-        android:paddingLeft="4dp"
-        android:textSize="20sp" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="New Text"
-        android:id="@+id/to_place_text"
-        android:layout_alignTop="@+id/to_text"
-        android:layout_toRightOf="@+id/to_text"
-        android:layout_alignBottom="@+id/to_text"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:gravity="left|center_vertical"
-        android:paddingLeft="4dp"
-        android:textSize="20sp" />
+        android:layout_alignParentEnd="true" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -79,57 +63,63 @@
         android:id="@+id/bottom_title_text"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="8dp" />
+        android:layout_marginTop="20dp" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Kilometres"
-        android:id="@+id/kms_text"
-        android:layout_below="@+id/to_text"
-        android:layout_marginTop="80dp"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:paddingLeft="32dp" />
+        android:text="Kilometer"
+        android:id="@+id/km_text"
+        android:layout_toLeftOf="@+id/bottom_title_text"
+        android:layout_toStartOf="@+id/bottom_title_text"
+        android:layout_below="@+id/to_place_text"
+        android:layout_marginTop="16dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="New Text"
+        android:id="@+id/to_place_text"
+        android:gravity="left|center_vertical"
+        android:paddingLeft="4dp"
+        android:textSize="20sp"
+
+        android:layout_alignBottom="@+id/to_text"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_toRightOf="@+id/to_text"
+        android:layout_toEndOf="@+id/to_text" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Rate"
-        android:id="@+id/km_text"
-        android:layout_below="@+id/kms_text"
-        android:layout_alignLeft="@+id/kms_text"
-        android:layout_alignStart="@+id/kms_text"
-        android:layout_marginTop="25dp"
-        android:layout_alignRight="@+id/kms_text"
-        android:layout_alignEnd="@+id/kms_text"
-        android:paddingLeft="32dp" />
+        android:id="@+id/rate_text"
+        android:layout_below="@+id/km_text"
+        android:layout_alignLeft="@+id/km_text"
+        android:layout_alignStart="@+id/km_text"
+        android:layout_marginTop="16dp" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Large Text"
-        android:id="@+id/kms_display"
-        android:layout_alignTop="@+id/kms_text"
-        android:layout_alignRight="@+id/to_place_text"
-        android:layout_alignEnd="@+id/to_place_text"
-        android:paddingLeft="32dp"
-        android:layout_toRightOf="@+id/kms_text"
-        android:layout_toEndOf="@+id/kms_text" />
+        android:id="@+id/km_text_display"
+        android:layout_above="@+id/rate_text"
+        android:layout_toRightOf="@+id/bottom_title_text"
+        android:layout_toEndOf="@+id/bottom_title_text" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Large Text"
-        android:id="@+id/rate_display"
-        android:layout_alignTop="@+id/km_text"
-        android:layout_toRightOf="@+id/km_text"
-        android:layout_alignRight="@+id/to_place_text"
-        android:layout_alignEnd="@+id/to_place_text"
-        android:paddingLeft="32dp" />
+        android:id="@+id/rate_display_text"
+        android:layout_alignTop="@+id/rate_text"
+        android:layout_alignLeft="@+id/km_text_display"
+        android:layout_alignStart="@+id/km_text_display" />
 
 </RelativeLayout>
