@@ -21,4 +21,12 @@
     <dimen name="check_margin_top">32dp</dimen>
     <dimen name="forgot_margin_top">32dp</dimen>
     <dimen name="bottom_bottom_margin">50dp</dimen>
+    <dimen name="book_image_width">150dp</dimen>
+    <dimen name="book_margin_top">20dp</dimen>
+    <dimen name="book_land_image_width">200dp</dimen>
+    <dimen name="book_land_image_height">200dp</dimen>
+    <dimen name="button_width">150dp</dimen>
+    <dimen name="book_text_margin_top">40dp</dimen>
+    <dimen name="button_margin_top">20dp</dimen>
+    <dimen name="book_text_margin_top2">60dp</dimen>
 </resources>

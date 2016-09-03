@@ -6,6 +6,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.res.AssetManager;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -19,10 +20,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.AccelerateInterpolator;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.view.animation.BounceInterpolator;
 import android.view.animation.LinearInterpolator;
 import android.view.animation.OvershootInterpolator;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.android.volley.Request;
@@ -35,6 +40,7 @@ import com.kaalivandi.Utils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import jp.wasabeef.blurry.Blurry;
 
 /**
  * Created by nandhu on 31/8/16.
@@ -55,6 +61,12 @@ public class CheckRegistrationFragment extends Fragment {
     TextInputLayout mPhoneNumber;
     @BindView(R.id.check_button)
     Button mCheckButton;
+
+    @BindView(R.id.check_image)
+    ImageView mBack;
+
+    @BindView(R.id.check_root)
+    RelativeLayout mLayout;
 
     CheckUserPresent mCallback;
     
@@ -164,15 +176,8 @@ public class CheckRegistrationFragment extends Fragment {
                         }else {
 
                             //NO size is wrong
-                            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                            builder.setMessage("Please Enter Proper Number");
-                            builder.setTitle("Mobile Number");
-                            builder.setPositiveButton("ok", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    mPhoneNumber.getEditText().setText("");
-                                }
-                            });
+                            showErrorNumber();
+
                         }
 
                 }
@@ -180,16 +185,35 @@ public class CheckRegistrationFragment extends Fragment {
             }
         );
 
+
+        mLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                Blurry.with(getContext())
+                        .async()
+                        .radius(25)
+                        .sampling(1)
+                        .color(Color.argb(0, 25, 24, 32))
+                        .capture(mLayout)
+                        .into(mBack);
+            }
+        });
+
         return mView;
 
     }
 
     private boolean Numbervalidation(String mNumber) {
-        mNumber = mNumber.trim();
-        if (mNumber.length()<10){
-            return false;
+
+        String regexStr = "^[0-9]{10}$";
+        if (mNumber.matches(regexStr)){
+           return true;
+
         }
-         return true;
+
+
+
+         return false;
     }
 
     private void sendServer(final String mNumber) {
@@ -209,6 +233,8 @@ public class CheckRegistrationFragment extends Fragment {
                 if(response.equals(tru)){
 
                     //user already a member, show login page
+                    mCheckButton.animate().translationY(-Utils.getScreenHeight(getContext())).setDuration(400)
+                            .start();
                         if(mCallback != null){
                             mCallback.AlreadyMember(mNumber);
                         }
@@ -243,6 +269,11 @@ public class CheckRegistrationFragment extends Fragment {
     }
 
     private void showErrorNumber() {
+
+        Animation shake = AnimationUtils.loadAnimation(getContext(), R.anim.shake);
+        mPhoneNumber.startAnimation(shake);
+        mPhoneNumber.getEditText().setText("");
+
 
     }
 

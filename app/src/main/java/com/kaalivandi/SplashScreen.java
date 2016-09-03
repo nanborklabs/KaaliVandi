@@ -6,8 +6,10 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,12 +34,14 @@ public class SplashScreen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.splash);
         TextView title = (TextView)findViewById(R.id.splash_text);
-        checkPlayAvailablity();
 
         if(getAssets()!=null){
             final Typeface tf = Typeface.createFromAsset(getAssets(),"fonts/grand.otf");
             title.setTypeface(tf);
         }
+
+            final boolean a= checkPlayAvailablity();
+
         new Handler().postDelayed(new Runnable() {
  
             /*
@@ -49,13 +53,26 @@ public class SplashScreen extends AppCompatActivity {
             public void run() {
                 // This method will be executed once the timer is over
                 // Start your app main activity
-                Intent i = new Intent(SplashScreen.this, Home.class);
-                startActivity(i);
+                if (a){
+                    Intent i = new Intent(SplashScreen.this, Home.class);
+                    startActivity(i);
+                }else{
+                    showPlayError();
+
+                }
+
 
                 // close this activity
                 finish();
             }
         }, SPLASH_TIME_OUT);
+    }
+
+    private void showPlayError() {
+        View parentLayout = findViewById(R.id.splash_content_root);
+        Snackbar s = Snackbar.make(parentLayout,"Please update Google play services",Snackbar.LENGTH_SHORT);
+        s.show();
+
     }
 
     private boolean checkPlayAvailablity() {

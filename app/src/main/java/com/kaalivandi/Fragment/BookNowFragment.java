@@ -46,7 +46,7 @@ import butterknife.ButterKnife;
 /**
  * Created by user on 18-08-2016.
  */
-public class BookNowFragment extends Fragment implements OnMapReadyCallback, GoogleMap.OnMapClickListener {
+public class BookNowFragment extends Fragment {
     private View mView;
 
 
@@ -341,6 +341,7 @@ public class BookNowFragment extends Fragment implements OnMapReadyCallback, Goo
                         mdistance = mdistance.replace(" km","");
                         mdistance = mdistance.trim();
                       distance = mdistance;
+                        getRate(distance);
 
 
                     }else {
@@ -362,7 +363,7 @@ public class BookNowFragment extends Fragment implements OnMapReadyCallback, Goo
                 catch (Exception e ){
                     ExceptionHardcoded();
                 }
-                getRate(distance);
+
             }
         }, new Response.ErrorListener() {
             @Override
@@ -427,6 +428,14 @@ public class BookNowFragment extends Fragment implements OnMapReadyCallback, Goo
             mBottomSheet.showWithSheetView(v);
             TextView tv = (TextView )  v.findViewById(R.id.from_text);
             Button b = (Button)v.findViewById(R.id.bottom_button);
+            TextView from =(TextView)v.findViewById(R.id.from_place_text);
+            TextView to =(TextView)v.findViewById(R.id.to_place_text);
+            TextView rate =(TextView)v.findViewById(R.id.rate_display_text);
+            TextView km =(TextView)v.findViewById(R.id.km_text_display);
+            from.setText(mFromPlace);
+            to.setText(mToPlace);
+            rate.setText(fare);
+            km.setText(distance);
             if (tv!=null){
                 tv.setText(fare);
             }
@@ -497,32 +506,6 @@ public class BookNowFragment extends Fragment implements OnMapReadyCallback, Goo
 
     }
 
-    @Override
-    public void onMapReady(GoogleMap googleMap) {
-
-        mMap = googleMap;
-        if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            return;
-        }
-        mMap.setMyLocationEnabled(true);
-        mMap.setOnMapClickListener(this);
-
-    }
-
-    @Override
-    public void onMapClick(LatLng latLng) {
-        final double mLat = latLng.latitude;
-        final  double mLon = latLng.longitude;
-
-        Log.d(TAG, "onMapClick: ");
-    }
 
 
 

@@ -4,6 +4,10 @@
     android:layout_height="match_parent"
     android:id="@+id/check_root"
     android:background="@color/login_back">
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/check_image"/>
 
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
@@ -36,6 +40,7 @@
         android:id="@+id/check_button"
         android:textAllCaps="false"
         android:text="Proceed"
+        android:background="@drawable/register_button_background"
         android:alpha="0"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"

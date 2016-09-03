@@ -3,6 +3,7 @@ package com.kaalivandi.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
@@ -110,10 +111,10 @@ public class LoginFragment extends Fragment {
        mView  = inflater.inflate(R.layout.login_fragment,container,false);
 
         ButterKnife.bind(this,mView);
-//        final Typeface tf = Typeface.createFromAsset(mContext.getAssets(),"fonts/GrandHotel-Regular.otf");
-//        final Typeface tf1 = Typeface.createFromAsset(mContext.getAssets(),"fonts/FFF_Tusj.ttf");
-//        mTitleText.setTypeface(tf);
-//        mSignUp.setTypeface(tf1);
+        final Typeface tf = Typeface.createFromAsset(mContext.getAssets(),"fonts/grand.otf");
+        final Typeface tf1 = Typeface.createFromAsset(mContext.getAssets(),"fonts/fallingsky.otf");
+        mTitleText.setTypeface(tf);
+        mSignUp.setTypeface(tf1);
         mTitleText.animate().scaleX(1.1f).scaleY(1.1f).setDuration(400).setInterpolator(new LinearInterpolator()).start();
 
 
