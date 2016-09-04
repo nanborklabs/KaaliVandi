@@ -140,7 +140,7 @@ public class HomeFragment extends Fragment {
             case R.id.about_us :
 
                    break;
-            case R.id.contact_us :
+            case R.id.terms :
                 break;
             case  R.id.share :
                 break;

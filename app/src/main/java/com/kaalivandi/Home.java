@@ -5,7 +5,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.ShareActionProvider;
 import android.util.Log;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
@@ -17,7 +16,7 @@ import com.kaalivandi.Fragment.AboutFragment;
 import com.kaalivandi.Fragment.BookNowFragment;
 import com.kaalivandi.Fragment.BookedFragment;
 import com.kaalivandi.Fragment.CheckRegistrationFragment;
-import com.kaalivandi.Fragment.ContactUsFragment;
+import com.kaalivandi.Fragment.TermFragment;
 import com.kaalivandi.Fragment.ForgotPassword;
 import com.kaalivandi.Fragment.HomeFragment;
 import com.kaalivandi.Fragment.LoginFragment;
@@ -106,7 +105,7 @@ public class Home extends AppCompatActivity implements LoginFragment.login ,Book
                 break;
 
             case R.id.terms:
-                mFragment = new ContactUsFragment();
+                mFragment = new TermFragment();
                 break;
             case R.id.share:
 

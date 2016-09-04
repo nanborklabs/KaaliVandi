@@ -9,6 +9,7 @@ import android.content.res.AssetManager;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -116,8 +117,8 @@ public class BookNowFragment extends Fragment {
 
 
     //From & To places in String
-    private String mFromPlace="coimbatore";
-    private String mToPlace="ukkadam";
+    private String mFromPlace=null;
+    private String mToPlace= null;
 
 
 
@@ -166,7 +167,7 @@ public class BookNowFragment extends Fragment {
                 orgin_Lon  = selectedPlace.getLatLng().longitude;
 
                 //save it for future use
-                mFromPlace = (String) selectedPlace.getName();
+                mFromPlace = (String) selectedPlace.getAddress();
 
                 //flag to infer that from has been completed
                 from_selected = true;
@@ -185,6 +186,7 @@ public class BookNowFragment extends Fragment {
 
                 //set textfiels and update globals
                 mTo.setText(selePlace.getName());
+                mToPlace = (String)selePlace.getAddress();
                 dest_Lat = selePlace.getLatLng().latitude;
                 dest_Lon = selePlace.getLatLng().longitude;
 
@@ -363,7 +365,7 @@ public class BookNowFragment extends Fragment {
             public void onResponse(JSONObject response) {
                 String distance="" ;
                 try {
-
+                    Log.d(TAG, "onResponse: from google "+response.toString());
                     JSONObject object = response;
 
                     String status = object.getString("status");
@@ -381,19 +383,40 @@ public class BookNowFragment extends Fragment {
                         getRate(distance);
 
 
-                    }else {
+                    }
+                    else if (status.equalsIgnoreCase("INVALID_REQUEST")){
                         if (mDialog.isShowing()){
                             mDialog.dismiss();
                         }
-                        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                        builder.setTitle("Oops, Sorry");
-                        builder.setMessage("we could not place your order, Please Call 8675753534 to book");
-                        builder.setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                        AlertDialog.Builder Builder = new AlertDialog.Builder(getContext());
+                        Builder.setTitle("Invalid Location");
+                        Builder.setMessage("Please Select a Valid Location");
+                        Builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                GoogleError();
+                           // do nothing
                             }
                         });
+                        Builder.show();
+
+
+
+
+                    }
+                    else if(status.equalsIgnoreCase("REQUEST_DENIED") || status.equalsIgnoreCase("UNKNOWN_ERROR")){
+                        if (mDialog.isShowing()){
+                            mDialog.dismiss();
+                        }
+                        AlertDialog.Builder Builder = new AlertDialog.Builder(getContext());
+                        Builder.setTitle("Server Error");
+                        Builder.setMessage("Please try again after some time");
+                        Builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                // do nothing
+                            }
+                        });
+                        Builder.show();
                     }
 
                 }
@@ -407,11 +430,10 @@ public class BookNowFragment extends Fragment {
                     builder.setPositiveButton("ok", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            Intent intent = new Intent(Intent.ACTION_DIAL);
-                            intent.setData(Uri.parse("tel:8675753534"));
-                            startActivity(intent);
+
                         }
                     });
+                    builder.show();
                 }
 
             }
@@ -521,6 +543,8 @@ public class BookNowFragment extends Fragment {
             public void onResponse(String response) {
                 Log.d(TAG, "onResponse: "+response);
                 if (response.equals("\"True\"")){
+                   //show user that it has been booked
+                    ShowBooked();
                     SendSMS(userid,mPhone);
                 }
             }
@@ -539,6 +563,10 @@ public class BookNowFragment extends Fragment {
 
 
         mRequestQueue.addTokaalivandiQueue(mRequest);
+    }
+
+    private void ShowBooked() {
+
     }
 
     private void SendSMS(String userid, String mPhone) {

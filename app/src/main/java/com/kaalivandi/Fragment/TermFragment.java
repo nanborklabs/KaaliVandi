@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +15,7 @@ import com.kaalivandi.UI.FontCache;
 /**
  * Created by nandhu on 4/9/16.
  */
-public class ContactUsFragment extends android.support.v4.app.Fragment {
+public class TermFragment extends android.support.v4.app.Fragment {
 
 
     private View mView;
@@ -74,6 +75,26 @@ public class ContactUsFragment extends android.support.v4.app.Fragment {
 
     @Override
     public void onResume() {
+        if (getView() != null) {
+            getView().setFocusableInTouchMode(true);
+            getView().requestFocus();
+            getView().setOnKeyListener(new View.OnKeyListener() {
+                @Override
+                public boolean onKey(View v, int keyCode, KeyEvent event) {
+
+                    if (event.getAction() == KeyEvent.ACTION_UP && keyCode == KeyEvent.KEYCODE_BACK) {
+
+                        // handle back button
+                        getActivity().getSupportFragmentManager().popBackStack();
+
+                        return true;
+
+                    }
+
+                    return false;
+                }
+            });
+        }
         super.onResume();
     }
 
