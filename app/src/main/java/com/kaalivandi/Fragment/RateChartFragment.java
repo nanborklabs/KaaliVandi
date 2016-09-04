@@ -37,8 +37,6 @@ public class RateChartFragment extends Fragment {
     private double dest_Lat=11.34;
     private double dest_Lon=77.71;
 
-    @BindView(R.id.rate_button)
-    Button rate;
 
     KaalivandRequestQueue mRequestQueue;
     @Override
@@ -62,12 +60,12 @@ public class RateChartFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mView= inflater.inflate(R.layout.rate_chart,container,false);
         ButterKnife.bind(this,mView);
-        rate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                SendSMS("Nandha","9688612122");
-            }
-        });
+//        rate.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                SendSMS("Nandha","9688612122");
+//            }
+//        });
         return mView;
     }
 

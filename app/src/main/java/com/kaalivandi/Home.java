@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.ShareActionProvider;
 import android.util.Log;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
@@ -12,9 +13,11 @@ import android.view.MenuItem;
 
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlacePicker;
+import com.kaalivandi.Fragment.AboutFragment;
 import com.kaalivandi.Fragment.BookNowFragment;
 import com.kaalivandi.Fragment.BookedFragment;
 import com.kaalivandi.Fragment.CheckRegistrationFragment;
+import com.kaalivandi.Fragment.ContactUsFragment;
 import com.kaalivandi.Fragment.ForgotPassword;
 import com.kaalivandi.Fragment.HomeFragment;
 import com.kaalivandi.Fragment.LoginFragment;
@@ -26,6 +29,7 @@ public class Home extends AppCompatActivity implements LoginFragment.login ,Book
         RegisterFragment.Registration, CheckRegistrationFragment.CheckUserPresent ,ForgotPassword.forgotInterface {
 
     private static final String TAG = "HOME";
+    private android.widget.ShareActionProvider mShareActionProvider;
     MyPrefs myPrefs;
     public int PLACE_REQUEST = 2;
 
@@ -83,6 +87,8 @@ public class Home extends AppCompatActivity implements LoginFragment.login ,Book
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
+        MenuItem item = menu.findItem(R.id.share);
+//        mShareActionProvider = (android.widget.ShareActionProvider) item.getActionProvider();
 
         return true;
     }
@@ -92,10 +98,30 @@ public class Home extends AppCompatActivity implements LoginFragment.login ,Book
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        Log.d(TAG, "onOptionsItemSelected: Activity "+item.getItemId());
+        // as you specify a parent activity in AndroidManifest.xml
+        Fragment mFragment = null;
+        switch (item.getItemId()){
+            case R.id.about_us:
+                mFragment = new AboutFragment();
+                break;
+
+            case R.id.terms:
+                mFragment = new ContactUsFragment();
+                break;
+            case R.id.share:
+
+                break;
+        }
+
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.frag_holder,mFragment)
+                .addToBackStack("Menu")
+                .commit();
+
       return true;
     }
+
+
 
 
     @Override

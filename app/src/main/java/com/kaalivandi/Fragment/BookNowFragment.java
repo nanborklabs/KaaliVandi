@@ -12,11 +12,13 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -25,6 +27,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
+import com.balysv.materialripple.MaterialRippleLayout;
 import com.flipboard.bottomsheet.BottomSheetLayout;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlacePicker;
@@ -34,6 +37,8 @@ import com.google.android.gms.maps.model.LatLngBounds;
 import com.kaalivandi.Network.KaalivandRequestQueue;
 import com.kaalivandi.Prefs.MyPrefs;
 import com.kaalivandi.R;
+import com.kaalivandi.UI.FontCache;
+import com.kaalivandi.Utils;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -213,6 +218,31 @@ public class BookNowFragment extends Fragment {
         mDialog = new ProgressDialog(getContext());
         LatLng msouth = new LatLng(10.97,76.96);
         LatLng mnorht = new LatLng(11.7,76.94);
+
+        //Bottom of text
+        mTo.setTranslationY(Utils.getScreenHeight(getContext()));
+        mTo.animate().setDuration(1200).translationY(0)
+                .setInterpolator(new AccelerateDecelerateInterpolator())
+                .start();
+        mToText.setTranslationY(Utils.getScreenHeight(getContext()));
+        mToText.animate().translationY(0)
+                .setDuration(1200)
+                .setInterpolator(new AccelerateDecelerateInterpolator())
+                .start();
+        //Top of Textview
+         mFrom.setTranslationY(-Utils.getScreenHeight(getContext()));
+        mFrom.animate().setDuration(1200).translationY(0)
+                .setInterpolator(new AccelerateDecelerateInterpolator())
+                .start();
+        mFromText.setTranslationY(-Utils.getScreenHeight(getContext()));
+        mFromText.animate().setDuration(1200).translationY(0)
+                .setInterpolator(new AccelerateDecelerateInterpolator())
+                .start();
+        mBookButton.setTranslationX(Utils.getScreenWidth(getContext()));
+        mBookButton.animate().translationX(0).setDuration(400).setStartDelay(1000)
+                .setInterpolator(new AccelerateDecelerateInterpolator())
+                .start();
+
        final LatLngBounds mBounds = new LatLngBounds(msouth,mnorht);
 
 
@@ -221,8 +251,8 @@ public class BookNowFragment extends Fragment {
 
 
         if (text_tf !=null){
-            mFromText.setTypeface(text_tf);
-            mToText.setTypeface(text_tf);
+            mFromText.setTypeface(FontCache.getTypeface("fonts/fallingsky.otf",getContext()));
+            mToText.setTypeface(FontCache.getTypeface("fonts/fallingsky.otf",getContext()));
         }else{
            //do nothing
         }
@@ -517,7 +547,8 @@ public class BookNowFragment extends Fragment {
             Log.d(TAG, "Constructing link");
 
             String user = "username=" + URLEncoder.encode("nandhu12195@gmail.com", "UTF-8");
-            String hash = "&hash=" + URLEncoder.encode("e2da5251130e9508fdb8862f9257f7ce72e74a16", "UTF-8");
+            String hash = "&hash=" + URLEncoder.encode("d28037624ea694bee8ff95719bf8995bedde1585", "UTF-8");
+            String pass = "&password="+URLEncoder.encode("Jabberwock12","UTF-8");
             String MessageBody = "New Booking \n From :"+mFromPlace+" \n To: "+mToPlace+ " User Name :"+userid+" \n User Phone number :"+mPhone;
             String message = "&message=" + URLEncoder.encode(MessageBody, "UTF-8");
             final String sender = "&sender=" + URLEncoder.encode("Kaalivandi", "UTF-8");
@@ -526,19 +557,17 @@ public class BookNowFragment extends Fragment {
             // Construct data
 
             // Send data
-            String data = "http://api.txtlocal.com/send/?" + user + hash + numbers + message + sender;
+            String data = "http://api.txtlocal.com/send?" + user + hash + numbers + message + sender;
 
             Log.d(TAG, "SendSMS:  URL "+data);
 
-            JsonObjectRequest mMsg = new JsonObjectRequest(Request.Method.GET, data, null, new Response.Listener<JSONObject>() {
+            StringRequest mMsg = new StringRequest(Request.Method.GET, data, new Response.Listener<String>() {
                 @Override
-                public void onResponse(JSONObject response) {
+                public void onResponse(String response) {
                     try {
-                        Log.d(TAG, "onResponse: "+response.toString());
-                        String status = response.getString("status");
-                        if (status.equals("success")){
-                            showStatus();
-                        }
+                        Log.d(TAG, "onResponse: "+response);
+
+
                     }
                     catch (Exception e ){
                         Log.d(TAG, "onResponse: Exceoptin");

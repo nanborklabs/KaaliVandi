@@ -11,13 +11,15 @@
         android:orderInCategory="200"
         android:title="About us"
         app:showAsAction="never"/>
-    <item android:id="@+id/contact_us"
+    <item android:id="@+id/terms"
         android:orderInCategory="300"
-        android:title="Contact us"
+        android:title="Terms &amp; condition"
         app:showAsAction="never" />
     <item
         android:id="@+id/share"
         android:orderInCategory="400"
         android:title="Share App"
+        android:actionProviderClass=
+            "android.widget.ShareActionProvider"
         app:showAsAction="never"/>
 </menu>

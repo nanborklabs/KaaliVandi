@@ -1,7 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/login_back"
+  >
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:background="@color/login_back"
+        android:layout_height="match_parent">
+
+
+
 
     <TextView
         android:layout_width="wrap_content"
@@ -11,9 +20,11 @@
         android:id="@+id/about_title"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="39dp" />
+        android:layout_marginTop="39dp"
+        android:textColor="@color/whites"
+        android:textSize="28sp" />
 
-    <TextView
+    <com.kaalivandi.UI.TitleTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
@@ -22,7 +33,11 @@
         android:layout_below="@+id/about_title"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="39dp" />
+        android:layout_marginTop="8dp"
+        android:textColor="@color/abc_input_method_navigation_guard"
+        android:textSize="22sp"
+        android:layout_marginRight="16dp"
+        android:layout_marginLeft="16dp" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -32,9 +47,11 @@
         android:id="@+id/about_motto"
         android:layout_below="@+id/about_title_sub"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="41dp" />
+        android:layout_marginTop="41dp"
+        android:textColor="@color/whites"
+        android:textSize="28sp" />
 
-    <TextView
+    <com.kaalivandi.UI.TitleTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
@@ -42,7 +59,11 @@
         android:id="@+id/about_motto_sub"
         android:layout_below="@+id/about_motto"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:textColor="@color/abc_input_method_navigation_guard"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:textSize="22sp" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -52,9 +73,11 @@
         android:id="@+id/about_y_kaali"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="39dp"
-        android:layout_below="@+id/about_motto_sub" />
+        android:layout_below="@+id/about_motto_sub"
+        android:textColor="@color/whites"
+        android:textSize="28sp" />
 
-    <TextView
+    <com.kaalivandi.UI.TitleTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
@@ -62,6 +85,11 @@
         android:id="@+id/about_y_sub"
         android:layout_below="@+id/about_y_kaali"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:textColor="@color/abc_input_method_navigation_guard"
+        android:layout_marginRight="16dp"
+        android:layout_marginLeft="16dp"
+        android:textSize="22sp" />
+    </RelativeLayout>
 
-</RelativeLayout>
+</android.support.v4.widget.NestedScrollView>

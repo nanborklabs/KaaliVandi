@@ -15,12 +15,12 @@
 
 
 
-    <TextView
+    <com.kaalivandi.UI.TitleTextView
         android:layout_width="wrap_content"
         android:layout_height="50dp"
 
         android:ems="10"
-        android:background="@drawable/book_text_background"
+        android:background="@drawable/place_selector"
         android:id="@+id/from_et"
         android:text="Click to select"
 
@@ -36,7 +36,7 @@
         android:textColor="@color/whites"
         android:textStyle="bold" />
 
-    <TextView
+    <com.kaalivandi.UI.TitleTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         style="@style/from_to_text"
@@ -46,14 +46,13 @@
         android:gravity="center"
         android:id="@+id/from_text"
         android:textSize="25sp"
-        android:layout_below="@+id/imageView2"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_marginLeft="32dp"
         android:layout_marginStart="32dp"
         android:layout_marginTop="@dimen/book_text_margin_top2" />
 
-    <TextView
+    <com.kaalivandi.UI.TitleTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="To"
@@ -67,14 +66,14 @@
 
 
 
-    <TextView
+    <com.kaalivandi.UI.TitleTextView
         android:layout_width="wrap_content"
         android:layout_height="50dp"
         android:inputType="textMultiLine"
         android:ems="10"
         android:id="@+id/to_et"
         android:text="Click to Select"
-        android:background="@drawable/book_text_background"
+        android:background="@drawable/place_selector"
         android:gravity="center"
         android:layout_below="@+id/to_text"
         android:layout_alignRight="@+id/from_et"
@@ -98,8 +97,6 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:layout_marginRight="32dp" />
-
-
 
 </RelativeLayout>
     </com.flipboard.bottomsheet.BottomSheetLayout>
