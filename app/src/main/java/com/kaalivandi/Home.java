@@ -16,6 +16,7 @@ import com.kaalivandi.Fragment.AboutFragment;
 import com.kaalivandi.Fragment.BookNowFragment;
 import com.kaalivandi.Fragment.BookedFragment;
 import com.kaalivandi.Fragment.CheckRegistrationFragment;
+import com.kaalivandi.Fragment.ContacUsFragement;
 import com.kaalivandi.Fragment.TermFragment;
 import com.kaalivandi.Fragment.ForgotPassword;
 import com.kaalivandi.Fragment.HomeFragment;
@@ -86,7 +87,6 @@ public class Home extends AppCompatActivity implements LoginFragment.login ,Book
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        MenuItem item = menu.findItem(R.id.share);
 //        mShareActionProvider = (android.widget.ShareActionProvider) item.getActionProvider();
 
         return true;
@@ -107,7 +107,8 @@ public class Home extends AppCompatActivity implements LoginFragment.login ,Book
             case R.id.terms:
                 mFragment = new TermFragment();
                 break;
-            case R.id.share:
+            case R.id.contactus:
+                mFragment = new ContacUsFragement();
 
                 break;
         }

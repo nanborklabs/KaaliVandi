@@ -142,8 +142,6 @@ public class HomeFragment extends Fragment {
                    break;
             case R.id.terms :
                 break;
-            case  R.id.share :
-                break;
 
         }
         return true;

@@ -1,125 +1,235 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent"
-    android:background="@color/login_back">
-
-    <TextView
-        android:layout_width="100dp"
-        android:layout_height="40dp"
-        android:text="From"
-        android:textSize="20sp"
-        android:id="@+id/from_text"
-        android:gravity="left|center_vertical"
-        android:paddingLeft="16dp"
-        android:paddingRight="4dp"
-        android:layout_below="@+id/bottom_title_text"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-    <Button
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="#FAF9F9">
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:text="Confirm Booking"
-        android:background="@drawable/register_button_background"
-        android:id="@+id/bottom_confirm_button"
-        android:layout_marginBottom="20dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginLeft="32dp"
-        android:layout_marginRight="32dp" />
+        android:layout_height="match_parent"
+        android:background="#FAF9F9">
 
-    <TextView
-        android:layout_width="100dp"
-        android:layout_height="50dp"
-        android:text="To"
-        android:textSize="20sp"
-        android:layout_marginTop="2dp"
-        android:id="@+id/to_text"
-        android:layout_below="@+id/from_text"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:gravity="left|center_vertical"
-        android:paddingLeft="16dp" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="New Text"
-        android:id="@+id/from_place_text"
-        android:gravity="left|center_vertical"
-        android:paddingLeft="4dp"
-        android:textSize="20sp"
-        android:layout_alignTop="@+id/from_text"
-        android:layout_toRightOf="@+id/from_text"
-        android:layout_alignBottom="@+id/from_text"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        <com.kaalivandi.UI.TitleTextView
+            android:layout_width="100dp"
+            android:id="@+id/bottom_user"
+            android:layout_height="60dp"
+            android:layout_marginTop="38dp"
+            android:textAppearance="?android:textAppearanceLarge"
+            android:layout_alignParentTop="true"
+            android:layout_toRightOf="@+id/bottom_fare_text"
+            android:text="Hi user"
+            android:textSize="36sp"
+            android:layout_alignRight="@+id/bottom_card"
+            android:layout_alignEnd="@+id/bottom_card"
+            android:gravity="center_vertical"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Confirm order"
-        android:id="@+id/bottom_title_text"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp" />
+        <com.kaalivandi.UI.TitleTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Fare"
+            android:layout_below="@+id/view2"
+            android:id="@+id/bottom_fare_text"
+            android:layout_alignStart="@+id/bottom_confirm_button"
+            android:layout_marginTop="32dp"
+            android:layout_marginLeft="32dp"
+            android:textSize="34sp" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="4dp"
+            android:layout_marginTop="8dp"
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Kilometer"
-        android:id="@+id/km_text"
-        android:layout_toLeftOf="@+id/bottom_title_text"
-        android:layout_toStartOf="@+id/bottom_title_text"
-        android:layout_below="@+id/to_place_text"
-        android:layout_marginTop="16dp" />
+            android:layout_below="@id/bottom_fare_text"
+            android:background="@drawable/divider_draw"
+            android:id="@+id/view"
+            android:layout_alignLeft="@+id/bottom_fare_text"
+            android:layout_alignStart="@+id/bottom_fare_text"
+            android:layout_alignRight="@+id/bottom_rate_text"
+            android:layout_alignEnd="@+id/bottom_rate_text" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="New Text"
-        android:id="@+id/to_place_text"
-        android:gravity="left|center_vertical"
-        android:paddingLeft="4dp"
-        android:textSize="20sp"
+        <View
+            android:layout_width="100dp"
+            android:layout_height="4dp"
+            android:layout_marginTop="8dp"
 
-        android:layout_alignBottom="@+id/to_text"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_toRightOf="@+id/to_text"
-        android:layout_toEndOf="@+id/to_text" />
+            android:layout_below="@+id/bottom_sub_booking"
+            android:background="@drawable/divider_draw"
+            android:id="@+id/view2"
+            android:layout_alignBottom="@+id/view3"
+            android:layout_alignLeft="@+id/bottom_sub_booking"
+            android:layout_alignStart="@+id/bottom_sub_booking" />
+        <View
+            android:layout_width="100dp"
+            android:layout_height="4dp"
+            android:layout_marginTop="8dp"
+            android:layout_toRightOf="@id/view2"
+            android:layout_below="@id/bottom_sub_booking"
+            android:background="@drawable/divider_draw2"
+            android:id="@+id/view3"
+            android:layout_alignRight="@+id/bottom_user"
+            android:layout_alignEnd="@+id/bottom_user" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Rate"
-        android:id="@+id/rate_text"
-        android:layout_below="@+id/km_text"
-        android:layout_alignLeft="@+id/km_text"
-        android:layout_alignStart="@+id/km_text"
-        android:layout_marginTop="16dp" />
+        <com.kaalivandi.UI.TitleTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="30"
+            android:id="@+id/bottom_rate_text"
+            android:textSize="34sp"
+            android:textColor="#000000"
+            android:textStyle="bold"
+            android:layout_alignTop="@+id/bottom_fare_text"
+            android:layout_alignRight="@+id/terms_text"
+            android:layout_alignEnd="@+id/terms_text" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Large Text"
-        android:id="@+id/kms_display"
-        android:layout_above="@+id/rate_text"
-        android:layout_toRightOf="@+id/bottom_title_text"
-        android:layout_toEndOf="@+id/bottom_title_text" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Large Text"
-        android:id="@+id/rate_display"
-        android:layout_alignTop="@+id/rate_text"
-        android:layout_alignLeft="@+id/kms_display"
-        android:layout_alignStart="@+id/kms_display" />
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_alignParentBottom="false"
+            android:layout_below="@id/view"
+            android:id="@+id/bottom_card"
 
-</RelativeLayout>
+            app:cardBackgroundColor="@color/colorPrimary"
+            android:layout_marginTop="16dp"
+            android:layout_marginRight="16dp"
+            app:cardCornerRadius="8dp"
+            android:layout_marginLeft="16dp">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <com.kaalivandi.UI.TitleTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="From"
+
+                    android:id="@+id/textView14"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginLeft="32dp" />
+
+                <com.kaalivandi.UI.TitleTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="Medium Text"
+                    android:id="@+id/bottom_from_text_view"
+                    android:layout_below="@+id/textView14"
+                    android:layout_toRightOf="@+id/textView14"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentStart="false"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_above="@+id/textView15"
+                    android:gravity="top|left|center_vertical"
+                    android:padding="4dp" />
+
+                <com.kaalivandi.UI.TitleTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="To"
+                    android:id="@+id/textView15"
+                    android:layout_centerVertical="true"
+                    android:layout_alignLeft="@+id/textView14"
+                    android:layout_alignStart="@+id/textView14" />
+
+                <com.kaalivandi.UI.TitleTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="Medium Text"
+                    android:id="@+id/bottom_to_text"
+                    android:padding="4dp"
+                    android:layout_below="@+id/textView15"
+                    android:layout_toRightOf="@+id/textView14"
+                    android:layout_alignRight="@+id/bottom_from_text_view"
+                    android:layout_alignEnd="@+id/bottom_from_text_view"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginBottom="16dp" />
+
+
+            </RelativeLayout>
+
+        </android.support.v7.widget.CardView>
+        <com.kaalivandi.UI.TitleTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Kilometers"
+            android:id="@+id/bottom_kms_text"
+            android:layout_below="@id/bottom_card"
+            android:layout_marginLeft="48dp"
+            android:layout_marginTop="20dp" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="60dp"
+            android:id="@+id/imageView3"
+            app:srcCompat="@drawable/user_account"
+            android:layout_alignTop="@+id/bottom_user"
+            android:layout_alignLeft="@+id/bottom_card"
+            android:layout_alignStart="@+id/bottom_card"
+            android:layout_toLeftOf="@+id/bottom_user"
+            android:layout_toStartOf="@+id/bottom_user"
+            android:layout_alignBottom="@+id/bottom_user" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Your Trip informations are as below"
+            android:id="@+id/bottom_sub_booking"
+            android:layout_below="@+id/imageView3"
+            android:layout_marginTop="12dp"
+            android:layout_alignLeft="@+id/imageView3"
+            android:layout_alignStart="@+id/imageView3"
+            android:layout_alignRight="@+id/bottom_user"
+            android:layout_alignEnd="@+id/bottom_user" />
+
+        <com.kaalivandi.UI.TitleTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="1245"
+            android:id="@+id/bottom_kms_display"
+            android:layout_alignTop="@+id/bottom_kms_text"
+            android:layout_alignRight="@+id/bottom_rate_text"
+            android:layout_alignEnd="@+id/bottom_rate_text" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:text="Confirm Booking"
+            android:background="@drawable/register_button_background"
+            android:id="@+id/bottom_confirm_button"
+            android:layout_alignParentBottom="false"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginLeft="32dp"
+            android:layout_marginRight="32dp"
+            android:layout_marginTop="30dp"
+            android:layout_below="@+id/bottom_kms_text" />
+
+        <com.kaalivandi.UI.TitleTextView
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginLeft="64dp"
+            android:layout_marginRight="64dp"
+            android:textSize="18sp"
+            android:gravity="center"
+            android:layout_below="@id/bottom_confirm_button"
+            android:text="By Confirming , You agree to Terms &amp; conditions"
+            android:layout_alignParentBottom="true"
+            android:id="@+id/terms_text" />
+    </RelativeLayout>
+</ScrollView>

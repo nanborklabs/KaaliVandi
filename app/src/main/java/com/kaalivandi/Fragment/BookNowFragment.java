@@ -483,6 +483,9 @@ public class BookNowFragment extends Fragment {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                if (mDialog.isShowing()){
+                    mDialog.dismiss();
+                }
                 Snackbar sn = Snackbar.make(mView,"Please Make Sure you have an active internet Connection",Snackbar.LENGTH_SHORT);
                 sn.show();
             }
@@ -559,7 +562,7 @@ public class BookNowFragment extends Fragment {
 
     }
 
-    private void finalConfirm(String fare, String distance, final Button b) throws UnsupportedEncodingException {
+    private void finalConfirm(final String fare, final String distance, final Button b) throws UnsupportedEncodingException {
         MyPrefs myPrefs = new MyPrefs(getContext());
         final String userid= myPrefs.getUserId();
         final String mPhone = myPrefs.getPhoneNumber();
@@ -577,7 +580,7 @@ public class BookNowFragment extends Fragment {
                 Log.d(TAG, "onResponse: "+response);
                 if (response.equals("\"True\"")){
                    //show user that it has been booked
-                    ShowBooked();
+                    ShowBooked(fare,distance,userid,mPhone,mFromPlace,mToPlace);
                     SendSMS(userid,mPhone);
                 }
             }
@@ -601,7 +604,7 @@ public class BookNowFragment extends Fragment {
         mRequestQueue.addTokaalivandiQueue(mRequest);
     }
 
-    private void ShowBooked() {
+    private void ShowBooked(String fare, String distance, String userid, String mPhone, String mFromPlace, String mToPlace) {
 
         if (mBottomSheet.isSheetShowing()) {
             mBottomSheet.dismissSheet();
@@ -609,10 +612,15 @@ public class BookNowFragment extends Fragment {
         View v = LayoutInflater.from(getContext()).inflate(R.layout.booked, (ViewGroup) mView,false);
         mBottomSheet.showWithSheetView(v);
         TitleTextView from_text = (TitleTextView)v.findViewById(R.id.booked_from_text);
+        from_text.setText(mFromPlace);
         TitleTextView to_text = (TitleTextView)v.findViewById(R.id.booked_to_text);
+        to_text.setText(mToPlace);
         TitleTextView rate_text = (TitleTextView)v.findViewById(R.id.booked_rate_text);
+        rate_text.setText(fare);
         TitleTextView phone_number = (TitleTextView)v.findViewById(R.id.booked_phone_number_text);
+        phone_number.setText(mPhone);
         TitleTextView usernname = (TitleTextView)v.findViewById(R.id.booked_user_name_text);
+        usernname.setText(userid);
 
     }
 
@@ -627,12 +635,12 @@ public class BookNowFragment extends Fragment {
             String MessageBody = "New Booking \n From :"+mFromPlace+" \n To: "+mToPlace+ " User Name :"+userid+" \n User Phone number :"+mPhone;
             String message = "&message=" + URLEncoder.encode(MessageBody, "UTF-8");
             final String sender = "&sender=" + URLEncoder.encode("Kaalivandi", "UTF-8");
-            String numbers = "&numbers=" + URLEncoder.encode("+918675753534", "UTF-8");
+            String numbers = "&numbers=" + URLEncoder.encode("919688612122", "UTF-8");
 
             // Construct data
 
             // Send data
-            String data = "http://api.txtlocal.com/send?" + user + hash + numbers + message + sender;
+            String data = "http://api.txtlocal.com/send?" + user + pass + numbers + message + sender;
 
             Log.d(TAG, "SendSMS:  URL "+data);
 
