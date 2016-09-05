@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.AssetManager;
 import android.graphics.Typeface;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
@@ -41,7 +42,11 @@ import com.kaalivandi.Utils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.net.URLEncoder;
 
 import butterknife.BindView;
@@ -54,22 +59,22 @@ public class BookNowFragment extends Fragment {
     private View mView;
 
 
-
-    MyPrefs myPrefs ;
+    MyPrefs myPrefs;
     private GoogleMap mMap;
 
 
     //the switch to to identify is mpre than 700kg
 
 
-
-
-    @BindView(R.id.from_text) TextView mFromText;
-    @BindView(R.id.to_text) TextView mToText;
+    @BindView(R.id.from_text)
+    TextView mFromText;
+    @BindView(R.id.to_text)
+    TextView mToText;
     //to and from text boxes
     @BindView(R.id.from_et)
     TextView mFrom;
-    @BindView(R.id.to_et) TextView mTo;
+    @BindView(R.id.to_et)
+    TextView mTo;
 
 
     //button to book oreders
@@ -79,35 +84,31 @@ public class BookNowFragment extends Fragment {
     //the radio BUtton
 
 
-
     @BindView(R.id.bottomsheet)
     BottomSheetLayout mBottomSheet;
 
 
-    int  FROM_PLACE_RESULT = 1;
+    int FROM_PLACE_RESULT = 1;
     int TO_PLACE_RESULT = 2;
     private Context mContext;
 
 
     //flag to know whether arrival and destination have been selected & saved
-    boolean from_selected=false;
-    boolean to_selected=false;
+    boolean from_selected = false;
+    boolean to_selected = false;
 
 
     //position variables
     private double origin_Lat;
-    private double orgin_Lon ;
+    private double orgin_Lon;
     private double dest_Lat;
     private double dest_Lon;
 
 
-   //the singleton Request queue for this class
+    //the singleton Request queue for this class
 
 
     private KaalivandRequestQueue mRequestQueue;
-
-
-
 
 
     //the vehicle type
@@ -115,17 +116,17 @@ public class BookNowFragment extends Fragment {
 
 
     //From & To places in String
-    private String mFromPlace=null;
-    private String mToPlace= null;
+    private String mFromPlace = null;
+    private String mToPlace = null;
 
 
-
-    private AssetManager am ;
+    private AssetManager am;
     private Typeface text_tf;
     private Typeface butto_tf;
 
 
     private ProgressDialog mDialog;
+
     @Override
     public void onAttach(Context context) {
         this.mContext = context;
@@ -141,7 +142,6 @@ public class BookNowFragment extends Fragment {
     }
 
 
-
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -152,17 +152,17 @@ public class BookNowFragment extends Fragment {
 
 
         //From place Result , save From place & position in Global Variable
-        if (requestCode == FROM_PLACE_RESULT){
-            if (resultCode == Activity.RESULT_OK  ){
+        if (requestCode == FROM_PLACE_RESULT) {
+            if (resultCode == Activity.RESULT_OK) {
 
                 //get the place form Intent { @param data}
-                Place selectedPlace = PlacePicker.getPlace(getContext(),data);
+                Place selectedPlace = PlacePicker.getPlace(getContext(), data);
                 //set the Textfields to place name
                 mFrom.setText(selectedPlace.getName());
 
                 //get the posoition
                 origin_Lat = selectedPlace.getLatLng().latitude;
-                orgin_Lon  = selectedPlace.getLatLng().longitude;
+                orgin_Lon = selectedPlace.getLatLng().longitude;
 
                 //save it for future use
                 mFromPlace = (String) selectedPlace.getAddress();
@@ -172,24 +172,24 @@ public class BookNowFragment extends Fragment {
 
 
             }
-            if (resultCode == Activity.RESULT_CANCELED){
+            if (resultCode == Activity.RESULT_CANCELED) {
                 Log.d(TAG, "Result cancelled");
             }
         }
-        if (requestCode == TO_PLACE_RESULT){
-            if (resultCode == Activity.RESULT_OK){
+        if (requestCode == TO_PLACE_RESULT) {
+            if (resultCode == Activity.RESULT_OK) {
 
                 //get the place details
-                Place selePlace = PlacePicker.getPlace(getContext(),data);
+                Place selePlace = PlacePicker.getPlace(getContext(), data);
 
                 //set textfiels and update globals
                 mTo.setText(selePlace.getName());
-                mToPlace = (String)selePlace.getAddress();
+                mToPlace = (String) selePlace.getAddress();
                 dest_Lat = selePlace.getLatLng().latitude;
                 dest_Lon = selePlace.getLatLng().longitude;
 
                 //infer that destination is over
-                to_selected=true;
+                to_selected = true;
             }
         }
     }
@@ -198,9 +198,9 @@ public class BookNowFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         myPrefs = new MyPrefs(mContext);
-        if (getContext()!= null){
+        if (getContext() != null) {
             am = getContext().getAssets();
-            text_tf = Typeface.createFromAsset(am,"fonts/fallingsky.otf");
+            text_tf = Typeface.createFromAsset(am, "fonts/fallingsky.otf");
         }
 
         mRequestQueue = KaalivandRequestQueue.getInstance(mContext);
@@ -212,12 +212,12 @@ public class BookNowFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.book_fragment, container, false);
-        ButterKnife.bind(this,mView);
+        ButterKnife.bind(this, mView);
 
 
         mDialog = new ProgressDialog(getContext());
-        LatLng msouth = new LatLng(10.97,76.96);
-        LatLng mnorht = new LatLng(11.7,76.94);
+        LatLng msouth = new LatLng(10.97, 76.96);
+        LatLng mnorht = new LatLng(11.7, 76.94);
 
         //Bottom of text
         mTo.setTranslationY(Utils.getScreenHeight(getContext()));
@@ -230,7 +230,7 @@ public class BookNowFragment extends Fragment {
                 .setInterpolator(new AccelerateDecelerateInterpolator())
                 .start();
         //Top of Textview
-         mFrom.setTranslationY(-Utils.getScreenHeight(getContext()));
+        mFrom.setTranslationY(-Utils.getScreenHeight(getContext()));
         mFrom.animate().setDuration(1200).translationY(0)
                 .setInterpolator(new AccelerateDecelerateInterpolator())
                 .start();
@@ -243,24 +243,15 @@ public class BookNowFragment extends Fragment {
                 .setInterpolator(new AccelerateDecelerateInterpolator())
                 .start();
 
-       final LatLngBounds mBounds = new LatLngBounds(msouth,mnorht);
+        final LatLngBounds mBounds = new LatLngBounds(msouth, mnorht);
 
 
-
-
-
-
-        if (text_tf !=null){
-            mFromText.setTypeface(FontCache.getTypeface("fonts/fallingsky.otf",getContext()));
-            mToText.setTypeface(FontCache.getTypeface("fonts/fallingsky.otf",getContext()));
-        }else{
-           //do nothing
+        if (text_tf != null) {
+            mFromText.setTypeface(FontCache.getTypeface("fonts/fallingsky.otf", getContext()));
+            mToText.setTypeface(FontCache.getTypeface("fonts/fallingsky.otf", getContext()));
+        } else {
+            //do nothing
         }
-
-
-
-
-
 
 
         mFrom.setOnClickListener(new View.OnClickListener() {
@@ -271,21 +262,18 @@ public class BookNowFragment extends Fragment {
                 try {
 
 
-
-                     PlacePicker.IntentBuilder builder  = new PlacePicker.IntentBuilder();
+                    PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
                     builder.setLatLngBounds(mBounds);
 
-                   startActivityForResult(builder.build(getParentFragment().getActivity()),FROM_PLACE_RESULT);
-                }
-                catch (Exception e ){
+                    startActivityForResult(builder.build(getParentFragment().getActivity()), FROM_PLACE_RESULT);
+                } catch (Exception e) {
 
                     //no place picker is available, switch to alternate way .. :P who knows?
-                    Log.d(TAG, "Exception "+e.getLocalizedMessage());
+                    Log.d(TAG, "Exception " + e.getLocalizedMessage());
                 }
 
             }
         });
-
 
 
         // Destination place Selector
@@ -294,21 +282,14 @@ public class BookNowFragment extends Fragment {
             public void onClick(View v) {
                 try {
 
-                    final PlacePicker.IntentBuilder builder  = new PlacePicker.IntentBuilder();
+                    final PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
                     builder.setLatLngBounds(mBounds);
                     startActivityForResult(builder.build(getParentFragment().getActivity()), TO_PLACE_RESULT);
-                }
-
-                catch (Exception e ){
-                    Log.d(TAG, "Exception "+e.getLocalizedMessage());
+                } catch (Exception e) {
+                    Log.d(TAG, "Exception " + e.getLocalizedMessage());
                 }
             }
         });
-
-
-
-
-
 
 
         //Book Button
@@ -319,35 +300,30 @@ public class BookNowFragment extends Fragment {
 
                 Log.d(TAG, "Book BUtton pressed");
                 //
-            if(from_selected && to_selected){
-                sendRequest();
-            }
-                else if (from_selected){
-                Snackbar snackbar = Snackbar
-                        .make(mView, "Please Select a destination", Snackbar.LENGTH_SHORT);
+                if (from_selected && to_selected) {
+                    sendRequest();
+                } else if (from_selected) {
+                    Snackbar snackbar = Snackbar
+                            .make(mView, "Please Select a destination", Snackbar.LENGTH_SHORT);
 
-                snackbar.show();
-            }
-                else if (to_selected){
-                Snackbar snackbar = Snackbar.make(mView,"Please Select Starting Address",Snackbar.LENGTH_SHORT);
-                snackbar.show();
-            }
-                else {
-               
-                Snackbar snackbar = Snackbar
-                        .make(mView, "Please select Starting and Ending Location", Snackbar.LENGTH_LONG);
+                    snackbar.show();
+                } else if (to_selected) {
+                    Snackbar snackbar = Snackbar.make(mView, "Please Select Starting Address", Snackbar.LENGTH_SHORT);
+                    snackbar.show();
+                } else {
 
-                snackbar.show();
-            }
+                    Snackbar snackbar = Snackbar
+                            .make(mView, "Please select Starting and Ending Location", Snackbar.LENGTH_LONG);
+
+                    snackbar.show();
+                }
 
             }
         });
 
 
-
         return mView;
     }
-
 
 
     private void sendRequest() {
@@ -356,34 +332,33 @@ public class BookNowFragment extends Fragment {
         mDialog.setMessage("Please wait while confirming your order");
         mDialog.show();
 
-        String url ="https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&origins="+origin_Lat +","
-                +orgin_Lon +"&destinations="+ dest_Lat +","+dest_Lon+"&key=AIzaSyDR3Lwe6e3e1bggiRqvtJuubNHnGVfEPXA";
-        final JsonObjectRequest mRequest  = new JsonObjectRequest(Request.Method.GET, url,null, new Response.Listener<JSONObject>() {
+        String url = "https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&origins=" + origin_Lat + ","
+                + orgin_Lon + "&destinations=" + dest_Lat + "," + dest_Lon + "&key=AIzaSyDR3Lwe6e3e1bggiRqvtJuubNHnGVfEPXA";
+        final JsonObjectRequest mRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                String distance="" ;
+                String distance = "";
                 try {
-                    Log.d(TAG, "onResponse: from google "+response.toString());
+                    Log.d(TAG, "onResponse: from google " + response.toString());
                     JSONObject object = response;
 
                     String status = object.getString("status");
 
-                    if(status.equalsIgnoreCase("OK")){
+                    if (status.equalsIgnoreCase("OK")) {
                         JSONArray mRows = object.getJSONArray("rows");
-                        JSONObject elements  = mRows.getJSONObject(0);
+                        JSONObject elements = mRows.getJSONObject(0);
                         JSONArray mArray = elements.getJSONArray("elements");
-                        JSONObject mObject= mArray.getJSONObject(0);
+                        JSONObject mObject = mArray.getJSONObject(0);
                         JSONObject distnceobjct = mObject.getJSONObject("distance");
                         String mdistance = distnceobjct.getString("text");
-                        mdistance = mdistance.replace(" km","");
+                        mdistance = mdistance.replace(" km", "");
                         mdistance = mdistance.trim();
-                      distance = mdistance;
+                        distance = mdistance;
                         getRate(distance);
 
 
-                    }
-                    else if (status.equalsIgnoreCase("INVALID_REQUEST")){
-                        if (mDialog.isShowing()){
+                    } else if (status.equalsIgnoreCase("INVALID_REQUEST")) {
+                        if (mDialog.isShowing()) {
                             mDialog.dismiss();
                         }
                         AlertDialog.Builder Builder = new AlertDialog.Builder(getContext());
@@ -392,17 +367,14 @@ public class BookNowFragment extends Fragment {
                         Builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                           // do nothing
+                                // do nothing
                             }
                         });
                         Builder.show();
 
 
-
-
-                    }
-                    else if(status.equalsIgnoreCase("REQUEST_DENIED") || status.equalsIgnoreCase("UNKNOWN_ERROR")){
-                        if (mDialog.isShowing()){
+                    } else if (status.equalsIgnoreCase("REQUEST_DENIED") || status.equalsIgnoreCase("UNKNOWN_ERROR")) {
+                        if (mDialog.isShowing()) {
                             mDialog.dismiss();
                         }
                         AlertDialog.Builder Builder = new AlertDialog.Builder(getContext());
@@ -417,9 +389,8 @@ public class BookNowFragment extends Fragment {
                         Builder.show();
                     }
 
-                }
-                catch (Exception e ){
-                    if(mDialog.isShowing()){
+                } catch (Exception e) {
+                    if (mDialog.isShowing()) {
                         mDialog.dismiss();
                     }
                     AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
@@ -438,17 +409,17 @@ public class BookNowFragment extends Fragment {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-               Snackbar sn = Snackbar.make(mView,"Please Make Sure you have an active internet Connection",Snackbar.LENGTH_SHORT);
+                if (mDialog.isShowing()) {
+                    mDialog.hide();
+                }
+                Snackbar sn = Snackbar.make(mView, "Please Make Sure you have an active internet Connection", Snackbar.LENGTH_SHORT);
                 sn.show();
             }
         });
         mRequestQueue.addTokaalivandiQueue(mRequest);
 
 
-
-
     }
-
 
 
     /*google error :P funny */
@@ -458,35 +429,32 @@ public class BookNowFragment extends Fragment {
 
     private void getRate(final String distance) {
 
-       //construct url based on flags
-        String URL ="http://www.kaalivandi.com/MobileApp/CalculateRate?KM="+distance+"&VType="+vehicleType;
-        Log.d(TAG, "string "+URL);
+        //construct url based on flags
+        String URL = "http://www.kaalivandi.com/MobileApp/CalculateRate?KM=" + distance + "&VType=" + vehicleType;
+        Log.d(TAG, "string " + URL);
 
-        final StringRequest mRequest  = new StringRequest(Request.Method.GET, URL, new Response.Listener<String>() {
+        final StringRequest mRequest = new StringRequest(Request.Method.GET, URL, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 //rate has been Received ,
 
-                Log.d(TAG, "onResponse: from server "+response);
-                 mDialog.dismiss();
-                    String fare = response.replace("\"","");
-                Log.d(TAG, "fare "+fare);
+                Log.d(TAG, "onResponse: from server " + response);
+                mDialog.dismiss();
+                String fare = response.replace("\"", "");
+                Log.d(TAG, "fare " + fare);
 
 
-                confirmOrder(fare,distance);
-
-
-
+                confirmOrder(fare, distance);
 
 
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                if (mDialog.isShowing()){
+                if (mDialog.isShowing()) {
                     mDialog.dismiss();
                 }
-                Snackbar sn = Snackbar.make(mView,"Please Make Sure you have an active internet Connection",Snackbar.LENGTH_SHORT);
+                Snackbar sn = Snackbar.make(mView, "Please Make Sure you have an active internet Connection", Snackbar.LENGTH_SHORT);
                 sn.show();
             }
         });
@@ -497,22 +465,22 @@ public class BookNowFragment extends Fragment {
         Log.d(TAG, "confirmOrder: ");
 
         MyPrefs myPrefs = new MyPrefs(getContext());
-        final String userid= "Hi "+ myPrefs.getUserId();
+        final String userid = "Hi " + myPrefs.getUserId();
         final String mPhone = myPrefs.getPhoneNumber();
-        View v = LayoutInflater.from(getContext()).inflate(R.layout.book_bottomsheet, (ViewGroup) mView,false);
-        if (v!=null){
+        View v = LayoutInflater.from(getContext()).inflate(R.layout.book_bottomsheet, (ViewGroup) mView, false);
+        if (v != null) {
             mBottomSheet.showWithSheetView(v);
-            TitleTextView muserText = (TitleTextView)v.findViewById(R.id.bottom_user);
-            TitleTextView mRateText = (TitleTextView)v.findViewById(R.id.bottom_rate_text);
-            final Button b = (Button)v.findViewById(R.id.bottom_confirm_button);
-            TitleTextView from =(TitleTextView) v.findViewById(R.id.bottom_from_text_view);
-            TitleTextView to =(TitleTextView) v.findViewById(R.id.bottom_to_text);
-            TitleTextView km = (TitleTextView)v.findViewById(R.id.bottom_kms_display);
+            TitleTextView muserText = (TitleTextView) v.findViewById(R.id.bottom_user);
+            TitleTextView mRateText = (TitleTextView) v.findViewById(R.id.bottom_rate_text);
+            final Button b = (Button) v.findViewById(R.id.bottom_confirm_button);
+            TitleTextView from = (TitleTextView) v.findViewById(R.id.bottom_from_text_view);
+            TitleTextView to = (TitleTextView) v.findViewById(R.id.bottom_to_text);
+            TitleTextView km = (TitleTextView) v.findViewById(R.id.bottom_kms_display);
             from.setText(mFromPlace);
             muserText.setText(userid);
 
             to.setText(mToPlace);
-            if (mRateText!=null){
+            if (mRateText != null) {
                 mRateText.setText(fare);
             }
 
@@ -523,16 +491,16 @@ public class BookNowFragment extends Fragment {
                 b.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if(b.isEnabled()){
+                        if (b.isEnabled()) {
                             b.setEnabled(false);
                         }
 
                         try {
-                            finalConfirm(fare,distance,b);
+                            finalConfirm(fare, distance, b);
                         } catch (UnsupportedEncodingException e) {
-                           AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
                             builder.setTitle("Could Not Place Order");
-                            if(!b.isEnabled()){
+                            if (!b.isEnabled()) {
                                 b.setEnabled(true);
                             }
                             builder.setMessage("Would you like to Place Order Via Phone?");
@@ -558,47 +526,43 @@ public class BookNowFragment extends Fragment {
         }
 
 
-
-
     }
 
     private void finalConfirm(final String fare, final String distance, final Button b) throws UnsupportedEncodingException {
         MyPrefs myPrefs = new MyPrefs(getContext());
-        final String userid= myPrefs.getUserId();
+        final String userid = myPrefs.getUserId();
         final String mPhone = myPrefs.getPhoneNumber();
-        String fromURL = URLEncoder.encode(mFromPlace,"UTF-8");
-        String toPLace= URLEncoder.encode(mToPlace,"UTF-8");
-        String url ="http://Kaalivandi.com/MobileApp/BookOnDemand?" +
-                "CustomerName="+userid+"&CustomerPhoneNumber="+mPhone+
-                "&From="+fromURL+"&To="+toPLace+"&VehicleType="+vehicleType+
-                "&KM="+distance+"&EstimatedFare="+fare;
+        String fromURL = URLEncoder.encode(mFromPlace, "UTF-8");
+        String toPLace = URLEncoder.encode(mToPlace, "UTF-8");
+        String url = "http://Kaalivandi.com/MobileApp/BookOnDemand?" +
+                "CustomerName=" + userid + "&CustomerPhoneNumber=" + mPhone +
+                "&From=" + fromURL + "&To=" + toPLace + "&VehicleType=" + vehicleType +
+                "&KM=" + distance + "&EstimatedFare=" + fare;
 
-        Log.d(TAG, "finalConfirm: "+url);
+        Log.d(TAG, "finalConfirm: " + url);
         StringRequest mRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                Log.d(TAG, "onResponse: "+response);
-                if (response.equals("\"True\"")){
-                   //show user that it has been booked
-                    ShowBooked(fare,distance,userid,mPhone,mFromPlace,mToPlace);
-                    SendSMS(userid,mPhone);
+                Log.d(TAG, "onResponse: " + response);
+                if (response.equals("\"True\"")) {
+                    //show user that it has been booked
+                    ShowBooked(fare, distance, userid, mPhone, mFromPlace, mToPlace);
+                    SendSMS(userid, mPhone,mFromPlace,mToPlace);
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Snackbar sn = Snackbar.make(mView,"Please Make Sure you have an active internet Connection",Snackbar.LENGTH_SHORT);
+                Snackbar sn = Snackbar.make(mView, "Please Make Sure you have an active internet Connection", Snackbar.LENGTH_SHORT);
                 sn.show();
-                if(!b.isEnabled()){
+                if (!b.isEnabled()) {
                     b.setEnabled(true);
                 }
             }
         });
 
 
-
         //send Message to Both customer and driver
-
 
 
         mRequestQueue.addTokaalivandiQueue(mRequest);
@@ -609,71 +573,28 @@ public class BookNowFragment extends Fragment {
         if (mBottomSheet.isSheetShowing()) {
             mBottomSheet.dismissSheet();
         }
-        View v = LayoutInflater.from(getContext()).inflate(R.layout.booked, (ViewGroup) mView,false);
+        View v = LayoutInflater.from(getContext()).inflate(R.layout.booked, (ViewGroup) mView, false);
         mBottomSheet.showWithSheetView(v);
-        TitleTextView from_text = (TitleTextView)v.findViewById(R.id.booked_from_text);
+        TitleTextView from_text = (TitleTextView) v.findViewById(R.id.booked_from_text);
         from_text.setText(mFromPlace);
-        TitleTextView to_text = (TitleTextView)v.findViewById(R.id.booked_to_text);
+        TitleTextView to_text = (TitleTextView) v.findViewById(R.id.booked_to_text);
         to_text.setText(mToPlace);
-        TitleTextView rate_text = (TitleTextView)v.findViewById(R.id.booked_rate_text);
+        TitleTextView rate_text = (TitleTextView) v.findViewById(R.id.booked_rate_text);
         rate_text.setText(fare);
-        TitleTextView phone_number = (TitleTextView)v.findViewById(R.id.booked_phone_number_text);
+        TitleTextView phone_number = (TitleTextView) v.findViewById(R.id.booked_phone_number_text);
         phone_number.setText(mPhone);
-        TitleTextView usernname = (TitleTextView)v.findViewById(R.id.booked_user_name_text);
+        TitleTextView usernname = (TitleTextView) v.findViewById(R.id.booked_user_name_text);
         usernname.setText(userid);
 
     }
 
-    private void SendSMS(String userid, String mPhone) {
+    private void SendSMS(String userid, String mPhone, String mFromPlace, String mToPlace) {
 
-        try {
-            Log.d(TAG, "Constructing link");
-
-            String user = "username=" + URLEncoder.encode("nandhu12195@gmail.com", "UTF-8");
-            String hash = "&hash=" + URLEncoder.encode("d28037624ea694bee8ff95719bf8995bedde1585", "UTF-8");
-            String pass = "&password="+URLEncoder.encode("Jabberwock12","UTF-8");
-            String MessageBody = "New Booking \n From :"+mFromPlace+" \n To: "+mToPlace+ " User Name :"+userid+" \n User Phone number :"+mPhone;
-            String message = "&message=" + URLEncoder.encode(MessageBody, "UTF-8");
-            final String sender = "&sender=" + URLEncoder.encode("Kaalivandi", "UTF-8");
-            String numbers = "&numbers=" + URLEncoder.encode("919688612122", "UTF-8");
-
-            // Construct data
-
-            // Send data
-            String data = "http://api.txtlocal.com/send?" + user + pass + numbers + message + sender;
-
-            Log.d(TAG, "SendSMS:  URL "+data);
-
-            StringRequest mMsg = new StringRequest(Request.Method.GET, data, new Response.Listener<String>() {
-                @Override
-                public void onResponse(String response) {
-                    try {
-                        Log.d(TAG, "onResponse: "+response);
-
-
-                    }
-                    catch (Exception e ){
-                        Log.d(TAG, "onResponse: Exceoptin");
-                    }
-                }
-            }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    Snackbar sn = Snackbar.make(mView,"Please Make Sure you have an active Internet Connection",Snackbar.LENGTH_SHORT);
-                    sn.show();
-                }
-            });
-            mRequestQueue.addTokaalivandiQueue(mMsg);
-
-        }
-        catch (Exception e ){
-            Snackbar sn = Snackbar.make(mView,"Please Try booking Again, Some Error occured",Snackbar.LENGTH_SHORT);
-            sn.show();
-        }
+        new SmsAsync(userid, mPhone,mFromPlace,mToPlace).execute();
     }
 
     private void showStatus() {
-        Snackbar sn = Snackbar.make(mView,"Booked Order, please wait",Snackbar.LENGTH_SHORT);
+        Snackbar sn = Snackbar.make(mView, "Booked Order, please wait", Snackbar.LENGTH_SHORT);
         sn.show();
     }
 
@@ -705,11 +626,58 @@ public class BookNowFragment extends Fragment {
     }
 
 
-
-
-
-
-    public interface Kaalivandi{
+    public interface Kaalivandi {
         void booked();
+    }
+}
+
+ class SmsAsync extends AsyncTask<Void, Void, Void> {
+
+    private String user;
+    private String phone;
+     private String mFrom;
+     private String mTo;
+
+    public SmsAsync(String userid, String mPhone, String mFromPlace, String mToPlace) {
+    this.user = userid;
+
+        this.phone = mPhone;
+        this.mFrom = mFromPlace;
+        this.mTo  = mToPlace;
+    }
+
+    @Override
+    protected Void doInBackground(Void... params) {
+        String user = "username=" + "nandhu12195@gmail.com";
+        String hash = "&hash=" + "d28037624ea694bee8ff95719bf8995bedde1585";
+        String api = "&apiKey=" + "A3kqyA4v4UA-6aqjTecsmcr7AhtnB1m1taU4ee8ywG";
+        String Message = "New Booking"+"From : "+mFrom+"  To :  "+mTo+ "  Cusotmer Name "+user+ " Phone number : "+phone;
+        String message = "&message=" + Message;
+        String sender = "&sender=" + "TXTLCL";
+        String numbers = "&numbers=" + "918675753534";
+        try {
+
+            // Send data
+            HttpURLConnection conn = (HttpURLConnection) new URL("http://api.textlocal.in/send/?").openConnection();
+            String data = user + hash + api + numbers + message + sender;
+            conn.setDoOutput(true);
+            conn.setRequestMethod("POST");
+            conn.setRequestProperty("Content-Length", Integer.toString(data.length()));
+            conn.getOutputStream().write(data.getBytes("UTF-8"));
+            final BufferedReader rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+            final StringBuffer stringBuffer = new StringBuffer();
+            String line;
+            while ((line = rd.readLine()) != null) {
+                stringBuffer.append(line);
+            }
+            rd.close();
+
+            Log.d("Async", "doInBackground: " + stringBuffer.toString());
+        } catch (Exception e) {
+            Log.d("Async", "doInBackground: ");
+
+        }
+
+        return null;
     }
 }

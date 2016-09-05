@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
+
 <com.flipboard.bottomsheet.BottomSheetLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/bottomsheet"
@@ -90,8 +91,8 @@
         android:id="@+id/book_now_button"
         android:background="@drawable/register_button_background"
         android:text="Get Fare"
-        android:layout_marginBottom="32dp"
         android:layout_alignParentBottom="true"
+        android:layout_marginBottom="@dimen/bottom_margin_button"
         android:layout_alignLeft="@+id/from_text"
         android:layout_alignStart="@+id/from_text"
         android:layout_alignParentRight="true"

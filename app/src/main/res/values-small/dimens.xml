@@ -27,6 +27,7 @@
     <dimen name="button_width">150dp</dimen>
     <dimen name="book_text_margin_top">4dp</dimen>
     <dimen name="button_margin_top">20dp</dimen>
-    <dimen name="book_text_margin_top2">40dp</dimen>
+    <dimen name="book_text_margin_top2">20dp</dimen>
     <dimen name="sheet_km_margin">40dp</dimen>
+    <dimen name="bottom_margin_button">8dp</dimen>
 </resources>
