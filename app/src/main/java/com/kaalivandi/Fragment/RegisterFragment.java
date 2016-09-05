@@ -10,12 +10,17 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.animation.FastOutLinearInInterpolator;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateDecelerateInterpolator;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.AnticipateOvershootInterpolator;
+import android.view.animation.LinearInterpolator;
+import android.view.animation.OvershootInterpolator;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -104,10 +109,8 @@ public class  RegisterFragment extends Fragment {
             mSubTitle.setTypeface(tf2);
             mRegisterButton.setTypeface(tf2);
         }
-        mTitle.setTextScaleX(0);
 
-        mTitle.animate().scaleX(1).setDuration(400).setInterpolator(new AccelerateDecelerateInterpolator())
-                .start();
+        introAnimations();
 
 
 
@@ -135,6 +138,29 @@ public class  RegisterFragment extends Fragment {
             }
         });
         return mView;
+    }
+
+    private void introAnimations() {
+        mTitle.setScaleX(0);
+
+        mTitle.animate().scaleX(1).setDuration(400).setInterpolator(new AccelerateDecelerateInterpolator())
+                .start();
+
+        muserNameBox.setScaleX(0);
+        mEmailBox.setScaleX(0);
+       mPhoneBox.setScaleX(0);
+        mPassBox.setScaleX(0);
+
+        mRePassBox.setScaleX(0);
+        mRegisterButton.setScaleX(0);
+        muserNameBox.animate().scaleX(1).scaleX(1).setInterpolator(new FastOutLinearInInterpolator()).setDuration(300).setStartDelay(400).start();
+        mEmailBox.animate().scaleX(1).scaleX(1).setInterpolator(new FastOutLinearInInterpolator()).setDuration(300).setStartDelay(500).start();
+        mPhoneBox.animate().scaleX(1).scaleX(1).setInterpolator(new FastOutLinearInInterpolator()).setDuration(300).setStartDelay(600).start();
+        mPassBox.animate().scaleX(1).scaleX(1).setInterpolator(new FastOutLinearInInterpolator()).setDuration(300).setStartDelay(700).start();
+        mRePassBox.animate().scaleX(1).scaleX(1).setInterpolator(new FastOutLinearInInterpolator()).setDuration(300).setStartDelay(800).start();
+        mRegisterButton.animate().scaleX(1).scaleX(1).setInterpolator(new FastOutLinearInInterpolator()).setDuration(300).setStartDelay(900).start();
+
+
     }
 
     private void register(final String muser, final String mPass, final String mPhone, final String mEmail) {

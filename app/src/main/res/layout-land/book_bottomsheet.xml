@@ -20,7 +20,7 @@
         android:layout_height="40dp"
         android:text="Confirm Booking"
         android:background="@drawable/register_button_background"
-        android:id="@+id/bottom_button"
+        android:id="@+id/bottom_confirm_button"
         android:layout_marginBottom="20dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"

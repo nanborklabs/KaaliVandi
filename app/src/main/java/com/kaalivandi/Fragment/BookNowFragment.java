@@ -7,13 +7,10 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.AssetManager;
 import android.graphics.Typeface;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -28,7 +25,6 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
-import com.balysv.materialripple.MaterialRippleLayout;
 import com.flipboard.bottomsheet.BottomSheetLayout;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlacePicker;
@@ -39,11 +35,13 @@ import com.kaalivandi.Network.KaalivandRequestQueue;
 import com.kaalivandi.Prefs.MyPrefs;
 import com.kaalivandi.R;
 import com.kaalivandi.UI.FontCache;
+import com.kaalivandi.UI.TitleTextView;
 import com.kaalivandi.Utils;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
 import butterknife.BindView;
@@ -495,19 +493,24 @@ public class BookNowFragment extends Fragment {
     private void confirmOrder(final String fare, final String distance) {
         Log.d(TAG, "confirmOrder: ");
 
+        MyPrefs myPrefs = new MyPrefs(getContext());
+        final String userid= "Hi "+ myPrefs.getUserId();
+        final String mPhone = myPrefs.getPhoneNumber();
         View v = LayoutInflater.from(getContext()).inflate(R.layout.book_bottomsheet, (ViewGroup) mView,false);
         if (v!=null){
             mBottomSheet.showWithSheetView(v);
-
-            Button b = (Button)v.findViewById(R.id.bottom_button);
-            TextView from =(TextView)v.findViewById(R.id.from_place_text);
-            TextView to =(TextView)v.findViewById(R.id.to_place_text);
-            TextView rate =(TextView)v.findViewById(R.id.rate_display);
-            TextView km =(TextView)v.findViewById(R.id.kms_display);
+            TitleTextView muserText = (TitleTextView)v.findViewById(R.id.bottom_user);
+            TitleTextView mRateText = (TitleTextView)v.findViewById(R.id.bottom_rate_text);
+            final Button b = (Button)v.findViewById(R.id.bottom_confirm_button);
+            TitleTextView from =(TitleTextView) v.findViewById(R.id.bottom_from_text_view);
+            TitleTextView to =(TitleTextView) v.findViewById(R.id.bottom_to_text);
+            TitleTextView km = (TitleTextView)v.findViewById(R.id.bottom_kms_display);
             from.setText(mFromPlace);
+            muserText.setText(userid);
+
             to.setText(mToPlace);
-            if (rate!=null){
-                rate.setText(fare);
+            if (mRateText!=null){
+                mRateText.setText(fare);
             }
 
             km.setText(distance);
@@ -517,7 +520,32 @@ public class BookNowFragment extends Fragment {
                 b.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        finalConfirm(fare,distance);
+                        b.setEnabled(false);
+                        try {
+                            finalConfirm(fare,distance,b);
+                        } catch (UnsupportedEncodingException e) {
+                           AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                            builder.setTitle("Could Not Place Order");
+                            if(!b.isEnabled()){
+                                b.setEnabled(true);
+                            }
+                            builder.setMessage("Would you like to Place Order Via Phone?");
+                            builder.setPositiveButton("CALL", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+
+                                }
+                            });
+                            builder.setNegativeButton("NO THANKS", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+
+                                }
+                            });
+
+                            builder.show();
+                        }
                     }
                 });
             }
@@ -528,13 +556,15 @@ public class BookNowFragment extends Fragment {
 
     }
 
-    private void finalConfirm(String fare, String distance) {
+    private void finalConfirm(String fare, String distance, final Button b) throws UnsupportedEncodingException {
         MyPrefs myPrefs = new MyPrefs(getContext());
         final String userid= myPrefs.getUserId();
         final String mPhone = myPrefs.getPhoneNumber();
+        String fromURL = URLEncoder.encode(mFromPlace,"UTF-8");
+        String toPLace= URLEncoder.encode(mToPlace,"UTF-8");
         String url ="http://Kaalivandi.com/MobileApp/BookOnDemand?" +
                 "CustomerName="+userid+"&CustomerPhoneNumber="+mPhone+
-                "&From="+mFromPlace+"&To="+mToPlace+"&VehicleType="+vehicleType+
+                "&From="+fromURL+"&To="+toPLace+"&VehicleType="+vehicleType+
                 "&KM="+distance+"&EstimatedFare="+fare;
 
         Log.d(TAG, "finalConfirm: "+url);
@@ -553,6 +583,9 @@ public class BookNowFragment extends Fragment {
             public void onErrorResponse(VolleyError error) {
                 Snackbar sn = Snackbar.make(mView,"Please Make Sure you have an active internet Connection",Snackbar.LENGTH_SHORT);
                 sn.show();
+                if(!b.isEnabled()){
+                    b.setEnabled(true);
+                }
             }
         });
 
@@ -567,6 +600,11 @@ public class BookNowFragment extends Fragment {
 
     private void ShowBooked() {
 
+        if (mBottomSheet.isSheetShowing()) {
+            mBottomSheet.dismissSheet();
+        }
+        View v = LayoutInflater.from(getContext()).inflate(R.layout.booked, (ViewGroup) mView,false);
+        mBottomSheet.showWithSheetView(v);
     }
 
     private void SendSMS(String userid, String mPhone) {
