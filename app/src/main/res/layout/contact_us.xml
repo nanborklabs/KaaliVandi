@@ -20,9 +20,9 @@
         android:layout_width="match_parent"
         style="@style/term_text_style"
         android:layout_height="50dp"
-        android:text="1.KaaliVandi Pricing is not Applicable to House Shifting"
+        android:text="1. KaaliVandi Pricing is not Applicable to House Shifting"
         android:layout_marginTop="16dp"
-        android:layout_weight="0.10" />
+        />
     <com.kaalivandi.UI.TitleTextView
         android:layout_width="match_parent"
         android:layout_height="50dp"
@@ -43,10 +43,11 @@
         />
     <com.kaalivandi.UI.TitleTextView
         android:layout_width="match_parent"
-        android:layout_height="72dp"
+        android:layout_height="80dp"
         style="@style/term_text_style"
-        android:text="5.Loading Capacity of TATA ACE is 900KG and PICKUP is 1.1 Ton,exceeding of weight is considered as ILLEGAL"
-        android:layout_weight="0.09"
+        android:text="5.Loading Capacity of TATA ACE is 900KG and
+     PICKUP is 1.1 Ton,exceeding of weight is  considered as ILLEGAL"
+
         android:singleLine="false" />
     <com.kaalivandi.UI.TitleTextView
         android:layout_width="match_parent"
@@ -59,11 +60,14 @@
         android:layout_height="80dp"
 
         style="@style/term_text_style"
-        android:text="7.You will not be shipping goods that are classified as dangerous as per ICAO T.I., IATA DGR, IMDG-Code, ADR or other national regulations for transport."
+        android:text=" 7.You will not be shipping goods
+        that are classified as dangerous as per
+        ICAO T.I, IATA DGR, IMDG-Code, ADR or other
+        national regulations for transport."
 
-        android:ellipsize="none"
-        android:elegantTextHeight="false"
-        android:autoText="false" />
+
+
+       />
     <com.kaalivandi.UI.TitleTextView
         android:layout_width="match_parent"
         android:layout_height="80dp"
@@ -71,11 +75,13 @@
         android:text="8.You will not be shipping any goods or materials that is prohibited by any Law, Rule or Regulation of India."
         />
     <com.kaalivandi.UI.TitleTextView
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         style="@style/term_text_style"
-        android:text="This agreement applies to user(s) if user(s) are visitors, registered - free or paid user(s) who access the web site for any purpose. It also applies to any legal entity which may be represented by you under actual or apparent authority. User(s) may use this site solely for their own personal or internal purposes. This agreement applies to all GoGo Truck Services offered on the web site, collectively with any additional terms and condition that may be applicable to the specific service used/accessed by user(s).In the event of a conflict or inconsistency between any provision of the terms and conditions mentioned herein with those of the particular service, the provisions of the terms and conditions applicable to such specific Services shall prevail. AMENDMENT TO USER(S) AGREEMENT GoGo Truck may change, modify, amend, or update this agreement from time to time without any prior notification to user(s) and the amended and restated terms and conditions of use shall be effective immediately on posting. If you do not adhere to the changes, you must stop using the service. Your continuous use of the Services will signify your acceptance of the changed terms"
-        android:typeface="monospace" />
+        android:singleLine="false"
+        android:text="@string/terms"
+        android:typeface="monospace"
+       />
 
 </LinearLayout>
 </ScrollView>

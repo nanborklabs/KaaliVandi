@@ -12,7 +12,7 @@
 
 
 
-    <TextView
+    <com.kaalivandi.UI.TitleTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
@@ -34,12 +34,12 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_marginTop="8dp"
-        android:textColor="@color/abc_input_method_navigation_guard"
+        android:textColor="#FFEBEE"
         android:textSize="22sp"
         android:layout_marginRight="16dp"
         android:layout_marginLeft="16dp" />
 
-    <TextView
+    <com.kaalivandi.UI.TitleTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
@@ -60,12 +60,12 @@
         android:layout_below="@+id/about_motto"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:textColor="@color/abc_input_method_navigation_guard"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
-        android:textSize="22sp" />
+        android:textSize="22sp"
+        android:textColor="#FFEBEE" />
 
-    <TextView
+    <com.kaalivandi.UI.TitleTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
@@ -86,7 +86,7 @@
         android:layout_below="@+id/about_y_kaali"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:textColor="@color/abc_input_method_navigation_guard"
+        android:textColor="#FFEBEE"
         android:layout_marginRight="16dp"
         android:layout_marginLeft="16dp"
         android:textSize="22sp" />

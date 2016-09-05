@@ -520,7 +520,10 @@ public class BookNowFragment extends Fragment {
                 b.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        b.setEnabled(false);
+                        if(b.isEnabled()){
+                            b.setEnabled(false);
+                        }
+
                         try {
                             finalConfirm(fare,distance,b);
                         } catch (UnsupportedEncodingException e) {
@@ -605,6 +608,12 @@ public class BookNowFragment extends Fragment {
         }
         View v = LayoutInflater.from(getContext()).inflate(R.layout.booked, (ViewGroup) mView,false);
         mBottomSheet.showWithSheetView(v);
+        TitleTextView from_text = (TitleTextView)v.findViewById(R.id.booked_from_text);
+        TitleTextView to_text = (TitleTextView)v.findViewById(R.id.booked_to_text);
+        TitleTextView rate_text = (TitleTextView)v.findViewById(R.id.booked_rate_text);
+        TitleTextView phone_number = (TitleTextView)v.findViewById(R.id.booked_phone_number_text);
+        TitleTextView usernname = (TitleTextView)v.findViewById(R.id.booked_user_name_text);
+
     }
 
     private void SendSMS(String userid, String mPhone) {

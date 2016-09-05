@@ -16,10 +16,8 @@
         android:title="Terms &amp; condition"
         app:showAsAction="never" />
     <item
-        android:id="@+id/share"
+        android:id="@+id/contactus"
         android:orderInCategory="400"
-        android:title="Share App"
-        android:actionProviderClass=
-            "android.widget.ShareActionProvider"
-        app:showAsAction="never"/>
+        android:title="COntact Us"
+       />
 </menu>

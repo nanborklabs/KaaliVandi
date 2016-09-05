@@ -1,9 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
+<RelativeLayout    android:layout_width="match_parent"
+android:layout_height="match_parent">
+
+    <com.kaalivandi.UI.TitleTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
@@ -12,21 +17,39 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="52dp" />
+    <View
+        android:layout_width="100dp"
+        android:layout_height="4dp"
 
-    <TextView
+        android:background="@drawable/divider_draw"
+        android:id="@+id/view2"
+
+        android:layout_alignLeft="@+id/textView16"
+        android:layout_alignStart="@+id/textView16"
+        android:layout_below="@+id/textView16"
+        android:layout_alignRight="@+id/textView16"
+        android:layout_alignEnd="@+id/textView16"
+        android:layout_marginTop="4dp" />
+
+    <com.kaalivandi.UI.TitleTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Booking details are"
+        android:text="Booking Details are"
         android:id="@+id/textView17"
-        android:layout_below="@+id/textView16"
+        android:layout_below="@+id/imageView4"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="43dp" />
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="16dp" />
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
-        android:layout_below="@id/textView17"
-        android:layout_height="250dp">
+        android:layout_below="@+id/textView24"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="32dp"
+        android:layout_height="280dp"
+        android:id="@+id/view4">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -34,57 +57,134 @@
      >
 
 
-        <TextView
+        <com.kaalivandi.UI.TitleTextView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="User Name"
-            android:id="@+id/textView18"
-            android:layout_alignParentTop="true"
+            android:id="@+id/booked_user_name_text"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
+            android:layout_alignParentStart="true"
+            android:layout_marginLeft="16dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignRight="@+id/booked_from_text"
+            android:layout_alignEnd="@+id/booked_from_text"
+            android:layout_marginTop="4dp" />
 
-        <TextView
+        <com.kaalivandi.UI.TitleTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="From"
             android:id="@+id/textView19"
-            android:layout_below="@+id/textView18"
+            android:layout_above="@+id/booked_from_text"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
+            android:layout_alignParentStart="true"
+            android:layout_marginLeft="32dp" />
 
-        <TextView
+        <com.kaalivandi.UI.TitleTextView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="60dp"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="Large Text"
-            android:id="@+id/textView20"
-            android:layout_below="@+id/textView19"
+            android:id="@+id/booked_from_text"
+            android:layout_centerVertical="true"
             android:layout_toRightOf="@+id/textView19"
-            android:layout_toEndOf="@+id/textView19" />
+            android:paddingTop="2dp"
+            android:paddingLeft="4dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginRight="8dp" />
 
-        <TextView
+        <com.kaalivandi.UI.TitleTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="To"
             android:id="@+id/textView21"
-            android:layout_below="@+id/textView20"
+            android:layout_below="@+id/booked_from_text"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
+            android:layout_alignParentStart="true"
+            android:layout_marginLeft="32dp"
+            android:layout_marginTop="20dp" />
 
-        <TextView
+        <com.kaalivandi.UI.TitleTextView
+            android:layout_width="wrap_content"
+            android:layout_height="60dp"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="To"
+            android:id="@+id/booked_to_text"
+            android:layout_alignLeft="@+id/booked_from_text"
+            android:layout_alignStart="@+id/booked_from_text"
+            android:paddingLeft="4dp"
+            android:paddingTop="2dp"
+            android:layout_below="@+id/textView21"
+            android:layout_alignRight="@+id/booked_from_text"
+            android:layout_alignEnd="@+id/booked_from_text"
+            android:layout_marginRight="8dp" />
+
+        <com.kaalivandi.UI.TitleTextView
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="phone  number"
+            android:id="@+id/booked_phone_number_text"
+            android:layout_below="@+id/booked_user_name_text"
+            android:layout_alignLeft="@+id/booked_user_name_text"
+            android:layout_alignStart="@+id/booked_user_name_text"
+            android:layout_toLeftOf="@+id/booked_rate_text"
+            android:layout_toStartOf="@+id/booked_rate_text" />
+
+        <com.kaalivandi.UI.TitleTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="To"
-            android:id="@+id/textView22"
-            android:layout_below="@+id/textView21"
-            android:layout_alignLeft="@+id/textView20"
-            android:layout_alignStart="@+id/textView20" />
+            android:text="Large Text"
+            android:gravity="right"
+            android:id="@+id/booked_rate_text"
+            android:layout_above="@+id/textView19"
+            android:layout_below="@+id/booked_user_name_text"
+            android:layout_alignRight="@+id/booked_to_text"
+            android:layout_alignEnd="@+id/booked_to_text" />
     </RelativeLayout>
     </android.support.v7.widget.CardView>
 
-    </RelativeLayout>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:text="BOOk ANOTHER"
+        android:id="@+id/button2"
+        android:background="@drawable/register_button_background"
+        android:layout_alignLeft="@+id/view4"
+        android:layout_alignStart="@+id/view4"
+        android:layout_alignRight="@+id/view4"
+        android:layout_alignEnd="@+id/view4"
+        android:layout_below="@+id/view4"
+        android:layout_marginTop="32dp" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageView4"
+        app:srcCompat ="@drawable/truck1"
+        android:layout_below="@+id/view2"
+        android:layout_alignLeft="@+id/textView17"
+        android:layout_alignStart="@+id/textView17"
+        android:layout_alignRight="@+id/view4"
+        android:layout_alignEnd="@+id/view4"
+        android:layout_marginTop="8dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="we will contact within 5 minutes , thank you for  using Kaalivnadi"
+        android:id="@+id/textView24"
+        android:layout_below="@+id/textView17"
+        android:layout_alignLeft="@+id/view4"
+        android:layout_alignStart="@+id/view4"
+        android:layout_marginTop="4dp"
+        android:layout_marginRight="12dp" />
+
 </RelativeLayout>
+</ScrollView>
