@@ -658,6 +658,7 @@ public class BookNowFragment extends Fragment {
      private String mFrom;
      private String mTo;
 
+
     public SmsAsync(String userid, String mPhone, String mFromPlace, String mToPlace) {
     this.user = userid;
 
