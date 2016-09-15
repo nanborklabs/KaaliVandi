@@ -158,7 +158,7 @@ public class BookNowFragment extends Fragment {
                 //get the place form Intent { @param data}
                 Place selectedPlace = PlacePicker.getPlace(getContext(), data);
                 //set the Textfields to place name
-                mFrom.setText(selectedPlace.getName());
+                mFrom.setText(selectedPlace.getAddress());
 
                 //get the posoition
                 origin_Lat = selectedPlace.getLatLng().latitude;
@@ -183,7 +183,7 @@ public class BookNowFragment extends Fragment {
                 Place selePlace = PlacePicker.getPlace(getContext(), data);
 
                 //set textfiels and update globals
-                mTo.setText(selePlace.getName());
+                mTo.setText(selePlace.getAddress());
                 mToPlace = (String) selePlace.getAddress();
                 dest_Lat = selePlace.getLatLng().latitude;
                 dest_Lon = selePlace.getLatLng().longitude;
@@ -220,28 +220,34 @@ public class BookNowFragment extends Fragment {
         LatLng mnorht = new LatLng(11.7, 76.94);
 
         //Bottom of text
-        mTo.setTranslationY(Utils.getScreenHeight(getContext()));
-        mTo.animate().setDuration(1200).translationY(0)
-                .setInterpolator(new AccelerateDecelerateInterpolator())
-                .start();
-        mToText.setTranslationY(Utils.getScreenHeight(getContext()));
-        mToText.animate().translationY(0)
-                .setDuration(1200)
-                .setInterpolator(new AccelerateDecelerateInterpolator())
-                .start();
-        //Top of Textview
-        mFrom.setTranslationY(-Utils.getScreenHeight(getContext()));
-        mFrom.animate().setDuration(1200).translationY(0)
-                .setInterpolator(new AccelerateDecelerateInterpolator())
-                .start();
-        mFromText.setTranslationY(-Utils.getScreenHeight(getContext()));
-        mFromText.animate().setDuration(1200).translationY(0)
-                .setInterpolator(new AccelerateDecelerateInterpolator())
-                .start();
-        mBookButton.setTranslationX(Utils.getScreenWidth(getContext()));
-        mBookButton.animate().translationX(0).setDuration(400).setStartDelay(1000)
-                .setInterpolator(new AccelerateDecelerateInterpolator())
-                .start();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                mTo.setTranslationY(Utils.getScreenHeight(getContext()));
+                mTo.animate().setDuration(1200).translationY(0)
+                        .setInterpolator(new AccelerateDecelerateInterpolator())
+                        .start();
+                mToText.setTranslationY(Utils.getScreenHeight(getContext()));
+                mToText.animate().translationY(0)
+                        .setDuration(1200)
+                        .setInterpolator(new AccelerateDecelerateInterpolator())
+                        .start();
+                //Top of Textview
+                mFrom.setTranslationY(-Utils.getScreenHeight(getContext()));
+                mFrom.animate().setDuration(1200).translationY(0)
+                        .setInterpolator(new AccelerateDecelerateInterpolator())
+                        .start();
+                mFromText.setTranslationY(-Utils.getScreenHeight(getContext()));
+                mFromText.animate().setDuration(1200).translationY(0)
+                        .setInterpolator(new AccelerateDecelerateInterpolator())
+                        .start();
+                mBookButton.setTranslationX(Utils.getScreenWidth(getContext()));
+                mBookButton.animate().translationX(0).setDuration(400).setStartDelay(1000)
+                        .setInterpolator(new AccelerateDecelerateInterpolator())
+                        .start();
+            }
+        }).start();
+
 
         final LatLngBounds mBounds = new LatLngBounds(msouth, mnorht);
 
@@ -329,7 +335,7 @@ public class BookNowFragment extends Fragment {
     private void sendRequest() {
 
         mDialog.setIndeterminate(true);
-        mDialog.setMessage("Please wait while confirming your order");
+        mDialog.setMessage("Please wait while Getting Information");
         mDialog.show();
 
         String url = "https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&origins=" + origin_Lat + ","
@@ -354,6 +360,7 @@ public class BookNowFragment extends Fragment {
                         mdistance = mdistance.replace(" km", "");
                         mdistance = mdistance.trim();
                         distance = mdistance;
+                        Log.d(TAG, "onResponse: "+distance);
                         getRate(distance);
 
 
@@ -439,7 +446,10 @@ public class BookNowFragment extends Fragment {
                 //rate has been Received ,
 
                 Log.d(TAG, "onResponse: from server " + response);
-                mDialog.dismiss();
+                if (mDialog.isShowing()){
+                    mDialog.dismiss();
+                }
+
                 String fare = response.replace("\"", "");
                 Log.d(TAG, "fare " + fare);
 
@@ -464,12 +474,22 @@ public class BookNowFragment extends Fragment {
     private void confirmOrder(final String fare, final String distance) {
         Log.d(TAG, "confirmOrder: ");
 
+        String userid =null;
         MyPrefs myPrefs = new MyPrefs(getContext());
-        final String userid = "Hi " + myPrefs.getUserId();
+        String username  = myPrefs.getUserId();
+        if (!username.equals("null")){
+              userid = "Hi " + username;
+        }
+        else{
+             userid = "Hi.."
+        }
+
         final String mPhone = myPrefs.getPhoneNumber();
         View v = LayoutInflater.from(getContext()).inflate(R.layout.book_bottomsheet, (ViewGroup) mView, false);
         if (v != null) {
             mBottomSheet.showWithSheetView(v);
+
+            // get a handle to view Ref's
             TitleTextView muserText = (TitleTextView) v.findViewById(R.id.bottom_user);
             TitleTextView mRateText = (TitleTextView) v.findViewById(R.id.bottom_rate_text);
             final Button b = (Button) v.findViewById(R.id.bottom_confirm_button);
@@ -651,7 +671,7 @@ public class BookNowFragment extends Fragment {
         String user = "username=" + "nandhu12195@gmail.com";
         String hash = "&hash=" + "d28037624ea694bee8ff95719bf8995bedde1585";
         String api = "&apiKey=" + "A3kqyA4v4UA-6aqjTecsmcr7AhtnB1m1taU4ee8ywG";
-        String Message = "New Booking"+"From : "+mFrom+"  To :  "+mTo+ "  Cusotmer Name "+user+ " Phone number : "+phone;
+        String Message = "New Booking    "+"From : "+mFrom+"  To :  "+mTo+ "  Cusotmer Name "+user+ " Phone number : "+phone;
         String message = "&message=" + Message;
         String sender = "&sender=" + "TXTLCL";
         String numbers = "&numbers=" + "918675753534";
