@@ -44,7 +44,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Minimum charge - 99Rs"
+        android:text="Minimum charge - \u20B9 249"
         android:id="@+id/textView6"
         android:layout_below="@+id/rate_title"
         android:layout_alignLeft="@+id/rate_title"
@@ -80,7 +80,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="5 km trip woudl be caluclated as follows"
+        android:text="A 7 km trip would be caluclated as follows"
         android:id="@+id/textView9"
         android:layout_marginTop="12dp"
         android:layout_below="@+id/textView8"
@@ -92,7 +92,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance ="?android:attr/textAppearanceMedium"
-        android:text="for 1 km = \u20B9 99"
+        android:text="for 5 km = \u20B9  249"
         android:id="@+id/textView4"
         android:layout_below="@+id/textView9"
         android:layout_alignParentLeft="true"
@@ -118,7 +118,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Total Rs= 99+72 = \u20B9171"
+        android:text="Total Rs= 249+36 = \u20B9 285"
         android:id="@+id/textView11"
         android:layout_below="@+id/textView10"
         android:layout_alignParentLeft="true"
@@ -156,7 +156,8 @@
         android:layout_below="@+id/textView13"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
-        android:autoText="true" />
+        android:autoText="true"
+        android:layout_marginBottom="20dp" />
 
 </RelativeLayout>
 </ScrollView>

@@ -88,7 +88,7 @@
 
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="250dp"
         android:layout_alignParentBottom="false"
         android:layout_below="@id/view"
         android:id="@+id/bottom_card"
@@ -130,7 +130,9 @@
                 android:layout_marginRight="16dp"
                 android:layout_above="@+id/textView15"
                 android:gravity="top|left|center_vertical"
-                android:padding="4dp" />
+                android:padding="4dp"
+                android:scrollIndicators="right"
+                android:nestedScrollingEnabled="true" />
 
             <com.kaalivandi.UI.TitleTextView
                 android:layout_width="wrap_content"
@@ -154,7 +156,9 @@
                 android:layout_alignRight="@+id/bottom_from_text_view"
                 android:layout_alignEnd="@+id/bottom_from_text_view"
                 android:layout_alignParentBottom="true"
-                android:layout_marginBottom="16dp" />
+                android:layout_marginBottom="16dp"
+                android:scrollIndicators="right"
+                android:nestedScrollingEnabled="true" />
 
 
         </RelativeLayout>
@@ -222,7 +226,7 @@
     <com.kaalivandi.UI.TitleTextView
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="4dp"
         android:layout_marginLeft="64dp"
         android:layout_marginRight="64dp"
         android:textSize="18sp"
@@ -230,6 +234,7 @@
         android:layout_below="@id/bottom_confirm_button"
         android:text="By Confirming , You agree to Terms &amp; conditions"
         android:layout_alignParentBottom="true"
-        android:id="@+id/terms_text" />
+        android:id="@+id/terms_text"
+        android:layout_marginBottom="20dp" />
 </RelativeLayout>
 </ScrollView>

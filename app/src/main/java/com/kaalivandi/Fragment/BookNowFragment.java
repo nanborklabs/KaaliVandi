@@ -55,7 +55,7 @@ import butterknife.ButterKnife;
 /**
  * Created by user on 18-08-2016.
  */
-public class BookNowFragment extends Fragment {
+public class FBookNowFragment extends Fragment {
     private View mView;
 
 
@@ -501,7 +501,7 @@ public class BookNowFragment extends Fragment {
 
             to.setText(mToPlace);
             if (mRateText != null) {
-                mRateText.setText(fare);
+                mRateText.setText("\\u20B9 "+fare);
             }
 
             km.setText(distance);
@@ -605,6 +605,13 @@ public class BookNowFragment extends Fragment {
         phone_number.setText(mPhone);
         TitleTextView usernname = (TitleTextView) v.findViewById(R.id.booked_user_name_text);
         usernname.setText(userid);
+        Button b = (Button)v.findViewById(R.id.button2);
+        b.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mBottomSheet.dismissSheet();
+            }
+        });
 
     }
 
