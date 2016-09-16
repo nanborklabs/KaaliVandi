@@ -137,7 +137,7 @@ public class  RegisterFragment extends Fragment {
                 mDialog.setIndeterminate(true);
                 mDialog.setTitle("Welcome");
                 mDialog.setMessage("Registering on Kaalivandi Network..");
-                mDialog.show();
+
                final String mPass = mPassBox.getEditText().getText().toString();
                 final String mRepass = mRePassBox.getEditText().getText().toString();
                 if (mPass.equals(mRepass)){
@@ -148,6 +148,7 @@ public class  RegisterFragment extends Fragment {
                             muser  = muser.trim();
                             mPhone = mPhone.trim();
                            mEmail  = mEmail.trim();
+                        mDialog.show();
                         register(muser,mPass,mPhone,mEmail);
                     }
                     else {
@@ -215,18 +216,29 @@ public class  RegisterFragment extends Fragment {
                         mDialog.dismiss();
                     }
                     AlertDialog.Builder alertDialog = new AlertDialog.Builder(getContext());
-                    alertDialog.setMessage("Some Error occurred Please try again");
+                    alertDialog.setTitle("Not Registered");
+                    alertDialog.setMessage("Some Error occurred , Please try again");
+                    alertDialog.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                        }
+                    });
                     alertDialog.show();
 
 
                 }
                 else {
+                    if (mDialog.isShowing()){
+                        mDialog.dismiss();
+                    }
                     AlertDialog.Builder alertDialog = new AlertDialog.Builder(getContext());
-                    alertDialog.setMessage("Some Error occurred Please try again");
+                    alertDialog.setTitle("Not Registered");
+                    alertDialog.setMessage("Some Error occurred , Please try again");
                     alertDialog.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            //Dialog click
+
                         }
                     });
                     alertDialog.show();  mCallback.notRegisterered();
@@ -245,14 +257,15 @@ public class  RegisterFragment extends Fragment {
                 }
 
                 AlertDialog.Builder alertDialog = new AlertDialog.Builder(getContext());
-                alertDialog.setMessage("Some Error occurred Please try again");
-                alertDialog.show();
+                alertDialog.setTitle("Not Registered");
+                alertDialog.setMessage("Some Error occurred , Please try again");
                 alertDialog.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
 
                     }
                 });
+                alertDialog.show();
                 mCallback.notRegisterered();
 
             }
