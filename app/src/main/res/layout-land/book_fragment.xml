@@ -6,6 +6,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
 <RelativeLayout
 
     android:orientation="vertical" android:layout_width="match_parent"
@@ -81,10 +86,36 @@
         android:background="@drawable/register_button_background"
         android:text="Book"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
         android:layout_marginLeft="20dp"
         android:layout_marginBottom="10dp"
-        android:layout_marginRight="20dp" />
+        android:layout_marginRight="20dp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/to_et"
+        android:layout_marginTop="60dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Ride at only 18rs/Km"
+        android:id="@+id/ride_text"
+        android:paddingLeft="8dp"
+        android:layout_below="@+id/to_et"
+        android:layout_alignLeft="@+id/to_et"
+        android:layout_alignStart="@+id/to_et"
+        android:layout_marginTop="12dp"
+        android:visibility="invisible" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="* FIrst 3 kms  @     \u20B9199"
+        android:id="@+id/km_text"
+        android:layout_below="@+id/ride_text"
+        android:layout_alignLeft="@+id/to_et"
+        android:visibility="invisible" />
 
 </RelativeLayout>
+    </android.support.v4.widget.NestedScrollView>
     </com.flipboard.bottomsheet.BottomSheetLayout>

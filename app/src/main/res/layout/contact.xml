@@ -71,26 +71,15 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Phone number : 87"
+        android:text="Phone number : 8675753534"
         android:id="@+id/textView25"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="89dp"
         android:layout_below="@+id/textView23"
         android:layout_alignRight="@+id/textView23"
         android:layout_alignEnd="@+id/textView23"
-        android:textSize="24sp" />
-
-    <com.kaalivandi.UI.TitleTextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="App developed by R.Nandha Kumar"
-        android:id="@+id/textView26"
-        android:layout_gravity="center_horizontal"
-        android:layout_alignParentBottom="false"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@+id/textView25"
-        android:layout_marginTop="18dp" />
+        android:textSize="24sp"
+        android:layout_centerHorizontal="true" />
 
     <com.kaalivandi.UI.TitleTextView
         android:layout_width="wrap_content"
@@ -100,4 +89,14 @@
         android:id="@+id/textView27"
         android:layout_below="@+id/textView5"
         android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="For more Info visit www.kaalivandi.com"
+        android:id="@+id/textView26"
+        android:layout_below="@+id/textView25"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="12dp" />
 </RelativeLayout>

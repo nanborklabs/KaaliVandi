@@ -29,6 +29,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -103,7 +104,7 @@ public class CheckRegistrationFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
             mView = inflater.inflate(R.layout.check_registration,container,false);
-        ButterKnife.bind(this,mView);
+            ButterKnife.bind(this,mView);
 
             //title animation
 
@@ -245,6 +246,9 @@ public class CheckRegistrationFragment extends Fragment {
                     if(mCallback !=null){
                         mCallback.NewMember(mNumber);
                     }
+                }
+                else {
+                    Toast.makeText(getContext(),"Some Error Ocurred , Please Try again After some time",Toast.LENGTH_SHORT).show();
                 }
 
             }

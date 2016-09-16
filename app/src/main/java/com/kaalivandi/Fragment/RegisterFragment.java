@@ -23,6 +23,7 @@ import android.view.animation.LinearInterpolator;
 import android.view.animation.OvershootInterpolator;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -54,6 +55,8 @@ public class  RegisterFragment extends Fragment {
     @BindView(R.id.register_button)
     Button mRegisterButton;
 
+
+    String mNumber = null;
     ProgressDialog mDialog;
 
     private static final String TAG = "REGISTER";
@@ -71,6 +74,9 @@ public class  RegisterFragment extends Fragment {
         super.onCreate(savedInstanceState);
         mRequestQueue =KaalivandRequestQueue.getInstance(getContext());
         mDialog = new ProgressDialog(getContext());
+        if (getArguments()!=null){
+            mNumber = getArguments().getString("Number");
+        }
     }
 
     @Override
@@ -114,6 +120,16 @@ public class  RegisterFragment extends Fragment {
 
 
 
+        if (mNumber!=null){
+            try {
+                mPhoneBox.getEditText().setText(mNumber);
+            }
+            catch (NullPointerException e){
+                mPhoneBox.getEditText().setText("");
+            }
+
+        }
+
 
         mRegisterButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -125,15 +141,27 @@ public class  RegisterFragment extends Fragment {
                final String mPass = mPassBox.getEditText().getText().toString();
                 final String mRepass = mRePassBox.getEditText().getText().toString();
                 if (mPass.equals(mRepass)){
+                    if (mPass.length()>5){
+                         String muser = muserNameBox.getEditText().getText().toString();
+                         String mPhone = mPhoneBox.getEditText().getText().toString();
+                         String mEmail = mEmailBox.getEditText().getText().toString();
+                            muser  = muser.trim();
+                            mPhone = mPhone.trim();
+                           mEmail  = mEmail.trim();
+                        register(muser,mPass,mPhone,mEmail);
+                    }
+                    else {
+                        Toast.makeText(getContext(),"Please Enter more than 5 characters",Toast.LENGTH_SHORT).show();
+                        mPassBox.getEditText().setText("");
+                        mRePassBox.getEditText().setText("");
+                    }
                     //same password procced to register
-                    final String muser = muserNameBox.getEditText().getText().toString();
-                    final String mPhone = mPhoneBox.getEditText().getText().toString();
-                    final String mEmail = mEmailBox.getEditText().getText().toString();
-                    register(muser,mPass,mPhone,mEmail);
+
                 }
                 else {
-                    Snackbar sn = Snackbar.make(mView,"Enter same Password", Snackbar.LENGTH_SHORT);
-                    sn.show();
+                    Toast.makeText(getContext(),"Please Enter Same Password",Toast.LENGTH_SHORT).show();
+                    mPassBox.getEditText().setText("");
+                    mRePassBox.getEditText().setText("");
                 }
             }
         });

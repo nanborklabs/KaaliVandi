@@ -1,5 +1,6 @@
 package com.kaalivandi.Fragment;
 
+import android.animation.Animator;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -18,6 +19,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateDecelerateInterpolator;
+import android.view.animation.LinearInterpolator;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -41,6 +43,7 @@ import com.kaalivandi.Utils;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -55,7 +58,7 @@ import butterknife.ButterKnife;
 /**
  * Created by user on 18-08-2016.
  */
-public class FBookNowFragment extends Fragment {
+public class BookNowFragment extends Fragment {
     private View mView;
 
 
@@ -86,6 +89,13 @@ public class FBookNowFragment extends Fragment {
 
     @BindView(R.id.bottomsheet)
     BottomSheetLayout mBottomSheet;
+
+
+
+    @BindView(R.id.km_text) TitleTextView mKmText;
+
+    @BindView(R.id.ride_text)
+    TitleTextView mRideText;
 
 
     int FROM_PLACE_RESULT = 1;
@@ -220,34 +230,8 @@ public class FBookNowFragment extends Fragment {
         LatLng mnorht = new LatLng(11.7, 76.94);
 
         //Bottom of text
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                mTo.setTranslationY(Utils.getScreenHeight(getContext()));
-                mTo.animate().setDuration(1200).translationY(0)
-                        .setInterpolator(new AccelerateDecelerateInterpolator())
-                        .start();
-                mToText.setTranslationY(Utils.getScreenHeight(getContext()));
-                mToText.animate().translationY(0)
-                        .setDuration(1200)
-                        .setInterpolator(new AccelerateDecelerateInterpolator())
-                        .start();
-                //Top of Textview
-                mFrom.setTranslationY(-Utils.getScreenHeight(getContext()));
-                mFrom.animate().setDuration(1200).translationY(0)
-                        .setInterpolator(new AccelerateDecelerateInterpolator())
-                        .start();
-                mFromText.setTranslationY(-Utils.getScreenHeight(getContext()));
-                mFromText.animate().setDuration(1200).translationY(0)
-                        .setInterpolator(new AccelerateDecelerateInterpolator())
-                        .start();
-                mBookButton.setTranslationX(Utils.getScreenWidth(getContext()));
-                mBookButton.animate().translationX(0).setDuration(400).setStartDelay(1000)
-                        .setInterpolator(new AccelerateDecelerateInterpolator())
-                        .start();
-            }
-        }).start();
 
+               introAnimations();
 
         final LatLngBounds mBounds = new LatLngBounds(msouth, mnorht);
 
@@ -331,6 +315,60 @@ public class FBookNowFragment extends Fragment {
         return mView;
     }
 
+    private void introAnimations() {
+        mTo.setTranslationY(Utils.getScreenHeight(getContext()));
+        mTo.animate().setDuration(1200).translationY(0)
+                .setInterpolator(new AccelerateDecelerateInterpolator())
+                .start();
+        mToText.setTranslationY(Utils.getScreenHeight(getContext()));
+        mToText.animate().translationY(0)
+                .setDuration(1200)
+                .setInterpolator(new AccelerateDecelerateInterpolator())
+                .start();
+
+        //Top of Textview
+        mFrom.setTranslationY(-Utils.getScreenHeight(getContext()));
+        mFrom.animate().setDuration(1200).translationY(0)
+                .setInterpolator(new AccelerateDecelerateInterpolator())
+                .start();
+        mFromText.setTranslationY(-Utils.getScreenHeight(getContext()));
+        mFromText.animate().setDuration(1200).translationY(0)
+                .setInterpolator(new AccelerateDecelerateInterpolator())
+                .start();
+        mBookButton.setTranslationX(Utils.getScreenWidth(getContext()));
+        mBookButton.animate().translationX(0).setDuration(400).setStartDelay(1000)
+                .setInterpolator(new AccelerateDecelerateInterpolator())
+                .setListener(new Animator.AnimatorListener() {
+                    @Override
+                    public void onAnimationStart(Animator animation) {
+
+                    }
+
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        if (mKmText !=null && mRideText !=null){
+                            mKmText.setVisibility(View.VISIBLE);
+                            mRideText.setVisibility(View.VISIBLE);
+                            mKmText.animate().scaleX(1.1f).scaleY(1.1f).setDuration(200).setInterpolator(new LinearInterpolator()).start();
+                            mRideText.animate().scaleX(1.1f).scaleY(1.1f).setDuration(200).setInterpolator(new LinearInterpolator()).start();
+                        }
+                    }
+
+                    @Override
+                    public void onAnimationCancel(Animator animation) {
+
+                    }
+
+                    @Override
+                    public void onAnimationRepeat(Animator animation) {
+
+                    }
+                })
+                .start();
+
+
+    }
+
 
     private void sendRequest() {
 
@@ -357,7 +395,14 @@ public class FBookNowFragment extends Fragment {
                         JSONObject mObject = mArray.getJSONObject(0);
                         JSONObject distnceobjct = mObject.getJSONObject("distance");
                         String mdistance = distnceobjct.getString("text");
-                        mdistance = mdistance.replace(" km", "");
+                        if (mdistance.contains(" km")){
+                            mdistance = mdistance.replace(" km", "");
+                        }
+                        if (mdistance.contains(" m")){
+                            mdistance.replace(" m","");
+
+                        }
+
                         mdistance = mdistance.trim();
                         distance = mdistance;
                         Log.d(TAG, "onResponse: "+distance);
@@ -481,72 +526,78 @@ public class FBookNowFragment extends Fragment {
               userid = "Hi " + username;
         }
         else{
-             userid = "Hi.."
+             userid = "Hi..";
         }
 
-        final String mPhone = myPrefs.getPhoneNumber();
-        View v = LayoutInflater.from(getContext()).inflate(R.layout.book_bottomsheet, (ViewGroup) mView, false);
-        if (v != null) {
-            mBottomSheet.showWithSheetView(v);
+         String mPhone = myPrefs.getPhoneNumber();
+        if (mPhone.equals("null")) {
+            mPhone = "";
+        }
 
-            // get a handle to view Ref's
-            TitleTextView muserText = (TitleTextView) v.findViewById(R.id.bottom_user);
-            TitleTextView mRateText = (TitleTextView) v.findViewById(R.id.bottom_rate_text);
-            final Button b = (Button) v.findViewById(R.id.bottom_confirm_button);
-            TitleTextView from = (TitleTextView) v.findViewById(R.id.bottom_from_text_view);
-            TitleTextView to = (TitleTextView) v.findViewById(R.id.bottom_to_text);
-            TitleTextView km = (TitleTextView) v.findViewById(R.id.bottom_kms_display);
-            from.setText(mFromPlace);
-            muserText.setText(userid);
+            View v = LayoutInflater.from(getContext()).inflate(R.layout.book_bottomsheet, (ViewGroup) mView, false);
+            if (v != null) {
+                mBottomSheet.showWithSheetView(v);
 
-            to.setText(mToPlace);
-            if (mRateText != null) {
-                mRateText.setText("\\u20B9 "+fare);
-            }
+                // get a handle to view Ref's
+                TitleTextView muserText = (TitleTextView) v.findViewById(R.id.bottom_user);
+                TitleTextView mRateText = (TitleTextView) v.findViewById(R.id.bottom_rate_text);
+                final Button b = (Button) v.findViewById(R.id.bottom_confirm_button);
+                TitleTextView from = (TitleTextView) v.findViewById(R.id.bottom_from_text_view);
+                TitleTextView to = (TitleTextView) v.findViewById(R.id.bottom_to_text);
+                TitleTextView km = (TitleTextView) v.findViewById(R.id.bottom_kms_display);
+                from.setText(mFromPlace);
+                muserText.setText(userid);
 
-            km.setText(distance);
+                to.setText(mToPlace);
+                if (mRateText != null) {
+                    String faretext = "\u20B9" + fare;
+                    mRateText.setText(faretext);
+                }
 
-            if (b != null) {
+                km.setText(distance);
 
-                b.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if (b.isEnabled()) {
-                            b.setEnabled(false);
-                        }
+                if (b != null) {
 
-                        try {
-                            finalConfirm(fare, distance, b);
-                        } catch (UnsupportedEncodingException e) {
-                            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                            builder.setTitle("Could Not Place Order");
-                            if (!b.isEnabled()) {
-                                b.setEnabled(true);
+                    b.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            if (b.isEnabled()) {
+                                b.setEnabled(false);
                             }
-                            builder.setMessage("Would you like to Place Order Via Phone?");
-                            builder.setPositiveButton("CALL", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
 
+                            try {
+                                finalConfirm(fare, distance, b);
+                            } catch (UnsupportedEncodingException e) {
+                                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                                builder.setTitle("Could Not Place Order");
+                                if (!b.isEnabled()) {
+                                    b.setEnabled(true);
                                 }
-                            });
-                            builder.setNegativeButton("NO THANKS", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    dialog.dismiss();
+                                builder.setMessage("Would you like to Place Order Via Phone?");
+                                builder.setPositiveButton("CALL", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
 
-                                }
-                            });
+                                    }
+                                });
+                                builder.setNegativeButton("NO THANKS", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.dismiss();
 
-                            builder.show();
+                                    }
+                                });
+
+                                builder.show();
+                            }
                         }
-                    }
-                });
+                    });
+                }
             }
         }
 
 
-    }
+
 
     private void finalConfirm(final String fare, final String distance, final Button b) throws UnsupportedEncodingException {
         MyPrefs myPrefs = new MyPrefs(getContext());
@@ -555,7 +606,7 @@ public class FBookNowFragment extends Fragment {
         String fromURL = URLEncoder.encode(mFromPlace, "UTF-8");
         String toPLace = URLEncoder.encode(mToPlace, "UTF-8");
         String url = "http://Kaalivandi.com/MobileApp/BookOnDemand?" +
-                "CustomerName=" + userid + "&CustomerPhoneNumber=" + mPhone +
+                "CustomerName="+ userid+"&CustomerPhoneNumber=" + mPhone +
                 "&From=" + fromURL + "&To=" + toPLace + "&VehicleType=" + vehicleType +
                 "&KM=" + distance + "&EstimatedFare=" + fare;
 
@@ -568,6 +619,29 @@ public class FBookNowFragment extends Fragment {
                     //show user that it has been booked
                     ShowBooked(fare, distance, userid, mPhone, mFromPlace, mToPlace);
                     SendSMS(userid, mPhone,mFromPlace,mToPlace);
+                }else{
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                    builder.setTitle("Could Not Place Order");
+                    if (!b.isEnabled()) {
+                        b.setEnabled(true);
+                    }
+                    builder.setMessage("Would you like to Place Order Via Phone?");
+                    builder.setPositiveButton("CALL", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                        }
+                    });
+                    builder.setNegativeButton("NO THANKS", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+
+                        }
+                    });
+
+                    builder.show();
+
                 }
             }
         }, new Response.ErrorListener() {
@@ -660,14 +734,14 @@ public class FBookNowFragment extends Fragment {
 
  class SmsAsync extends AsyncTask<Void, Void, Void> {
 
-    private String user;
+    private String usera;
     private String phone;
      private String mFrom;
      private String mTo;
 
 
     public SmsAsync(String userid, String mPhone, String mFromPlace, String mToPlace) {
-    this.user = userid;
+    this.usera = userid;
 
         this.phone = mPhone;
         this.mFrom = mFromPlace;
@@ -679,7 +753,7 @@ public class FBookNowFragment extends Fragment {
         String user = "username=" + "nandhu12195@gmail.com";
         String hash = "&hash=" + "d28037624ea694bee8ff95719bf8995bedde1585";
         String api = "&apiKey=" + "A3kqyA4v4UA-6aqjTecsmcr7AhtnB1m1taU4ee8ywG";
-        String Message = "New Booking    "+"From : "+mFrom+"  To :  "+mTo+ "  Cusotmer Name "+user+ " Phone number : "+phone;
+        String Message = "New Booking :   "+"\nFrom : "+mFrom+" \nTo :  "+mTo+ "\nCusotmer Name : "+usera+ " Phone number : "+phone;
         String message = "&message=" + Message;
         String sender = "&sender=" + "TXTLCL";
         String numbers = "&numbers=" + "918675753534";
@@ -703,6 +777,7 @@ public class FBookNowFragment extends Fragment {
             Log.d("Async", "doInBackground: " + stringBuffer.toString());
         } catch (Exception e) {
             Log.d("Async", "doInBackground: ");
+
 
         }
 

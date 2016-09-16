@@ -181,6 +181,9 @@ public class Home extends AppCompatActivity implements LoginFragment.login ,Book
 
     @Override
     public void registered(String muser, String mPhone, String mEmail) {
+        muser = muser.trim();
+        mPhone = mPhone.trim();
+        mEmail= mEmail.trim();
         myPrefs.setUsername(muser);
         myPrefs.setEmail(mEmail);
         myPrefs.setPhone(mPhone);

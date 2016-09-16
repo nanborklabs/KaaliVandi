@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:textSize="24sp"
-        android:text="Terms and Condtitons"
+        android:text="Terms and Conditions"
         android:gravity="center"
         android:layout_marginTop="20dp" />
     <com.kaalivandi.UI.TitleTextView
@@ -54,20 +54,18 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         style="@style/term_text_style"
-        android:text="6.Delievery time is not promised by KaaliuVandi"
+        android:text="6.Delivery time is not promised by Kaalivandi"
         />
     <com.kaalivandi.UI.TitleTextView
         android:layout_width="match_parent"
         android:layout_height="80dp"
 
         style="@style/term_text_style"
-        android:text=" 7.You will not be shipping goods
-        that are classified as dangerous as per
-        ICAO T.I, IATA DGR, IMDG-Code, ADR or other
-        national regulations for transport."
+        android:text=" 7.You will not be shipping goods  that are classified as dangerous as per   ICAO T.I, IATA DGR, IMDG-Code, ADR or other         national regulations for transport."
 
 
-        android:nestedScrollingEnabled="true" />
+        android:nestedScrollingEnabled="true"
+        android:layout_weight="0.05" />
     <com.kaalivandi.UI.TitleTextView
         android:layout_width="match_parent"
         android:layout_height="80dp"

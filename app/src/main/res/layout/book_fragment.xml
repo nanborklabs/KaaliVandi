@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 
-<com.flipboard.bottomsheet.BottomSheetLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<com.flipboard.bottomsheet.BottomSheetLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/bottomsheet"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
+
 <RelativeLayout
 
     android:orientation="vertical" android:layout_width="match_parent"
 
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
 
 
 
@@ -36,7 +36,8 @@
         android:layout_alignParentEnd="true"
         android:layout_marginRight="32dp"
         android:textColor="@color/whites"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:padding="4dp" />
 
     <com.kaalivandi.UI.TitleTextView
         android:layout_width="wrap_content"
@@ -83,7 +84,8 @@
         android:layout_alignLeft="@+id/from_et"
         android:layout_alignStart="@+id/from_et"
         android:textColor="@color/whites"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:padding="4dp" />
 
 
     <Button
@@ -92,14 +94,43 @@
         android:id="@+id/book_now_button"
         android:background="@drawable/register_button_background"
         android:text="Get Fare"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="@dimen/bottom_margin_button"
+        android:textColor="@color/whites"
+        android:layout_below="@+id/to_et"
         android:layout_alignLeft="@+id/from_text"
         android:layout_alignStart="@+id/from_text"
+        android:layout_marginTop="113dp"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:layout_marginRight="32dp"
-        android:textColor="@color/whites" />
+        android:layout_marginBottom="8dp" />
+
+    <com.kaalivandi.UI.TitleTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="* First 3 kms  @   \u20B9199"
+        android:id="@+id/km_text"
+        android:layout_below="@+id/ride_text"
+
+        android:visibility="invisible"
+
+        android:layout_centerHorizontal="true" />
+
+    <com.kaalivandi.UI.TitleTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Ride at only 18rs/Km"
+
+        android:id="@+id/ride_text"
+        android:paddingLeft="8dp"
+        android:visibility="invisible"
+        android:layout_below="@+id/book_now_button"
+        android:layout_centerHorizontal="true" />
+
+
+
 
 </RelativeLayout>
+
     </com.flipboard.bottomsheet.BottomSheetLayout>
