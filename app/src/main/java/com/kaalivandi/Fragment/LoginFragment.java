@@ -27,6 +27,8 @@ import com.android.volley.toolbox.StringRequest;
 import com.kaalivandi.Network.KaalivandRequestQueue;
 import com.kaalivandi.Prefs.MyPrefs;
 import com.kaalivandi.R;
+import com.kaalivandi.UI.IosLight;
+import com.kaalivandi.UI.IosMed;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -51,11 +53,13 @@ public class LoginFragment extends Fragment {
 
     @BindView(R.id.login_signup_text)
     TextView mSignUp;
-    @BindView(R.id.login_title_text) TextView mTitleText;
+    @BindView(R.id.login_title_text)
+    IosMed mTitleText;
 
 
 
-    @BindView(R.id.login_forgot) TextView mForgot;
+    @BindView(R.id.login_forgot)
+    IosLight mForgot;
 
     @BindView(R.id.login_username)
     EditText mPhoneBox;
@@ -111,8 +115,8 @@ public class LoginFragment extends Fragment {
        mView  = inflater.inflate(R.layout.login_fragment,container,false);
 
         ButterKnife.bind(this,mView);
-        final Typeface tf = Typeface.createFromAsset(mContext.getAssets(),"fonts/grand.otf");
-        final Typeface tf1 = Typeface.createFromAsset(mContext.getAssets(),"fonts/fallingsky.otf");
+        final Typeface tf = Typeface.createFromAsset(mContext.getAssets(),"fonts/ios_light.ttf");
+        final Typeface tf1 = Typeface.createFromAsset(mContext.getAssets(),"fonts/ios_light.ttf");
         mTitleText.setTypeface(tf);
         mSignUp.setTypeface(tf1);
         mTitleText.animate().scaleX(1.1f).scaleY(1.1f).setDuration(400).setInterpolator(new LinearInterpolator()).start();
@@ -151,18 +155,7 @@ public class LoginFragment extends Fragment {
 
             }
         });
-        mlayout.post(new Runnable() {
-            @Override
-            public void run() {
-                Blurry.with(getContext())
-                        .async()
-                        .radius(25)
-                        .sampling(1)
-                        .color(Color.argb(0,25,24,32))
-                        .capture(mlayout)
-                        .into(mbackgraoundimage);
-            }
-        });
+
 
         mSignUp.setOnClickListener(new View.OnClickListener() {
             @Override

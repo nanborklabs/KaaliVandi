@@ -14,6 +14,7 @@ public class MyPrefs {
     private static final String PHONE_TAG = "PHONE";
     private static final String USER_ID_TAG = "USER";
     private static final String PHONE_NUMBER_TAG = "PHONE_NUMBER";
+    private static final String IS_FIRST_TIME = "ISFIRSTTIME";
     private Context mContext;
     private SharedPreferences sf;
     public MyPrefs(Context mContext) {
@@ -25,7 +26,7 @@ public class MyPrefs {
 
 
     public boolean isFirstTime(){
-        return sf.getBoolean("isFirstTime",true);
+        return sf.getBoolean(IS_FIRST_TIME,true);
     }
 
 
@@ -47,7 +48,7 @@ public class MyPrefs {
 
     public void setIsFirsttime(boolean b) {
         final SharedPreferences.Editor ed = sf.edit();
-        ed.putBoolean("isFirstTime",b);
+        ed.putBoolean(IS_FIRST_TIME,b);
         ed.apply();
     }
 

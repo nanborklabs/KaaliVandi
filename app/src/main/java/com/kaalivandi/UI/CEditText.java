@@ -37,19 +37,19 @@ public class CEditText extends EditText {
     }
 
     private void init() {
-        Typeface font = Typeface.createFromAsset(getContext().getAssets(), "fonts/fallingsky.otf");
+        Typeface font = Typeface.createFromAsset(getContext().getAssets(), "fonts/ios_light.ttf");
         this.setTypeface(font);
     }
 
     @Override
     public void setTypeface(Typeface tf, int style) {
-        tf = Typeface.createFromAsset(getContext().getAssets(), "fonts/fallingsky.otf");
+        Typeface font = Typeface.createFromAsset(getContext().getAssets(), "fonts/ios_light.ttf");
         super.setTypeface(tf, style);
     }
 
     @Override
     public void setTypeface(Typeface tf) {
-        tf = Typeface.createFromAsset(getContext().getAssets(), "fonts/fallingsky.otf");
+        tf = Typeface.createFromAsset(getContext().getAssets(), "fonts/ios_light.ttf");
         super.setTypeface(tf);
     }
 }

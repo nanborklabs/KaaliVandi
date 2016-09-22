@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.support.v7.app.AppCompatActivity;
@@ -26,7 +27,7 @@ import com.kaalivandi.Prefs.MyPrefs;
 
 public class Home extends AppCompatActivity implements LoginFragment.login ,BookNowFragment.Kaalivandi
         , BookedFragment.Booking, DialogInterface.OnCancelListener ,
-        RegisterFragment.Registration, CheckRegistrationFragment.CheckUserPresent ,ForgotPassword.forgotInterface {
+        RegisterFragment.Registration, CheckRegistrationFragment.CheckUserPresent ,ForgotPassword.forgotInterface,NavigationView.OnNavigationItemSelectedListener {
 
     private static final String TAG = "HOME";
     private android.widget.ShareActionProvider mShareActionProvider;
@@ -39,17 +40,12 @@ public class Home extends AppCompatActivity implements LoginFragment.login ,Book
         setContentView(R.layout.activity_home);
         myPrefs = new MyPrefs(this);
 
-        if (myPrefs.isFirstTime()){
+
             getSupportFragmentManager().beginTransaction().
                     replace(R.id.frag_holder,new CheckRegistrationFragment())
                     .addToBackStack(null)
                     .commit();
-        }else{
-            getSupportFragmentManager().beginTransaction()
-                    .addToBackStack(null)
-                    .replace(R.id.frag_holder, new HomeFragment())
-                    .commit();
-        }
+
 
 
     }
@@ -155,8 +151,10 @@ public class Home extends AppCompatActivity implements LoginFragment.login ,Book
         myPrefs.setIsFirsttime(false);
         getSupportFragmentManager().beginTransaction()
                 .addToBackStack(null)
-                .replace(R.id.frag_holder, new HomeFragment())
+                .replace(R.id.frag_holder, new BookNowFragment())
                 .commit();
+
+
 
     }
 
@@ -234,6 +232,23 @@ public class Home extends AppCompatActivity implements LoginFragment.login ,Book
                 .replace(R.id.frag_holder,new LoginFragment())
                 .addToBackStack(null)
                 .commit();
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.contactus:
+                break;
+            case R.id.terms:
+                break;
+            case R.id.about_us:
+                break;
+            case R.id.rate_chart:
+                break;
+            default:
+                break;
+        }
+        return true;
     }
 }
 

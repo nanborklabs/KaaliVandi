@@ -1,34 +1,25 @@
 package com.kaalivandi.Fragment;
 
 import android.animation.Animator;
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.res.AssetManager;
-import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
-import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateDecelerateInterpolator;
-import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.view.animation.BounceInterpolator;
-import android.view.animation.LinearInterpolator;
+import android.view.animation.DecelerateInterpolator;
 import android.view.animation.OvershootInterpolator;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -37,34 +28,45 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.kaalivandi.Network.KaalivandRequestQueue;
 import com.kaalivandi.R;
+import com.kaalivandi.UI.CEditText;
+import com.kaalivandi.UI.IosLight;
+import com.kaalivandi.UI.IosMed;
 import com.kaalivandi.Utils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import jp.wasabeef.blurry.Blurry;
 
 /**
  * Created by nandhu on 31/8/16.
+ *
  */
 public class CheckRegistrationFragment extends Fragment {
 
 
     private static final String TAG = "CHECK_FRAGMENT";
-    private View mView;
 
 
     @BindView(R.id.check_title)
-    TextView mTitle;
+    IosMed mTitle;
 
-    @BindView(R.id.textView2) TextView mSubTitle;
+    @BindView(R.id.check_image_started_text)
+    IosLight mSubTitle;
 
-    @BindView(R.id.check_editext)
-    TextInputLayout mPhoneNumber;
+    @BindView(R.id.check_edtext)
+    CEditText mPhoneNumber;
     @BindView(R.id.check_button)
-    Button mCheckButton;
+    ImageView mCheckButton;
 
-    @BindView(R.id.check_image)
-    ImageView mBack;
+
+    @BindView(R.id.check_phone_icon) ImageView mPhoneicon;
+
+    @BindView(R.id.check_card)
+    CardView mCard;
+
+
+
+    @BindView(R.id.check_image_view)
+    ImageView mcarImage;
 
     @BindView(R.id.check_root)
     RelativeLayout mLayout;
@@ -103,59 +105,19 @@ public class CheckRegistrationFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-            mView = inflater.inflate(R.layout.check_registration,container,false);
-            ButterKnife.bind(this,mView);
+        View mView = inflater.inflate(R.layout.check_registration, container, false);
+            ButterKnife.bind(this, mView);
+                if (mCard !=null){
+
+                    mCard.setScaleX(0);
+                    mCard.setScaleY(1);
+                }
 
             //title animation
 
-        if (tf!=null){
-            mTitle.setTypeface(tf);
 
-        }
 
-        mSubTitle.setTranslationY(Utils.getScreenHeight(getContext()));
-        mPhoneNumber.setTranslationY(Utils.getScreenHeight(getContext()));
-        mCheckButton.setTranslationY(Utils.getScreenHeight(getContext()));
-        mTitle.animate().alphaBy(1f).scaleX(1.5f).scaleY(1.5f)
-                .setDuration(2500).setStartDelay(200)
-                .setInterpolator(new AccelerateInterpolator(3f))
-                .setListener(new Animator.AnimatorListener() {
-                    @Override
-                    public void onAnimationStart(Animator animation) {
-
-                    }
-
-                    @Override
-                    public void onAnimationEnd(Animator animation) {
-                        mSubTitle.animate().alpha(1f).setDuration(800)
-                                .translationY(0)
-
-                                .setInterpolator(new AccelerateDecelerateInterpolator())
-                                .start();
-                        mCheckButton.animate().alpha(1f).setDuration(800)
-                                .setInterpolator(new AccelerateDecelerateInterpolator())
-                                .translationY(0)
-                                .setStartDelay(400)
-                                .start();
-                        mPhoneNumber.animate().alpha(1f).setDuration(800)
-                                .setInterpolator(new AccelerateDecelerateInterpolator())
-                                .translationY(0)
-                                .setStartDelay(200)
-                                .start();
-                    }
-
-                    @Override
-                    public void onAnimationCancel(Animator animation) {
-
-                    }
-
-                    @Override
-                    public void onAnimationRepeat(Animator animation) {
-
-                    }
-                })
-                .start();
-
+        setUpIntroAnimations();
         //remaining Elements animations
 
 
@@ -165,7 +127,7 @@ public class CheckRegistrationFragment extends Fragment {
         mCheckButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final String mNumber  = mPhoneNumber.getEditText().getText().toString();
+                final String mNumber  = mPhoneNumber.getText().toString();
                         if(Numbervalidation(mNumber)){
 
                             //correct number ,see if he is already present
@@ -187,45 +149,113 @@ public class CheckRegistrationFragment extends Fragment {
         );
 
 
-        mLayout.post(new Runnable() {
-            @Override
-            public void run() {
-                Blurry.with(getContext())
-                        .async()
-                        .radius(25)
-                        .sampling(1)
-                        .color(Color.argb(0, 25, 24, 32))
-                        .capture(mLayout)
-                        .into(mBack);
-            }
-        });
 
         return mView;
 
     }
 
+    private void setUpIntroAnimations() {
+        mPhoneNumber.setTranslationY(Utils.getScreenHeight(getContext()));
+        mPhoneicon.setTranslationX(-Utils.getScreenWidth(getContext()));
+        mTitle.setScaleX(0);mTitle.setScaleY(0);
+        mCard.setScaleX(0);mCard.setScaleY(0);
+
+        mCheckButton.setTranslationY(Utils.getScreenHeight(getContext()));
+        mcarImage.setTranslationX(-Utils.getScreenWidth(getContext()));
+
+        mTitle.animate().alphaBy(1.1f).scaleX(1f).scaleY(1f)
+                .setDuration(2500)
+                .setInterpolator(new DecelerateInterpolator(1.5f))
+                .setListener(new Animator.AnimatorListener() {
+                    @Override
+                    public void onAnimationStart(Animator animation) {
+
+                    }
+
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+
+                        mCard.animate().scaleX(1f).scaleY(1f).setDuration(800)
+                                .setInterpolator(new OvershootInterpolator(1.5f))
+                                .setListener(new Animator.AnimatorListener() {
+                                    @Override
+                                    public void onAnimationStart(Animator animation) {
+
+                                    }
+
+                                    @Override
+                                    public void onAnimationEnd(Animator animation) {
+                                        mSubTitle.animate().alpha(1f).setDuration(800)
+                                                .translationY(0)
+
+                                                .setInterpolator(new AccelerateDecelerateInterpolator())
+                                                .start();
+                                        mCheckButton.animate().alpha(1f).setDuration(800)
+                                                .setInterpolator(new AccelerateDecelerateInterpolator())
+                                                .translationY(0)
+                                                .setStartDelay(400)
+                                                .start();
+                                        mPhoneNumber.animate().alpha(1f).setDuration(800)
+                                                .setInterpolator(new AccelerateDecelerateInterpolator())
+                                                .translationY(0)
+                                                .setStartDelay(200)
+                                                .start();
+                                        mPhoneicon.animate().alpha(1f).setDuration(800)
+                                                .setInterpolator(new AccelerateDecelerateInterpolator())
+                                                .translationX(0)
+                                                .setStartDelay(200)
+                                                .start();
+                                        mcarImage.setVisibility(View.VISIBLE);
+                                        mcarImage.animate().alpha(1f).translationX(0).setDuration(800)
+                                                .setInterpolator(new AccelerateDecelerateInterpolator())
+                                                .start();
+
+                                    }
+
+                                    @Override
+                                    public void onAnimationCancel(Animator animation) {
+
+                                    }
+
+                                    @Override
+                                    public void onAnimationRepeat(Animator animation) {
+
+                                    }
+                                });
+
+                    }
+
+                    @Override
+                    public void onAnimationCancel(Animator animation) {
+
+                    }
+
+                    @Override
+                    public void onAnimationRepeat(Animator animation) {
+
+                    }
+                })
+                .start();
+    }
+
     private boolean Numbervalidation(String mNumber) {
 
         String regexStr = "^[0-9]{10}$";
-        if (mNumber.matches(regexStr)){
-           return true;
-
-        }
+        return mNumber.matches(regexStr);
 
 
-
-         return false;
     }
 
     private void sendServer(final String mNumber) {
 
-        Log.d(TAG, "sendServer: ");
+
         final String URL = "http://www.kaalivandi.com/MobileApp/CheckNumber?Number="+mNumber;
         
         final StringRequest mRequest = new StringRequest(Request.Method.GET, URL, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 Log.d(TAG, "onResponse: "+response);
+
                 if (mDialog.isShowing()){
                     mDialog.hide();
                 }
@@ -248,22 +278,21 @@ public class CheckRegistrationFragment extends Fragment {
                     }
                 }
                 else {
-                    Toast.makeText(getContext(),"Some Error Ocurred , Please Try again After some time",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(),"Some Error Occurred , Please Try again",Toast.LENGTH_SHORT).show();
                 }
 
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.d(TAG,"Error");
+                Log.d(TAG,"Error" + error.getLocalizedMessage());
 
                 if (mDialog.isShowing()){
                     mDialog.hide();
                 }
 
 
-                Snackbar sm = Snackbar.make(mView,"Network Problem , please Try again",Snackbar.LENGTH_SHORT);
-                sm.show();
+             Toast.makeText(getContext(),"Some Problem Occurred,  Please try Again",Toast.LENGTH_LONG).show();
 
             }
         });
@@ -276,7 +305,7 @@ public class CheckRegistrationFragment extends Fragment {
 
         Animation shake = AnimationUtils.loadAnimation(getContext(), R.anim.shake);
         mPhoneNumber.startAnimation(shake);
-        mPhoneNumber.getEditText().setText("");
+        mPhoneNumber.setText("");
 
 
     }

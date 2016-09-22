@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.AssetManager;
 import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -21,6 +22,7 @@ import android.view.ViewGroup;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.LinearInterpolator;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.volley.Request;
@@ -52,6 +54,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 
+import butterknife.BindDrawable;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -96,6 +99,15 @@ public class BookNowFragment extends Fragment {
 
     @BindView(R.id.ride_text)
     TitleTextView mRideText;
+
+
+    @BindView(R.id.home_drop_imag)
+    ImageView mDropIcon;
+
+    @BindView(R.id.home_pickup_image) ImageView mPickUpImage;
+
+    @BindDrawable(R.drawable.ic_loc_selected)
+    Drawable mLocationSelected;
 
 
     int FROM_PLACE_RESULT = 1;
@@ -180,6 +192,30 @@ public class BookNowFragment extends Fragment {
                 //flag to infer that from has been completed
                 from_selected = true;
 
+                mPickUpImage.animate().rotationY(90).setDuration(300).setListener(new Animator.AnimatorListener() {
+                    @Override
+                    public void onAnimationStart(Animator animator) {
+
+                    }
+
+                    @Override
+                    public void onAnimationEnd(Animator animator) {
+
+                    }
+
+                    @Override
+                    public void onAnimationCancel(Animator animator) {
+
+                    }
+
+                    @Override
+                    public void onAnimationRepeat(Animator animator) {
+                        mPickUpImage.setImageDrawable(mLocationSelected);
+                        mPickUpImage.animate().rotationY(0).setDuration(300).start();
+                    }
+                });
+
+
 
             }
             if (resultCode == Activity.RESULT_CANCELED) {
@@ -200,6 +236,28 @@ public class BookNowFragment extends Fragment {
 
                 //infer that destination is over
                 to_selected = true;
+                mDropIcon.animate().rotationY(90).setDuration(300).setListener(new Animator.AnimatorListener() {
+                    @Override
+                    public void onAnimationStart(Animator animator) {
+
+                    }
+
+                    @Override
+                    public void onAnimationEnd(Animator animator) {
+                        mDropIcon.setImageDrawable(mLocationSelected);
+                        mDropIcon.animate().rotationY(0).setDuration(300).start();
+                    }
+
+                    @Override
+                    public void onAnimationCancel(Animator animator) {
+
+                    }
+
+                    @Override
+                    public void onAnimationRepeat(Animator animator) {
+
+                    }
+                });
             }
         }
     }

@@ -16,4 +16,9 @@
         android:orderInCategory="400"
         android:title="Contact us"
        />
+     <item
+    android:id="@+id/rate_chart"
+    android:orderInCategory="100"
+    android:title="Rate Chart"
+    />
 </menu>

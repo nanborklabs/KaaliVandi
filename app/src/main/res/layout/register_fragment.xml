@@ -107,21 +107,6 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true" />
     </android.support.design.widget.TextInputLayout>
-    <android.support.design.widget.TextInputLayout
-        android:layout_width="match_parent"
-        android:id="@+id/register_reenter_pass_ted"
-        android:layout_below="@+id/register_password_ted"
-        android:hint="Re Enter Password"
-        android:background="@drawable/edi_text_rounded"
-
-        style="@style/register_tel">
-        <com.kaalivandi.UI.CEditText
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            style="@style/login_edittext"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
-    </android.support.design.widget.TextInputLayout>
 
     <Button
         android:layout_width="match_parent"
@@ -131,10 +116,10 @@
         android:layout_alignRight="@id/register_password_ted"
         android:layout_alignEnd="@id/register_password_ted"
 
-        android:layout_below="@+id/register_reenter_pass_ted"
+        android:layout_below="@+id/register_phone_ted"
         android:text="Submit"
         android:id="@+id/register_button"
-        android:background="@drawable/register_button_background"
+
         android:layout_marginTop="@dimen/register_button_margin_top" />
 
     <TextView
