@@ -35,7 +35,7 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:layout_marginRight="32dp"
-        android:textColor="@color/login_back"
+        android:textColor="@color/whites"
         android:textStyle="bold"
         android:padding="4dp"
         android:layout_alignLeft="@+id/ride_text"
@@ -75,7 +75,8 @@
         android:layout_alignStart="@+id/from_autocomplete"
         android:textColor="@color/whites"
         android:textStyle="bold"
-        android:padding="4dp" />
+        android:padding="4dp"
+        android:layout_marginTop="8dp" />
 
 
     <Button
