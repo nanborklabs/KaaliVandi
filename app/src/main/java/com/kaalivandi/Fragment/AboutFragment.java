@@ -7,31 +7,33 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.kaalivandi.R;
-import com.kaalivandi.UI.FontCache;
+import com.kaalivandi.UI.IosLight;
+import com.kaalivandi.UI.Iosthin;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
  * Created by user on 17-08-2016.
+ *
  */
 public class AboutFragment extends Fragment {
     public View mView;
 
     @BindView(R.id.about_motto)
-    TextView mabout;
-    @BindView(R.id.about_motto_sub) TextView mAboutSub;
+    IosLight mabout;
+    @BindView(R.id.about_motto_sub)
+    Iosthin mAboutSub;
 
 
-    @BindView(R.id.about_title) TextView mTitle;
+    @BindView(R.id.about_title) IosLight mTitle;
 
-    @BindView(R.id.about_title_sub) TextView mTitleSub;
+    @BindView(R.id.about_title_sub) IosLight mTitleSub;
 
-    @BindView(R.id.about_y_kaali) TextView mYText;
-    @BindView(R.id.about_y_sub) TextView mSub;
+    @BindView(R.id.about_y_kaali) IosLight mYText;
+    @BindView(R.id.about_y_sub) Iosthin mSub;
     @Override
     public void onDestroyView() {
         super.onDestroyView();
@@ -82,8 +84,8 @@ public class AboutFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
        mView=inflater.inflate(R.layout.about_fragment,container,false);
         ButterKnife.bind(this,mView);
-        mTitle.setTypeface(FontCache.getTypeface("fonts/grand.otf",getContext()));
-        mTitleSub.setTypeface(FontCache.getTypeface("fonts/fallingsky.otf",getContext()));
+//        mTitle.setTypeface(FontCache.getTypeface("fonts/grand.otf",getContext()));
+//        mTitleSub.setTypeface(FontCache.getTypeface("fonts/fallingsky.otf",getContext()));
         return mView;
     }
 

@@ -1,19 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:background="#FFFFFF"
+    android:background="@drawable/white_gradient"
+
     android:layout_width="match_parent" android:layout_height="160dp">
 
-    <com.kaalivandi.UI.IosMed
-        android:text="KAALIVANDI"
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/toy_car"
+        android:scaleType="centerCrop"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+
+    <com.kaalivandi.UI.IosLight
+        android:text="KaaliVandi"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:textColor="@color/colorPrimary"
+        android:textColor="@color/whites"
         android:textSize="24sp"
-        android:layout_marginLeft="66dp"
-        android:layout_marginStart="66dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="40dp"
         android:id="@+id/textView28" />
+
+    <com.kaalivandi.UI.Iosthin
+        android:text="Every Time."
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView2"
+        android:layout_alignLeft="@+id/textView2"
+        android:layout_alignStart="@+id/textView2"
+        android:id="@+id/textView29"
+        android:textColor="@color/whites"
+        android:textSize="18sp"
+        android:layout_marginTop="4dp" />
+
+    <com.kaalivandi.UI.Iosthin
+        android:text="On Time - Any Time "
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="14dp"
+        android:id="@+id/textView2"
+        android:textSize="18sp"
+        android:textColor="@color/whites"
+        android:layout_below="@+id/textView28"
+        android:layout_alignLeft="@+id/textView28"
+        android:layout_alignStart="@+id/textView28" />
+
+
 </RelativeLayout>

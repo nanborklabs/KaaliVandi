@@ -2,23 +2,36 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-
+    <item android:id="@+id/book_menu"
+        android:orderInCategory="100"
+        android:title="Book Vehicle"
+        android:icon="@drawable/ic_truck"
+        app:showAsAction="never"/>
     <item android:id="@+id/about_us"
         android:orderInCategory="200"
+        android:icon="@drawable/ic_about_us"
         android:title="About us"
         app:showAsAction="never"/>
-    <item android:id="@+id/terms"
+    <item
+        android:id="@+id/profile_menu"
         android:orderInCategory="300"
+        android:title="Profile"
+        android:icon="@drawable/ic_profile"/>
+    <item android:id="@+id/terms"
+        android:icon="@drawable/ic_file"
+        android:orderInCategory="400"
         android:title="Terms &amp; condition"
         app:showAsAction="never" />
     <item
         android:id="@+id/contactus"
-        android:orderInCategory="400"
+        android:orderInCategory="500"
+        android:icon="@drawable/ic_block"
         android:title="Contact us"
        />
      <item
     android:id="@+id/rate_chart"
-    android:orderInCategory="100"
+    android:orderInCategory="200"
+         android:icon="@drawable/ic_rupee"
     android:title="Rate Chart"
     />
 </menu>

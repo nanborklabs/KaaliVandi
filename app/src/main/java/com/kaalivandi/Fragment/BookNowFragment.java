@@ -102,10 +102,7 @@ public class BookNowFragment extends Fragment {
     Iosthin mRideText;
 
 
-    @BindView(R.id.home_drop_imag)
-    ImageView mDropIcon;
 
-    @BindView(R.id.home_pickup_image) ImageView mPickUpImage;
 
     @BindDrawable(R.drawable.ic_loc_selected)
     Drawable mLocationSelected;
@@ -143,9 +140,6 @@ public class BookNowFragment extends Fragment {
     private String mToPlace = null;
 
 
-    private AssetManager am;
-    private Typeface text_tf;
-    private Typeface butto_tf;
 
 
     private ProgressDialog mDialog;
@@ -192,28 +186,28 @@ public class BookNowFragment extends Fragment {
                 //flag to infer that from has been completed
                 from_selected = true;
 
-                mPickUpImage.animate().rotationY(90).setDuration(300).setListener(new Animator.AnimatorListener() {
-                    @Override
-                    public void onAnimationStart(Animator animator) {
-
-                    }
-
-                    @Override
-                    public void onAnimationEnd(Animator animator) {
-
-                    }
-
-                    @Override
-                    public void onAnimationCancel(Animator animator) {
-
-                    }
-
-                    @Override
-                    public void onAnimationRepeat(Animator animator) {
-                        mPickUpImage.setImageDrawable(mLocationSelected);
-                        mPickUpImage.animate().rotationY(0).setDuration(300).start();
-                    }
-                });
+//                mPickUpImage.animate().rotationY(90).setDuration(300).setListener(new Animator.AnimatorListener() {
+//                    @Override
+//                    public void onAnimationStart(Animator animator) {
+//
+//                    }
+//
+//                    @Override
+//                    public void onAnimationEnd(Animator animator) {
+//
+//                    }
+//
+//                    @Override
+//                    public void onAnimationCancel(Animator animator) {
+//
+//                    }
+//
+//                    @Override
+//                    public void onAnimationRepeat(Animator animator) {
+//                        mPickUpImage.setImageDrawable(mLocationSelected);
+//                        mPickUpImage.animate().rotationY(0).setDuration(300).start();
+//                    }
+//                });
 
 
 
@@ -236,28 +230,7 @@ public class BookNowFragment extends Fragment {
 
                 //infer that destination is over
                 to_selected = true;
-                mDropIcon.animate().rotationY(90).setDuration(300).setListener(new Animator.AnimatorListener() {
-                    @Override
-                    public void onAnimationStart(Animator animator) {
-
-                    }
-
-                    @Override
-                    public void onAnimationEnd(Animator animator) {
-                        mDropIcon.setImageDrawable(mLocationSelected);
-                        mDropIcon.animate().rotationY(0).setDuration(300).start();
-                    }
-
-                    @Override
-                    public void onAnimationCancel(Animator animator) {
-
-                    }
-
-                    @Override
-                    public void onAnimationRepeat(Animator animator) {
-
-                    }
-                });
+//
             }
         }
     }
@@ -266,10 +239,7 @@ public class BookNowFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         myPrefs = new MyPrefs(mContext);
-        if (getContext() != null) {
-            am = getContext().getAssets();
-            text_tf = Typeface.createFromAsset(am, "fonts/ios_med.ttf");
-        }
+
 
         mRequestQueue = KaalivandRequestQueue.getInstance(mContext);
 
@@ -294,19 +264,14 @@ public class BookNowFragment extends Fragment {
         final LatLngBounds mBounds = new LatLngBounds(msouth, mnorht);
 
 
-        if (text_tf != null) {
-            mFromText.setTypeface(FontCache.getTypeface("fonts/", getContext()));
-            mToText.setTypeface(FontCache.getTypeface("fonts/fallingsky.otf", getContext()));
-        } else {
-            //do nothing
-        }
+
 
 
 //        PlaceAutocompleteFragment mFromFragment =  getActivity().getSupportFragmentManager().findFragmentById(R.id.from_autocomplete);
 //        Fragment mToFra = getActivity().getSupportFragmentManager().findFragmentById(R.id.to_autocomplete);
 //        mFromFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
 //        });
-        mPickUpImage.setOnClickListener(new View.OnClickListener() {
+      /*  mPickUpImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -328,6 +293,7 @@ public class BookNowFragment extends Fragment {
         });
 
 
+
         // Destination place Selector
         mDropIcon.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -342,6 +308,7 @@ public class BookNowFragment extends Fragment {
                 }
             }
         });
+        */
 
 
         //Book Button
@@ -437,7 +404,7 @@ public class BookNowFragment extends Fragment {
         final JsonObjectRequest mRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                String distance = "";
+                String distance =null;
                 try {
                     Log.d(TAG, "onResponse: from google " + response.toString());
                     JSONObject object = response;

@@ -70,4 +70,8 @@ public class MyPrefs {
         ed.putString(PHONE_NUMBER_TAG,mPhone);
         ed.apply();
     }
+
+    public String getUserEmail() {
+        return  sf.getString(EMAIL_ID,"NO EMAIL");
+    }
 }

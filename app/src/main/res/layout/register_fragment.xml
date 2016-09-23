@@ -1,27 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<android.support.v4.widget.NestedScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:background="@color/login_back"
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:fillViewport = "true"
     android:layout_height="match_parent">
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:background="@color/login_back"
-    android:layout_height="match_parent">
+    android:background="@drawable/white_gradient"
+
+    android:layout_height="wrap_content">
 
 
 
 
 
-    <TextView
+    <com.kaalivandi.UI.IosLight
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Welcome to KaaliVandi"
         android:id="@+id/register_title"
         android:textSize="@dimen/register_page_title_text_size"
-        android:textColor="@color/login_text_color"
+        android:textColor="@color/login_back"
         android:layout_marginTop="40dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" />
@@ -36,7 +37,7 @@
 
     </View>
 
-    <TextView
+    <com.kaalivandi.UI.Iosthin
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
 
@@ -46,34 +47,23 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="16dp"
         android:textSize="16sp" />
-    <android.support.design.widget.TextInputLayout
-        android:layout_width="match_parent"
-        android:id="@+id/register_name_ted"
-        android:hint="User Name"
-        style="@style/register_tel"
-        android:background="@drawable/edi_text_rounded"
-        android:layout_below="@+id/register_sub_title"
 
-        android:layout_marginTop="32dp">
-        <com.kaalivandi.UI.CEditText
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            style="@style/login_edittext"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
-    </android.support.design.widget.TextInputLayout>
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
         android:id="@+id/register_email_ted"
         android:layout_below="@+id/register_name_ted"
         android:hint="Email Address"
-        android:background="@drawable/edi_text_rounded"
 
-        style="@style/register_tel">
+
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/reg_user_icon"
+        android:layout_toEndOf="@+id/reg_user_icon"
+        android:layout_marginTop="16dp">
+
         <com.kaalivandi.UI.CEditText
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            style="@style/login_edittext"
+
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true" />
     </android.support.design.widget.TextInputLayout>
@@ -82,13 +72,14 @@
         android:id="@+id/register_phone_ted"
         android:layout_below="@+id/register_email_ted"
         android:hint="Phone Number"
-        android:background="@drawable/edi_text_rounded"
-
-        style="@style/register_tel">
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/register_email_ted"
+        android:layout_alignStart="@+id/register_email_ted"
+        android:layout_marginTop="16dp">
         <com.kaalivandi.UI.CEditText
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            style="@style/login_edittext"
+
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true" />
     </android.support.design.widget.TextInputLayout>
@@ -97,41 +88,106 @@
         android:id="@+id/register_password_ted"
         android:layout_below="@+id/register_phone_ted"
         android:hint="Password"
-        android:background="@drawable/edi_text_rounded"
 
-        style="@style/register_tel">
+
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/register_phone_ted"
+        android:layout_alignStart="@+id/register_phone_ted"
+        android:layout_marginTop="16dp">
+
         <com.kaalivandi.UI.CEditText
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            style="@style/login_edittext"
+
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true" />
     </android.support.design.widget.TextInputLayout>
 
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_alignLeft="@id/register_password_ted"
-        android:layout_alignStart="@+id/register_password_ted"
-        android:layout_alignRight="@id/register_password_ted"
-        android:layout_alignEnd="@id/register_password_ted"
-
-        android:layout_below="@+id/register_phone_ted"
-        android:text="Submit"
-        android:id="@+id/register_button"
-
-        android:layout_marginTop="@dimen/register_button_margin_top" />
-
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/register_button"
+        android:layout_below="@+id/register_button"
         android:text="or SignIn"
         android:id="@+id/register_signin"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="16dp"
         android:textSize="16sp"
 
         android:layout_centerHorizontal="true" />
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:id="@+id/register_name_ted"
+        android:hint="User Name"
+       android:layout_height="60dp"
+
+        android:layout_marginTop="40dp"
+        android:layout_below="@+id/register_sub_title"
+        android:layout_toRightOf="@+id/reg_user_icon"
+        android:layout_toEndOf="@+id/reg_user_icon">
+
+        <com.kaalivandi.UI.CEditText
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+    </android.support.design.widget.TextInputLayout>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/ic_users"
+        android:padding="10dp"
+        android:layout_marginLeft="16dp"
+        android:layout_alignTop="@+id/register_name_ted"
+        android:layout_above="@+id/register_email_ted"
+        android:id="@+id/reg_user_icon"
+        />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/ic_smartphone_call"
+        android:layout_above="@+id/register_password_ted"
+        android:padding="10dp"
+        android:layout_toLeftOf="@+id/register_phone_ted"
+        android:layout_toStartOf="@+id/register_phone_ted"
+        android:id="@+id/reg_mobile_icon"
+        android:layout_alignTop="@+id/register_phone_ted" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/ic_padlock"
+        android:padding="10dp"
+        android:layout_toLeftOf="@+id/register_password_ted"
+        android:layout_toStartOf="@+id/register_password_ted"
+        android:id="@+id/reg_password_icon"
+        android:layout_alignBottom="@+id/register_password_ted"
+        android:layout_alignTop="@+id/register_password_ted" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/ic_opened_email_envelope"
+        android:padding="10dp"
+        android:layout_above="@+id/register_phone_ted"
+        android:layout_alignLeft="@+id/reg_user_icon"
+        android:layout_alignStart="@+id/reg_user_icon"
+        android:id="@+id/reg_mail_icon" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginRight="24dp"
+        android:layout_marginLeft="24dp"
+        android:text="@string/submit"
+        android:id="@+id/register_button"
+
+        android:layout_marginTop="45dp"
+        android:layout_below="@+id/register_password_ted"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 </RelativeLayout>
 </android.support.v4.widget.NestedScrollView>
 

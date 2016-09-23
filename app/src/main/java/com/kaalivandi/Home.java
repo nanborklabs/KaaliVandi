@@ -6,6 +6,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
@@ -18,6 +23,9 @@ import com.kaalivandi.Fragment.BookNowFragment;
 import com.kaalivandi.Fragment.BookedFragment;
 import com.kaalivandi.Fragment.CheckRegistrationFragment;
 import com.kaalivandi.Fragment.ContacUsFragement;
+import com.kaalivandi.Fragment.EditProfileFragment;
+import com.kaalivandi.Fragment.ProfilePage;
+import com.kaalivandi.Fragment.RateChartFragment;
 import com.kaalivandi.Fragment.TermFragment;
 import com.kaalivandi.Fragment.ForgotPassword;
 import com.kaalivandi.Fragment.HomeFragment;
@@ -27,12 +35,17 @@ import com.kaalivandi.Prefs.MyPrefs;
 
 public class Home extends AppCompatActivity implements LoginFragment.login ,BookNowFragment.Kaalivandi
         , BookedFragment.Booking, DialogInterface.OnCancelListener ,
-        RegisterFragment.Registration, CheckRegistrationFragment.CheckUserPresent ,ForgotPassword.forgotInterface,NavigationView.OnNavigationItemSelectedListener {
+        RegisterFragment.Registration, CheckRegistrationFragment.CheckUserPresent
+        ,ForgotPassword.forgotInterface
+        ,NavigationView.OnNavigationItemSelectedListener, ProfilePage.EditInfo{
 
     private static final String TAG = "HOME";
     private android.widget.ShareActionProvider mShareActionProvider;
     MyPrefs myPrefs;
     public int PLACE_REQUEST = 2;
+    DrawerLayout mDrawerLayout;
+    ActionBarDrawerToggle mToggle;
+    NavigationView mnavigation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +53,17 @@ public class Home extends AppCompatActivity implements LoginFragment.login ,Book
         setContentView(R.layout.activity_home);
         myPrefs = new MyPrefs(this);
 
+        Toolbar mToolbar  =(Toolbar)findViewById(R.id.toolbar_main);
 
+        mDrawerLayout  = (DrawerLayout)findViewById(R.id.drawer);
+
+        mToggle  = new ActionBarDrawerToggle(this,mDrawerLayout,mToolbar,R.string.navigation_drawer_open,R.string.navigation_drawer_close);
+        mToggle.syncState();
+
+
+        mnavigation = (NavigationView)findViewById(R.id.nav_view);
+        mnavigation.setNavigationItemSelectedListener(this);
+        mDrawerLayout.addDrawerListener(mToggle);
             getSupportFragmentManager().beginTransaction().
                     replace(R.id.frag_holder,new CheckRegistrationFragment())
                     .addToBackStack(null)
@@ -94,25 +117,6 @@ public class Home extends AppCompatActivity implements LoginFragment.login ,Book
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml
-        Fragment mFragment = null;
-        switch (item.getItemId()){
-            case R.id.about_us:
-                mFragment = new AboutFragment();
-                break;
-
-            case R.id.terms:
-                mFragment = new TermFragment();
-                break;
-            case R.id.contactus:
-                mFragment = new ContacUsFragement();
-
-                break;
-        }
-
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.frag_holder,mFragment)
-                .addToBackStack("Menu")
-                .commit();
 
       return true;
     }
@@ -236,19 +240,51 @@ public class Home extends AppCompatActivity implements LoginFragment.login ,Book
 
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
+        Fragment mFragment = null;
         switch (item.getItemId()){
+            case R.id.book_menu :
+                mFragment = new BookNowFragment();
+                break;
             case R.id.contactus:
+                mFragment = new ContacUsFragement();
+                break;
+            case R.id.profile_menu:
+                mFragment  = new ProfilePage();
                 break;
             case R.id.terms:
+                mFragment = new TermFragment();
                 break;
             case R.id.about_us:
+                mFragment  = new AboutFragment();
                 break;
             case R.id.rate_chart:
+                mFragment = new RateChartFragment();
                 break;
             default:
                 break;
+
+
         }
+        if (mDrawerLayout != null){
+            if (mDrawerLayout.isDrawerOpen(GravityCompat.START)){
+                mDrawerLayout.closeDrawer(GravityCompat.START);
+            }
+        }
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.frag_holder,mFragment)
+                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                .commit();
         return true;
+    }
+
+    @Override
+    public void ChangePorfileDetails() {
+        EditProfileFragment mFragment = new EditProfileFragment();
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.frag_holder,mFragment)
+                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                .commit();
+
     }
 }
 

@@ -2,27 +2,54 @@
 
 <android.support.v4.widget.DrawerLayout android:layout_height="match_parent"
     android:layout_width="match_parent"
+    android:id="@+id/drawer"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-<FrameLayout xmlns:andorid="http://schemas.android.com/apk/res/android"
+    <android.support.design.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <android.support.design.widget.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <android.support.v7.widget.Toolbar
+                android:layout_width="match_parent"
+
+                android:background="@color/login_back"
+                android:gravity="center"
+                app:title="KaaliVandi"
+                android:id="@+id/toolbar_main"
+                android:layout_alignParentTop="true"
+                app:titleTextColor="@color/whites"
+                android:layout_height="?attr/actionBarSize">
+
+
+            </android.support.v7.widget.Toolbar>
+        </android.support.design.widget.AppBarLayout>
+
+    <FrameLayout xmlns:andorid="http://schemas.android.com/apk/res/android"
     andorid:layout_width="match_parent"
     andorid:layout_height="match_parent"
     andorid:id="@+id/frag_holder"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
     xmlns:android="http://schemas.android.com/apk/res-auto">
 
 
 
 </FrameLayout>
 
-<android.support.design.widget.NavigationView
-    android:layout_width="360dp"
-    app:menu="@menu/kaalivandi_menu"
-    android:layout_gravity="start"
-    app:headerLayout="@layout/kaalivandi_header"
-    android:layout_height="match_parent">
 
-</android.support.design.widget.NavigationView>
+    </android.support.design.widget.CoordinatorLayout>
+    <android.support.design.widget.NavigationView
+        android:layout_width="wrap_content"
+        app:menu="@menu/kaalivandi_menu"
+        android:id="@+id/nav_view"
 
+        android:layout_gravity="start"
+        app:headerLayout="@layout/kaalivandi_header"
+        android:layout_height="match_parent">
+
+    </android.support.design.widget.NavigationView>
 </android.support.v4.widget.DrawerLayout>
+
 
 

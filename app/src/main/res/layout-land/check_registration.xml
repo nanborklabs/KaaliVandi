@@ -5,14 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/check_root"
-    android:background="@color/login_back">
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/colorPrimary"
-        android:id="@+id/check_image"/>
+    android:background="@drawable/white_gradient">
 
-    <TextView
+
+    <com.kaalivandi.UI.IosMed
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
@@ -21,32 +17,27 @@
         android:id="@+id/check_title"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="8dp"
-        android:textColor="@color/whites" />
+        android:layout_marginTop="@dimen/check_margin_top"
+        android:textColor="@color/colorPrimary" />
 
     <android.support.v7.widget.CardView
         android:layout_width="350dp"
         android:layout_height="300dp"
-        android:layout_marginTop="8dp"
         app:cardBackgroundColor="@color/cardview_light_background"
         app:cardCornerRadius="12dp"
         app:cardElevation="5dp"
-        android:layout_below="@id/check_title"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginLeft="35dp"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="8dp"
         android:id="@+id/check_card"
+        android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginRight="35dp">
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
 
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-            <TextView
+            <com.kaalivandi.UI.IosLight
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
@@ -60,61 +51,54 @@
                 android:layout_marginRight="16dp" />
 
 
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:hint="Phone Number"
-                android:id="@+id/check_editext"
-                android:alpha="1"
-                android:background="@drawable/edit_text_background"
-                android:layout_height="50dp"
-                android:padding="4dp"
-
-                android:layout_above="@+id/check_button"
-                android:layout_centerHorizontal="true"
-                android:layout_marginBottom="8dp"
-                android:layout_marginLeft="16dp"
-                android:layout_marginRight="16dp">
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-
-
-                    android:inputType="number|phone|numberDecimal"
-                    android:gravity="center"
-                    android:textColor="@color/whites">
-
-                </EditText>
-
-            </android.support.design.widget.TextInputLayout>
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:id="@+id/check_button"
-                android:textAllCaps="false"
-                android:text="Proceed"
-                android:background="@drawable/register_button_background"
-                android:alpha="1"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_marginLeft="32dp"
-                android:layout_marginRight="32dp"
-                android:layout_marginBottom="4dp" />
-
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/check_image_view"
                 app:srcCompat="@drawable/truck1"
-                android:layout_below="@+id/check_image_started_text"
-                android:layout_above="@+id/check_editext"
                 android:visibility="invisible"
-                android:layout_marginTop="2dp"
-                android:layout_marginBottom="2dp"
-                android:layout_alignLeft="@+id/check_image_started_text"
-                android:layout_alignStart="@+id/check_image_started_text"
-                android:layout_alignRight="@+id/check_image_started_text"
-                android:layout_alignEnd="@+id/check_image_started_text" />
+                android:layout_marginTop="18dp"
+                android:layout_below="@+id/check_image_started_text"
+                android:layout_centerHorizontal="true" />
+
+            <com.kaalivandi.UI.CEditText
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:id="@+id/check_edtext"
+                android:inputType="number|phone|numberDecimal"
+                android:gravity="left|center_vertical"
+                android:textColorHint="@color/login_back"
+                android:textColor="@color/login_back"
+                android:hint="PHONE NUMBER"
+                android:fontFamily="sans-serif"
+                android:layout_below="@+id/check_image_view"
+                android:layout_toRightOf="@+id/check_phone_icon"
+                android:layout_toEndOf="@+id/check_phone_icon">
+
+            </com.kaalivandi.UI.CEditText>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/ic_smartphone_call"
+                android:id="@+id/check_phone_icon"
+                android:layout_marginRight="14dp"
+                android:layout_marginEnd="14dp"
+                android:layout_alignTop="@+id/check_edtext"
+                android:layout_toLeftOf="@+id/check_image_started_text"
+                android:layout_toStartOf="@+id/check_image_started_text"
+                android:layout_alignBottom="@+id/check_edtext" />
+
+            <ImageView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:id="@+id/check_button"
+                android:textAllCaps="false"
+                app:srcCompat="@drawable/ic_right"
+
+                android:alpha="1"
+                android:layout_below="@+id/check_phone_icon"
+                android:layout_centerHorizontal="true" />
 
 
         </RelativeLayout>

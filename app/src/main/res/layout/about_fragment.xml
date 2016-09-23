@@ -6,13 +6,13 @@
   >
     <RelativeLayout
         android:layout_width="match_parent"
-        android:background="@color/login_back"
+        android:background="@drawable/white_gradient"
         android:layout_height="match_parent">
 
 
 
 
-    <com.kaalivandi.UI.TitleTextView
+    <com.kaalivandi.UI.IosLight
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
@@ -21,10 +21,10 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="39dp"
-        android:textColor="@color/whites"
+        android:textColor="@color/login_back"
         android:textSize="28sp" />
 
-    <com.kaalivandi.UI.TitleTextView
+    <com.kaalivandi.UI.IosLight
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
@@ -34,12 +34,12 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_marginTop="8dp"
-        android:textColor="#FFEBEE"
+        android:textColor="@color/login_back"
         android:textSize="22sp"
         android:layout_marginRight="16dp"
         android:layout_marginLeft="16dp" />
 
-    <com.kaalivandi.UI.TitleTextView
+    <com.kaalivandi.UI.IosLight
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
@@ -48,10 +48,9 @@
         android:layout_below="@+id/about_title_sub"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="41dp"
-        android:textColor="@color/whites"
-        android:textSize="28sp" />
+        android:textColor="@color/login_back"        android:textSize="28sp" />
 
-    <com.kaalivandi.UI.TitleTextView
+    <com.kaalivandi.UI.Iosthin
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
@@ -63,9 +62,9 @@
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         android:textSize="22sp"
-        android:textColor="#FFEBEE" />
+        android:textColor="@color/login_back"/>
 
-    <com.kaalivandi.UI.TitleTextView
+    <com.kaalivandi.UI.IosLight
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
@@ -74,10 +73,9 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="39dp"
         android:layout_below="@+id/about_motto_sub"
-        android:textColor="@color/whites"
-        android:textSize="28sp" />
+        android:textColor="@color/login_back"        android:textSize="28sp" />
 
-    <com.kaalivandi.UI.TitleTextView
+    <com.kaalivandi.UI.Iosthin
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
@@ -86,7 +84,7 @@
         android:layout_below="@+id/about_y_kaali"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:textColor="#FFEBEE"
+        android:textColor="@color/login_back"
         android:layout_marginRight="16dp"
         android:layout_marginLeft="16dp"
         android:textSize="22sp" />

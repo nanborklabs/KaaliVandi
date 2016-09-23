@@ -3,11 +3,8 @@ package com.kaalivandi.Fragment;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.graphics.Typeface;
 import android.os.Bundle;
-import android.renderscript.Type;
 import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.animation.FastOutLinearInInterpolator;
@@ -17,11 +14,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateDecelerateInterpolator;
-import android.view.animation.AccelerateInterpolator;
-import android.view.animation.AnticipateOvershootInterpolator;
-import android.view.animation.LinearInterpolator;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.DecelerateInterpolator;
 import android.view.animation.OvershootInterpolator;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,27 +29,39 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.kaalivandi.Network.KaalivandRequestQueue;
 import com.kaalivandi.R;
+import com.kaalivandi.StringValidator;
+import com.kaalivandi.UI.CEditText;
+import com.kaalivandi.UI.IosLight;
+import com.kaalivandi.UI.Iosthin;
 import com.kaalivandi.Utils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
+
+import static android.R.attr.name;
 
 /**
+ *
  * Created by user on 21-08-2016.
  */
-public class  RegisterFragment extends Fragment {
+public class RegisterFragment extends Fragment {
 
 
     @BindView(R.id.register_title)
-    TextView mTitle;
-    @BindView(R.id.register_sub_title) TextView mSubTitle;
+    IosLight mTitle;
+    @BindView(R.id.register_sub_title)
+    Iosthin mSubTitle;
 
     @BindView(R.id.register_name_ted)
     TextInputLayout muserNameBox;
-    @BindView(R.id.register_password_ted) TextInputLayout mPassBox;
-    @BindView(R.id.register_reenter_pass_ted) TextInputLayout mRePassBox;
-    @BindView(R.id.register_phone_ted) TextInputLayout mPhoneBox;
-@BindView(R.id.register_email_ted) TextInputLayout mEmailBox;
+    @BindView(R.id.register_password_ted)
+    TextInputLayout mPassBox;
+
+    @BindView(R.id.register_phone_ted)
+    TextInputLayout mPhoneBox;
+    @BindView(R.id.register_email_ted)
+    TextInputLayout mEmailBox;
     @BindView(R.id.register_button)
     Button mRegisterButton;
 
@@ -60,6 +70,16 @@ public class  RegisterFragment extends Fragment {
     ProgressDialog mDialog;
 
     private static final String TAG = "REGISTER";
+    @BindView(R.id.register_signin)
+    TextView registerSignin;
+    @BindView(R.id.reg_user_icon)
+    ImageView regUserIcon;
+    @BindView(R.id.reg_mobile_icon)
+    ImageView regMobileIcon;
+    @BindView(R.id.reg_password_icon)
+    ImageView regPasswordIcon;
+    @BindView(R.id.reg_mail_icon)
+    ImageView regMailIcon;
 
     private View mView;
     private static RegisterFragment mFragment = null;
@@ -69,12 +89,13 @@ public class  RegisterFragment extends Fragment {
     private Registration mCallback;
 
     private KaalivandRequestQueue mRequestQueue;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mRequestQueue =KaalivandRequestQueue.getInstance(getContext());
+        mRequestQueue = KaalivandRequestQueue.getInstance(getContext());
         mDialog = new ProgressDialog(getContext());
-        if (getArguments()!=null){
+        if (getArguments() != null) {
             mNumber = getArguments().getString("Number");
         }
     }
@@ -82,7 +103,7 @@ public class  RegisterFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         this.mContext = context;
-        mCallback = (Registration)context;
+        mCallback = (Registration) context;
 
         super.onAttach(context);
     }
@@ -100,31 +121,28 @@ public class  RegisterFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-       mView = inflater.inflate(R.layout.register_fragment,container,false);
-        ButterKnife.bind(this,mView);
-
+        mView = inflater.inflate(R.layout.register_fragment, container, false);
+        ButterKnife.bind(this, mView);
 
 
         //set Custom Fonts faces to Texts
-        final Typeface tf = Typeface.createFromAsset(getContext().getAssets(), "fonts/grand.otf");
-        final Typeface tf2 = Typeface.createFromAsset(getContext().getAssets(), "fonts/fallingsky.otf");
-
-
-        if (tf != null && tf2!=null){
-            mTitle.setTypeface(tf);
-            mSubTitle.setTypeface(tf2);
-            mRegisterButton.setTypeface(tf2);
-        }
+//        final Typeface tf = Typeface.createFromAsset(getContext().getAssets(), "fonts/grand.otf");
+//        final Typeface tf2 = Typeface.createFromAsset(getContext().getAssets(), "fonts/fallingsky.otf");
+//
+//
+//        if (tf != null && tf2!=null){
+//            mTitle.setTypeface(tf);
+//            mSubTitle.setTypeface(tf2);
+//            mRegisterButton.setTypeface(tf2);
+//        }
 
         introAnimations();
 
 
-
-        if (mNumber!=null){
+        if (mNumber != null) {
             try {
                 mPhoneBox.getEditText().setText(mNumber);
-            }
-            catch (NullPointerException e){
+            } catch (NullPointerException e) {
                 mPhoneBox.getEditText().setText("");
             }
 
@@ -138,81 +156,131 @@ public class  RegisterFragment extends Fragment {
                 mDialog.setTitle("Welcome");
                 mDialog.setMessage("Registering on Kaalivandi Network..");
 
-               final String mPass = mPassBox.getEditText().getText().toString();
-                final String mRepass = mRePassBox.getEditText().getText().toString();
-                if (mPass.equals(mRepass)){
-                    if (mPass.length()>5){
-                         String muser = muserNameBox.getEditText().getText().toString();
-                         String mPhone = mPhoneBox.getEditText().getText().toString();
-                         String mEmail = mEmailBox.getEditText().getText().toString();
-                            muser  = muser.trim();
-                            mPhone = mPhone.trim();
-                           mEmail  = mEmail.trim();
-                        mDialog.show();
-                        register(muser,mPass,mPhone,mEmail);
+                 String mPass = mPassBox.getEditText().getText().toString();
+                String muser = muserNameBox.getEditText().getText().toString();
+                String mPhone = mPhoneBox.getEditText().getText().toString();
+                String mEmail = mEmailBox.getEditText().getText().toString();
+                muser = muser.trim();
+                mPhone = mPhone.trim();
+                mEmail = mEmail.trim();
+                if (StringValidator.CheckUserName(muser)){
+                    //Right  user Name
+
+                    if (StringValidator.checkeEMail(mEmail)){
+                        //Right Emai
+                        if (StringValidator.checkPhoneNumber(mPhone)){
+                            //Right phone Number
+                            if (StringValidator.checkPassword(mPass)){
+                                    //Right Password
+                                register(muser, mPass, mPhone, mEmail);
+                            }
+                            else {
+                                showErrorNumber((CEditText) mPassBox.getEditText());
+                            }
+
+                        }else{
+
+                            showErrorNumber((CEditText) mPhoneBox.getEditText());
+                        }
+
+                    }else{
+                        showErrorNumber((CEditText) mEmailBox.getEditText());
                     }
-                    else {
-                        Toast.makeText(getContext(),"Please Enter more than 5 characters",Toast.LENGTH_SHORT).show();
-                        mPassBox.getEditText().setText("");
-                        mRePassBox.getEditText().setText("");
-                    }
-                    //same password procced to register
+
 
                 }
-                else {
-                    Toast.makeText(getContext(),"Please Enter Same Password",Toast.LENGTH_SHORT).show();
-                    mPassBox.getEditText().setText("");
-                    mRePassBox.getEditText().setText("");
+                else{
+                    showErrorNumber((CEditText) muserNameBox.getEditText());
                 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                    //same password procced to register
+
+
             }
         });
         return mView;
     }
 
+
+    private void showErrorNumber(CEditText v) {
+
+        Animation shake = AnimationUtils.loadAnimation(getContext(), R.anim.shake);
+        v.startAnimation(shake);
+        v.setText("");
+
+
+    }
     private void introAnimations() {
         mTitle.setScaleX(0);
+        int size = -300;
+         size = -Utils.getScreenWidth(getContext());
+        regUserIcon.setTranslationX(size);
+        regMailIcon.setTranslationX(size);
+        regPasswordIcon.setTranslationX(size);
+        regMobileIcon.setTranslationX(size);
+
 
         mTitle.animate().scaleX(1).setDuration(400).setInterpolator(new AccelerateDecelerateInterpolator())
                 .start();
 
-        muserNameBox.setScaleX(0);
-        mEmailBox.setScaleX(0);
-       mPhoneBox.setScaleX(0);
-        mPassBox.setScaleX(0);
+        int versize = Utils.getScreenWidth(getContext());
+        muserNameBox.setTranslationX(versize);
+        mEmailBox.setTranslationX(versize);
+        mPhoneBox.setTranslationX(versize);
+        mPassBox.setTranslationX(versize);
 
-        mRePassBox.setScaleX(0);
+
         mRegisterButton.setScaleX(0);
-        muserNameBox.animate().scaleX(1).scaleX(1).setInterpolator(new FastOutLinearInInterpolator()).setDuration(300).setStartDelay(400).start();
-        mEmailBox.animate().scaleX(1).scaleX(1).setInterpolator(new FastOutLinearInInterpolator()).setDuration(300).setStartDelay(500).start();
-        mPhoneBox.animate().scaleX(1).scaleX(1).setInterpolator(new FastOutLinearInInterpolator()).setDuration(300).setStartDelay(600).start();
-        mPassBox.animate().scaleX(1).scaleX(1).setInterpolator(new FastOutLinearInInterpolator()).setDuration(300).setStartDelay(700).start();
-        mRePassBox.animate().scaleX(1).scaleX(1).setInterpolator(new FastOutLinearInInterpolator()).setDuration(300).setStartDelay(800).start();
-        mRegisterButton.animate().scaleX(1).scaleX(1).setInterpolator(new FastOutLinearInInterpolator()).setDuration(300).setStartDelay(900).start();
+        mRegisterButton.setScaleY(0);
+        muserNameBox.animate().translationX(0).setInterpolator(new DecelerateInterpolator()).setDuration(300).setStartDelay(400).start();
+        regUserIcon.animate().translationX(0).setInterpolator(new DecelerateInterpolator()).setDuration(300).setStartDelay(400).start();
+        mEmailBox.animate().translationX(0).setInterpolator(new DecelerateInterpolator(1.5f)).setDuration(300).setStartDelay(500).start();
+        regMailIcon.animate().translationX(0).setInterpolator(new DecelerateInterpolator(1.5f)).setDuration(300).setStartDelay(500).start();
+        mPhoneBox.animate().translationX(0).setInterpolator(new DecelerateInterpolator()).setDuration(300).setStartDelay(600).start();
+        regMobileIcon.animate().translationX(0).setInterpolator(new DecelerateInterpolator()).setDuration(300).setStartDelay(600).start();
+        mPassBox.animate().translationX(0).setInterpolator(new DecelerateInterpolator()).setDuration(300).setStartDelay(700).start();
+        regPasswordIcon.animate().translationX(0).setInterpolator(new DecelerateInterpolator()).setDuration(300).setStartDelay(700).start();
+        mRegisterButton.animate().scaleX(1).scaleY(1).setInterpolator(new OvershootInterpolator(2f)).setDuration(300).setStartDelay(1000).start();
 
 
     }
 
     private void register(final String muser, final String mPass, final String mPhone, final String mEmail) {
-        final String URl = prepareURL(muser,mPass,mPhone,mEmail);
-        Log.d(TAG, "making Request "+URl);
+        final String URl = prepareURL(muser, mPass, mPhone, mEmail);
+        Log.d(TAG, "making Request " + URl);
         final StringRequest mRegisterReq = new StringRequest(Request.Method.GET, URl, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                Log.d(TAG, "onResponse: "+ response);
-                if (response.equals("\"True\"")){
-                        if (mDialog.isShowing()){
-                            mDialog.dismiss();
-                        }
-                    if (mCallback!=null){
-                        mCallback.registered(muser,mPhone,mEmail);
+                Log.d(TAG, "onResponse: " + response);
+                if (response.equals("\"True\"")) {
+                    if (mDialog.isShowing()) {
+                        mDialog.dismiss();
                     }
-                    else {
-                        throw  new NullPointerException("Activity must implement Method");
+                    if (mCallback != null) {
+                        mCallback.registered(muser, mPhone, mEmail);
+                    } else {
+                        throw new NullPointerException("Activity must implement Method");
                     }
 
-                }
-                else if (response.equals("\"False\"")){
-                    if (mDialog.isShowing()){
+                } else if (response.equals("\"False\"")) {
+                    if (mDialog.isShowing()) {
                         mDialog.dismiss();
                     }
                     AlertDialog.Builder alertDialog = new AlertDialog.Builder(getContext());
@@ -227,9 +295,8 @@ public class  RegisterFragment extends Fragment {
                     alertDialog.show();
 
 
-                }
-                else {
-                    if (mDialog.isShowing()){
+                } else {
+                    if (mDialog.isShowing()) {
                         mDialog.dismiss();
                     }
                     AlertDialog.Builder alertDialog = new AlertDialog.Builder(getContext());
@@ -241,10 +308,10 @@ public class  RegisterFragment extends Fragment {
 
                         }
                     });
-                    alertDialog.show();  mCallback.notRegisterered();
+                    alertDialog.show();
+                    mCallback.notRegisterered();
 
                 }
-
 
 
             }
@@ -252,7 +319,7 @@ public class  RegisterFragment extends Fragment {
             @Override
             public void onErrorResponse(VolleyError error) {
 
-                if (mDialog.isShowing()){
+                if (mDialog.isShowing()) {
                     mDialog.dismiss();
                 }
 
@@ -278,7 +345,7 @@ public class  RegisterFragment extends Fragment {
         mPass = mPass.trim();
         mPhone = mPhone.trim();
         muser = muser.trim();
-        return "http://www.kaalivandi.com/MobileApp/NewRegistration?Number="+mPhone+"&Email="+mEmail+"&Name="+muser+"&Password="+mPass;
+        return "http://www.kaalivandi.com/MobileApp/NewRegistration?Number=" + mPhone + "&Email=" + mEmail + "&Name=" + muser + "&Password=" + mPass;
 
     }
 
@@ -323,15 +390,21 @@ public class  RegisterFragment extends Fragment {
     }
 
     public static Fragment newInstance() {
-       if (mFragment == null){
-           mFragment =  new RegisterFragment();
-       }else {
-           return mFragment;
-       }
+        if (mFragment == null) {
+            mFragment = new RegisterFragment();
+        } else {
+            return mFragment;
+        }
         return mFragment;
     }
-    public interface Registration{
+
+    @OnClick(R.id.register_signin)
+    public void onClick() {
+    }
+
+    public interface Registration {
         void registered(String muser, String mPass, String mEmail);
+
         void notRegisterered();
     }
 }
