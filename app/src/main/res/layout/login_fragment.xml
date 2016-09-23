@@ -56,6 +56,8 @@
 
         <com.kaalivandi.UI.CEditText
             android:layout_width="match_parent"
+            android:textColorHint="@color/login_back"
+            android:textColor="@color/login_back"
 
             android:layout_height="match_parent"
             style="@style/login_edittext"
@@ -110,14 +112,12 @@
         app:srcCompat="@drawable/ic_users"
         android:id="@+id/imageView5"
         android:layout_alignTop="@+id/login_user_ted"
-        android:layout_alignLeft="@+id/login_pas_ted"
-        android:layout_alignStart="@+id/login_pas_ted"
-        android:layout_above="@+id/login_pas_ted" />
+        android:layout_above="@+id/login_pas_ted"
+        android:layout_marginLeft="16dp" />
 
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
         android:hint="Password"
-        android:layout_toRightOf="@+id/check_phone_icon"
         android:layout_toEndOf="@+id/check_phone_icon"
 
         android:layout_height="60dp"
@@ -125,21 +125,24 @@
         android:paddingRight="16dp"
         android:textAlignment="center"
 
-        android:textColorHint="@color/whites"
+        android:textColorHint="@color/login_back"
+        android:textColor="@color/login_back"
 
         android:layout_marginTop="24dp"
         android:id="@+id/login_pas_ted"
         android:layout_below="@+id/login_user_ted"
-        android:layout_alignLeft="@+id/login_enter_button"
-        android:layout_alignStart="@+id/login_enter_button">
+        android:layout_toRightOf="@+id/check_phone_icon"
+        android:weightSum="1">
 
         <com.kaalivandi.UI.CEditText
             android:layout_width="326dp"
+            android:textColorHint="@color/login_back"
+            android:textColor="@color/login_back"
 
             android:layout_height="match_parent"
 
             android:id="@+id/login_password"
-            />
+            android:layout_weight="3.75" />
 
 
     </android.support.design.widget.TextInputLayout>
@@ -149,9 +152,10 @@
         android:layout_height="63dp"
         app:srcCompat="@drawable/ic_padlock"
         android:id="@+id/check_phone_icon"
-        android:layout_alignBottom="@+id/login_pas_ted"
-        android:layout_alignLeft="@+id/login_pas_ted"
-        android:layout_alignStart="@+id/login_pas_ted" />
+        android:layout_alignTop="@+id/login_pas_ted"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="16dp" />
 
 </RelativeLayout>
 </ScrollView>

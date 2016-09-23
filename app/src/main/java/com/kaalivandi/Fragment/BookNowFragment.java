@@ -32,7 +32,10 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.flipboard.bottomsheet.BottomSheetLayout;
 import com.google.android.gms.location.places.Place;
+import com.google.android.gms.location.places.ui.PlaceAutocomplete;
+import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment;
 import com.google.android.gms.location.places.ui.PlacePicker;
+import com.google.android.gms.location.places.ui.PlaceSelectionListener;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
@@ -40,12 +43,13 @@ import com.kaalivandi.Network.KaalivandRequestQueue;
 import com.kaalivandi.Prefs.MyPrefs;
 import com.kaalivandi.R;
 import com.kaalivandi.UI.FontCache;
+import com.kaalivandi.UI.IosLight;
+import com.kaalivandi.UI.Iosthin;
 import com.kaalivandi.UI.TitleTextView;
 import com.kaalivandi.Utils;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -69,25 +73,22 @@ public class BookNowFragment extends Fragment {
     private GoogleMap mMap;
 
 
-    //the switch to to identify is mpre than 700kg
+
 
 
     @BindView(R.id.from_text)
-    TextView mFromText;
+    IosLight mFromText;
     @BindView(R.id.to_text)
-    TextView mToText;
-    //to and from text boxes
-    @BindView(R.id.from_et)
-    TextView mFrom;
-    @BindView(R.id.to_et)
-    TextView mTo;
+    IosLight mToText;
+
+
 
 
     //button to book oreders
     @BindView(R.id.book_now_button)
     Button mBookButton;
 
-    //the radio BUtton
+
 
 
     @BindView(R.id.bottomsheet)
@@ -95,10 +96,10 @@ public class BookNowFragment extends Fragment {
 
 
 
-    @BindView(R.id.km_text) TitleTextView mKmText;
+    @BindView(R.id.km_text) Iosthin mKmText;
 
     @BindView(R.id.ride_text)
-    TitleTextView mRideText;
+    Iosthin mRideText;
 
 
     @BindView(R.id.home_drop_imag)
@@ -180,7 +181,6 @@ public class BookNowFragment extends Fragment {
                 //get the place form Intent { @param data}
                 Place selectedPlace = PlacePicker.getPlace(getContext(), data);
                 //set the Textfields to place name
-                mFrom.setText(selectedPlace.getAddress());
 
                 //get the posoition
                 origin_Lat = selectedPlace.getLatLng().latitude;
@@ -229,7 +229,7 @@ public class BookNowFragment extends Fragment {
                 Place selePlace = PlacePicker.getPlace(getContext(), data);
 
                 //set textfiels and update globals
-                mTo.setText(selePlace.getAddress());
+
                 mToPlace = (String) selePlace.getAddress();
                 dest_Lat = selePlace.getLatLng().latitude;
                 dest_Lon = selePlace.getLatLng().longitude;
@@ -268,7 +268,7 @@ public class BookNowFragment extends Fragment {
         myPrefs = new MyPrefs(mContext);
         if (getContext() != null) {
             am = getContext().getAssets();
-            text_tf = Typeface.createFromAsset(am, "fonts/fallingsky.otf");
+            text_tf = Typeface.createFromAsset(am, "fonts/ios_med.ttf");
         }
 
         mRequestQueue = KaalivandRequestQueue.getInstance(mContext);
@@ -295,14 +295,18 @@ public class BookNowFragment extends Fragment {
 
 
         if (text_tf != null) {
-            mFromText.setTypeface(FontCache.getTypeface("fonts/fallingsky.otf", getContext()));
+            mFromText.setTypeface(FontCache.getTypeface("fonts/", getContext()));
             mToText.setTypeface(FontCache.getTypeface("fonts/fallingsky.otf", getContext()));
         } else {
             //do nothing
         }
 
 
-        mFrom.setOnClickListener(new View.OnClickListener() {
+//        PlaceAutocompleteFragment mFromFragment =  getActivity().getSupportFragmentManager().findFragmentById(R.id.from_autocomplete);
+//        Fragment mToFra = getActivity().getSupportFragmentManager().findFragmentById(R.id.to_autocomplete);
+//        mFromFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
+//        });
+        mPickUpImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -325,7 +329,7 @@ public class BookNowFragment extends Fragment {
 
 
         // Destination place Selector
-        mTo.setOnClickListener(new View.OnClickListener() {
+        mDropIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 try {
@@ -374,10 +378,7 @@ public class BookNowFragment extends Fragment {
     }
 
     private void introAnimations() {
-        mTo.setTranslationY(Utils.getScreenHeight(getContext()));
-        mTo.animate().setDuration(1200).translationY(0)
-                .setInterpolator(new AccelerateDecelerateInterpolator())
-                .start();
+
         mToText.setTranslationY(Utils.getScreenHeight(getContext()));
         mToText.animate().translationY(0)
                 .setDuration(1200)
@@ -385,10 +386,7 @@ public class BookNowFragment extends Fragment {
                 .start();
 
         //Top of Textview
-        mFrom.setTranslationY(-Utils.getScreenHeight(getContext()));
-        mFrom.animate().setDuration(1200).translationY(0)
-                .setInterpolator(new AccelerateDecelerateInterpolator())
-                .start();
+
         mFromText.setTranslationY(-Utils.getScreenHeight(getContext()));
         mFromText.animate().setDuration(1200).translationY(0)
                 .setInterpolator(new AccelerateDecelerateInterpolator())

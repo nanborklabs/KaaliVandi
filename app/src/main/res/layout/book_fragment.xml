@@ -18,15 +18,15 @@
 
 
 
-    <com.kaalivandi.UI.TitleTextView
+    <fragment
         android:layout_width="wrap_content"
         android:layout_height="50dp"
 
         android:ems="10"
         android:background="@drawable/place_selector"
-        android:id="@+id/from_et"
+        android:id="@+id/from_autocomplete"
         android:text="Click to select"
-
+        android:name="com.google.android.gms.location.places.ui.PlaceAutocompleteFragment"
         android:gravity="center"
         android:layout_below="@+id/from_text"
         android:layout_marginTop="8dp"
@@ -40,7 +40,7 @@
         android:layout_alignLeft="@+id/ride_text"
         android:layout_alignStart="@+id/ride_text" />
 
-    <com.kaalivandi.UI.TitleTextView
+    <com.kaalivandi.UI.IosLight
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         style="@style/from_to_text"
@@ -57,20 +57,20 @@
         android:layout_marginTop="@dimen/book_text_margin_top2" />
 
 
-    <com.kaalivandi.UI.TitleTextView
+    <com.kaalivandi.UI.IosLight
         android:layout_width="wrap_content"
         android:layout_height="50dp"
         android:inputType="textMultiLine"
         android:ems="10"
-        android:id="@+id/to_et"
+        android:id="@+id/to_autocomplete"
         android:text="Click to Select"
         android:background="@drawable/place_selector"
         android:gravity="center"
         android:layout_below="@+id/to_text"
-        android:layout_alignRight="@+id/from_et"
-        android:layout_alignEnd="@+id/from_et"
-        android:layout_alignLeft="@+id/from_et"
-        android:layout_alignStart="@+id/from_et"
+        android:layout_alignRight="@+id/from_autocomplete"
+        android:layout_alignEnd="@+id/from_autocomplete"
+        android:layout_alignLeft="@+id/from_autocomplete"
+        android:layout_alignStart="@+id/from_autocomplete"
         android:textColor="@color/whites"
         android:textStyle="bold"
         android:padding="4dp" />
@@ -83,7 +83,7 @@
         android:background="@drawable/register_button_background"
         android:text="Get Fare"
         android:textColor="@color/whites"
-        android:layout_below="@+id/to_et"
+        android:layout_below="@+id/to_autocomplete"
         android:layout_alignLeft="@+id/from_text"
         android:layout_alignStart="@+id/from_text"
         android:layout_marginTop="113dp"
@@ -92,7 +92,7 @@
         android:layout_marginRight="32dp"
         android:layout_marginBottom="8dp" />
 
-    <com.kaalivandi.UI.TitleTextView
+    <com.kaalivandi.UI.Iosthin
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
@@ -104,7 +104,7 @@
 
         android:layout_centerHorizontal="true" />
 
-    <com.kaalivandi.UI.TitleTextView
+    <com.kaalivandi.UI.Iosthin
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
@@ -120,14 +120,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:srcCompat="@drawable/ic_loc_not_selected"
-        android:layout_alignTop="@+id/from_et"
+        android:layout_alignTop="@+id/from_autocomplete"
         android:layout_alignLeft="@+id/from_text"
         android:padding="10dp"
         android:layout_alignStart="@+id/from_text"
         android:id="@+id/home_pickup_image"
         android:layout_above="@+id/to_text"
-        android:layout_toLeftOf="@+id/from_et"
-        android:layout_toStartOf="@+id/from_et" />
+        android:layout_toLeftOf="@+id/from_autocomplete"
+        android:layout_toStartOf="@+id/from_autocomplete" />
 
     <ImageView
         android:layout_width="wrap_content"
@@ -139,7 +139,7 @@
         android:id="@+id/home_drop_imag"
         android:layout_above="@+id/book_now_button" />
 
-    <com.kaalivandi.UI.TitleTextView
+    <com.kaalivandi.UI.IosLight
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Drop/Delivery Location"
@@ -147,7 +147,7 @@
         style="@style/from_to_text"
         android:textSize="25sp"
         android:layout_marginTop="63dp"
-        android:layout_below="@+id/from_et"
+        android:layout_below="@+id/from_autocomplete"
         android:layout_alignLeft="@+id/home_drop_imag"
         android:layout_alignStart="@+id/home_drop_imag" />
 

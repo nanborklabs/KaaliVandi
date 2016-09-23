@@ -71,7 +71,6 @@ public class LoginFragment extends Fragment {
     MyPrefs myPrefs ;
 
     String mNumber;
-    @BindView(R.id.login_image) ImageView mbackgraoundimage;
     @Override
     public void onDestroyView() {
         super.onDestroyView();

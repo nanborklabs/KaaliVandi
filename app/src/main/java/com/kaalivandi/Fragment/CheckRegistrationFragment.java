@@ -255,6 +255,7 @@ public class CheckRegistrationFragment extends Fragment {
             @Override
             public void onResponse(String response) {
                 Log.d(TAG, "onResponse: "+response);
+                Log.d(TAG, "onResponse: ");
 
                 if (mDialog.isShowing()){
                     mDialog.hide();
@@ -290,7 +291,7 @@ public class CheckRegistrationFragment extends Fragment {
                 if (mDialog.isShowing()){
                     mDialog.hide();
                 }
-
+                Log.d(TAG, "onErrorResponse: ");
 
              Toast.makeText(getContext(),"Some Problem Occurred,  Please try Again",Toast.LENGTH_LONG).show();
 
