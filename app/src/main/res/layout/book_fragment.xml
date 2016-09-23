@@ -19,7 +19,7 @@
 
 
 
-    <fragment
+    <com.kaalivandi.UI.IosLight
         android:layout_width="wrap_content"
         android:layout_height="50dp"
 
@@ -27,7 +27,7 @@
         android:background="@drawable/place_selector"
         android:id="@+id/from_autocomplete"
         android:text="Click to select"
-        android:name="com.google.android.gms.location.places.ui.PlaceAutocompleteFragment"
+
         android:gravity="center"
         android:layout_below="@+id/from_text"
         android:layout_marginTop="8dp"
@@ -35,7 +35,7 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:layout_marginRight="32dp"
-        android:textColor="@color/whites"
+        android:textColor="@color/login_back"
         android:textStyle="bold"
         android:padding="4dp"
         android:layout_alignLeft="@+id/ride_text"

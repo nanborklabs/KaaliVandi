@@ -23,7 +23,7 @@ import com.kaalivandi.Fragment.BookNowFragment;
 import com.kaalivandi.Fragment.BookedFragment;
 import com.kaalivandi.Fragment.CheckRegistrationFragment;
 import com.kaalivandi.Fragment.ContacUsFragement;
-import com.kaalivandi.Fragment.EditProfileFragment;
+import com.kaalivandi.Fragment.ProfileEditFragment;
 import com.kaalivandi.Fragment.ProfilePage;
 import com.kaalivandi.Fragment.RateChartFragment;
 import com.kaalivandi.Fragment.TermFragment;
@@ -37,10 +37,11 @@ public class Home extends AppCompatActivity implements LoginFragment.login ,Book
         , BookedFragment.Booking, DialogInterface.OnCancelListener ,
         RegisterFragment.Registration, CheckRegistrationFragment.CheckUserPresent
         ,ForgotPassword.forgotInterface
-        ,NavigationView.OnNavigationItemSelectedListener, ProfilePage.EditInfo{
+        ,NavigationView.OnNavigationItemSelectedListener,
+        ProfilePage.ProfileEdition
+{
 
     private static final String TAG = "HOME";
-    private android.widget.ShareActionProvider mShareActionProvider;
     MyPrefs myPrefs;
     public int PLACE_REQUEST = 2;
     DrawerLayout mDrawerLayout;
@@ -52,7 +53,24 @@ public class Home extends AppCompatActivity implements LoginFragment.login ,Book
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         myPrefs = new MyPrefs(this);
+        if (myPrefs.isFirstTime()){
+            // App is launched for the first time
+            // show Register page
+            showCheckRegistrationPage();
+        }
+        else{
 
+            //user is Already Registrered , obtained form { @param myPrefs }
+                normalFlow();
+        }
+
+
+
+
+
+    }
+
+    private void normalFlow() {
         Toolbar mToolbar  =(Toolbar)findViewById(R.id.toolbar_main);
 
         mDrawerLayout  = (DrawerLayout)findViewById(R.id.drawer);
@@ -64,16 +82,18 @@ public class Home extends AppCompatActivity implements LoginFragment.login ,Book
         mnavigation = (NavigationView)findViewById(R.id.nav_view);
         mnavigation.setNavigationItemSelectedListener(this);
         mDrawerLayout.addDrawerListener(mToggle);
-            getSupportFragmentManager().beginTransaction().
-                    replace(R.id.frag_holder,new CheckRegistrationFragment())
-                    .addToBackStack(null)
-                    .commit();
-
-
-
+        getSupportFragmentManager().beginTransaction().
+                replace(R.id.frag_holder,new HomeFragment())
+                .addToBackStack(null)
+                .commit();
     }
 
-
+    private void showCheckRegistrationPage() {
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.frag_holder,new CheckRegistrationFragment())
+                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                .commit();
+    }
 
 
     @Override
@@ -186,14 +206,19 @@ public class Home extends AppCompatActivity implements LoginFragment.login ,Book
         muser = muser.trim();
         mPhone = mPhone.trim();
         mEmail= mEmail.trim();
-        myPrefs.setUsername(muser);
-        myPrefs.setEmail(mEmail);
-        myPrefs.setPhone(mPhone);
-        myPrefs.setIsFirsttime(false);
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.frag_holder, new HomeFragment())
-                .addToBackStack(null)
-                .commit();
+        if (myPrefs == null) {
+            Log.d(TAG, "Prefs null");
+        }else{
+
+            myPrefs.setUsername(muser);
+            myPrefs.setEmail(mEmail);
+            myPrefs.setPhone(mPhone);
+            myPrefs.setIsFirsttime(false);
+            myPrefs.setIsFirsttime(false);
+
+            showHomeFragment();
+        }
+
     }
 
     @Override
@@ -277,14 +302,12 @@ public class Home extends AppCompatActivity implements LoginFragment.login ,Book
         return true;
     }
 
-    @Override
-    public void ChangePorfileDetails() {
-        EditProfileFragment mFragment = new EditProfileFragment();
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.frag_holder,mFragment)
-                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                .commit();
 
+    @Override
+    public void editProfile() {
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.frag_holder,new ProfileEditFragment())
+                .commit();
     }
 }
 

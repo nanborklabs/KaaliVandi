@@ -5,42 +5,20 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
-import com.kaalivandi.Prefs.MyPrefs;
 import com.kaalivandi.R;
 
-import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 /**
  * Created by Nandha on 9/23/2016.
  */
-public class ProfilePage extends Fragment {
+public class ProfileEditFragment extends Fragment {
 
-
-    @BindView(R.id.pro_edit)
-    ImageView proEdit;
-    @BindView(R.id.pro_name_value)
-    TextView nameBox;
-    @BindView(R.id.pro_email_value)
-    TextView emailbox;
-    @BindView(R.id.pro_number_value)
-    TextView numberBox;
-
-    String name;
-    String phone;
-    String email;
-
-    ProfileEdition mCallback;
-    MyPrefs myPrefs;
-
+    private View mView;
     @Override
     public void onDestroyView() {
         super.onDestroyView();
@@ -49,27 +27,16 @@ public class ProfilePage extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.d("PROFILE", "onCreate: ");
-        myPrefs = new MyPrefs(getContext());
-        if (myPrefs != null) {
-            name = myPrefs.getUserId();
-            email = myPrefs.getUserEmail();
-            phone = myPrefs.getPhoneNumber();
-        }
-
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View mView = inflater.inflate(R.layout.profile_view, container, false);
-        if (mView == null){
-            Log.d("PROFILE", "NULL: ");
-        }
-        ButterKnife.bind(this, mView);
-        nameBox.setText(name);
-        emailbox.setText(email);
-        numberBox.setText(phone);
+       mView = inflater.inflate(R.layout.profile_edit,container,false);
+        ButterKnife.bind(this,mView);
+
+
+
         return mView;
     }
 
@@ -115,7 +82,6 @@ public class ProfilePage extends Fragment {
 
     @Override
     public void onAttach(Context context) {
-        mCallback = (ProfileEdition) context;
         super.onAttach(context);
     }
 
@@ -127,13 +93,5 @@ public class ProfilePage extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
-    }
-
-    @OnClick(R.id.pro_edit)
-    public void onClick() {
-    }
-
-    public interface ProfileEdition {
-        void editProfile();
     }
 }

@@ -2,6 +2,7 @@ package com.kaalivandi.Prefs;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 /**
  * Created by nandhu on 29/8/16.
@@ -53,6 +54,7 @@ public class MyPrefs {
     }
 
     public void setUsername(String muser) {
+        Log.d("PREFS", "setUsername: ");
         final SharedPreferences.Editor ed = sf.edit();
         ed.putString(USER_ID_TAG,muser);
         ed.apply();
@@ -60,12 +62,14 @@ public class MyPrefs {
     }
 
     public void setEmail(String mEmail) {
+        Log.d("PREFS", "setEmail: ");
         final SharedPreferences.Editor ed = sf.edit();
         ed.putString(EMAIL_ID,mEmail);
         ed.apply();
     }
 
     public void setPhone(String mPhone) {
+        Log.d("PREFS", "setPhone: ");
         final SharedPreferences.Editor ed = sf.edit();
         ed.putString(PHONE_NUMBER_TAG,mPhone);
         ed.apply();

@@ -10,14 +10,7 @@ import java.util.regex.Pattern;
 
 public class StringValidator {
     public static boolean  CheckUserName(String mUserName){
-        if (mUserName.length()<5){
-            return false;
-
-        }
-
-        Pattern pattern = Pattern.compile("/^[A-z]+$/");
-        Matcher matcher = pattern.matcher(mUserName);
-        return matcher.matches();
+        return mUserName.length() >= 5;
 
 
     }
