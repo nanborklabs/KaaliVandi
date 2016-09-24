@@ -28,61 +28,72 @@
         android:id="@+id/folding_cell_pick"
         android:clipChildren="false"
         android:clipToPadding="false"
-
+        android:layout_margin="16dp"
 
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <!--First chld of pickup-->
-        <android.support.v7.widget.CardView
-            android:id="@+id/pickup_content_view"
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:background="@android:color/holo_green_dark"
-            android:visibility="gone">
-            <RelativeLayout
+            android:visibility="gone"
+
+            android:id="@+id/pickup_content_view"
+            android:layout_height="wrap_content">
+            <android.support.v7.widget.CardView
+
                 android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:background="@android:color/holo_green_dark"
+               >
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <com.kaalivandi.UI.IosLight
+                        android:layout_width="match_parent"
+                        android:layout_height="100dp"
+                        android:id="@+id/pick_enter_text"
+                        android:layout_marginTop="16dp"
+                        android:gravity="start"
+                        android:layout_marginStart="16dp"
+                        android:text="@string/pickup"/>
+
+
+
+                    <com.kaalivandi.UI.IosLight
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:gravity="center"
+                        android:layout_below="@+id/pick_enter_text"
+                        android:id="@+id/from_or_text"
+                        android:text="@string/or"/>
+
+                    <com.kaalivandi.UI.IosLight
+                        android:layout_width="match_parent"
+                        android:layout_height="100dp"
+                        android:background="@drawable/header_gradient_background"
+                        android:id="@+id/pick_up_choose_text"
+                        android:text="@string/map_text"
+                        android:layout_below="@+id/from_or_text"
+                        />
+                </RelativeLayout>
+
+            </android.support.v7.widget.CardView>
+        </FrameLayout>
+
+       <!--second child of pick up-->
+
+            <android.support.v7.widget.CardView
+
+                android:layout_width="match_parent"
+                app:cardBackgroundColor="@color/login_text_color"
+                app:cardCornerRadius="4dp"
+
                 android:layout_height="wrap_content">
 
                 <com.kaalivandi.UI.IosLight
-                    android:layout_width="match_parent"
-                    android:layout_height="100dp"
-                    android:id="@+id/pick_enter_text"
-                    android:layout_marginTop="16dp"
-                    android:gravity="start"
-                    android:layout_marginStart="16dp"
-                    android:text="@string/pickup"/>
-
-
-
-                <com.kaalivandi.UI.IosLight
-                    android:layout_width="match_parent"
-                    android:layout_height="60dp"
-                    android:layout_below="@+id/pick_enter_text"
-                    android:id="@+id/from_or_text"
-                    android:text="@string/or"/>
-
-                <com.kaalivandi.UI.IosLight
-                    android:layout_width="match_parent"
-                    android:layout_height="100dp"
-                    android:text="@string/map_text"
-                    android:layout_below="@+id/from_or_text"
-                    />
-            </RelativeLayout>
-
-        </android.support.v7.widget.CardView>
-       <!--second child of pick up-->
-        <android.support.v7.widget.CardView
-            android:id="@+id/pickup_title_view"
-            android:layout_width="match_parent"
-            app:cardBackgroundColor="@color/login_text_color"
-            app:cardCornerRadius="4dp"
-            android:layout_margin="16dp"
-            android:layout_height="wrap_content">
-
-            <com.kaalivandi.UI.IosLight
                     android:layout_width="match_parent"
                     android:layout_height="100dp"
                     android:id="@+id/pick_up_title"
@@ -92,7 +103,9 @@
                     />
 
 
-        </android.support.v7.widget.CardView>
+            </android.support.v7.widget.CardView>
+
+
     </com.ramotion.foldingcell.FoldingCell>
 
 
@@ -110,46 +123,57 @@
         android:layout_height="wrap_content">
 
         <!--First child of drop-->
-        <android.support.v7.widget.CardView
-            android:id="@+id/to_content_view"
+
+        <FrameLayout
             android:layout_width="match_parent"
-            app:cardBackgroundColor="@color/red_100"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:background="@color/cardview_shadow_end_color"
-            android:visibility="gone">
-            <RelativeLayout
+            android:id="@+id/to_content_view"
+            android:visibility="gone"
+            android:layout_height="wrap_content">
+            <android.support.v7.widget.CardView
+
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <com.kaalivandi.UI.IosLight
+                app:cardBackgroundColor="@color/red_100"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:background="@color/cardview_shadow_end_color"
+                >
+                <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="100dp"
-                    android:id="@+id/to_enter_text"
-                    android:layout_marginTop="16dp"
-                    android:gravity="start"
-                    android:layout_marginStart="16dp"
-                    android:text="@string/drop_text"/>
+                    android:layout_height="wrap_content">
+                    <com.kaalivandi.UI.IosLight
+                        android:layout_width="match_parent"
+                        android:layout_height="100dp"
+                        android:id="@+id/to_enter_text"
+                        android:layout_marginTop="16dp"
+                        android:gravity="start"
+                        android:layout_marginStart="16dp"
+                        android:text="@string/drop_text"/>
 
 
 
-                <com.kaalivandi.UI.IosLight
-                    android:layout_width="match_parent"
-                    android:layout_height="60dp"
-                    android:layout_below="@+id/to_enter_text"
-                    android:id="@+id/to_or_text"
-                    android:text="Or "/>
+                    <com.kaalivandi.UI.IosLight
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:layout_below="@+id/to_enter_text"
+                        android:id="@+id/to_or_text"
+                        android:text="Or "/>
 
-                <com.kaalivandi.UI.IosLight
-                    android:layout_width="match_parent"
-                    android:layout_height="100dp"
-                    android:text="@string/map_text"
-                    android:layout_below="@+id/to_or_text"
-                    />
+                    <com.kaalivandi.UI.IosLight
+                        android:layout_width="match_parent"
+                        android:layout_height="100dp"
+                        android:background="@drawable/header_gradient_background"
+                        android:id="@+id/drop_choose_text"
+                        android:text="@string/map_text"
+                        android:layout_below="@+id/to_or_text"
+                        />
 
-            </RelativeLayout>
+                </RelativeLayout>
 
-        </android.support.v7.widget.CardView>
+            </android.support.v7.widget.CardView>
+
+        </FrameLayout>
+
         <!--second child of drop -->
          <android.support.v7.widget.CardView
         android:id="@+id/to_title_view"
