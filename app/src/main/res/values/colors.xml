@@ -7,4 +7,5 @@
     <color name="login_back">#E53935</color>
     <color name="login_text_color">#FFFFFF</color>
     <color name="register_contrast">#00C853</color>
+    <color name="red_100">#FFCDD2</color>
 </resources>

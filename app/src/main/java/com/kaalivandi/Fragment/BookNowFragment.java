@@ -39,6 +39,7 @@ import com.kaalivandi.UI.IosLight;
 import com.kaalivandi.UI.Iosthin;
 import com.kaalivandi.UI.TitleTextView;
 import com.kaalivandi.Utils;
+import com.ramotion.foldingcell.FoldingCell;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -58,10 +59,6 @@ import butterknife.ButterKnife;
  * Created by user on 18-08-2016.
  */
 public class BookNowFragment extends Fragment {
-    @BindView(R.id.from_autocomplete)
-    TextView fromAutocomplete;
-    @BindView(R.id.to_autocomplete)
-    TextView toAutocomplete;
 
     private View mView;
 
@@ -69,11 +66,12 @@ public class BookNowFragment extends Fragment {
     MyPrefs myPrefs;
 
 
-    @BindView(R.id.from_text)
-    IosLight mFromText;
-    @BindView(R.id.to_text)
-    IosLight mToText;
 
+
+    @BindView(R.id.folding_cell_drop)
+    FoldingCell mDropCell;
+
+    @BindView(R.id.folding_cell_pick) FoldingCell mPickCell;
 
     //button to book oreders
     @BindView(R.id.book_now_button)
@@ -123,6 +121,8 @@ public class BookNowFragment extends Fragment {
     //From & To places in String
     private String mFromPlace = null;
     private String mToPlace = null;
+
+    boolean folded = true;
 
 
     private ProgressDialog mDialog;
@@ -246,11 +246,30 @@ public class BookNowFragment extends Fragment {
         final LatLngBounds mBounds = new LatLngBounds(msouth, mnorht);
 
 
+        mDropCell.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mDropCell.toggle(false);
+
+                folded =false;
+
+
+
+            }
+        });
+
+        mPickCell.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mPickCell.toggle(false);
+            }
+        });
+
 //        PlaceAutocompleteFragment mFromFragment =  getActivity().getSupportFragmentManager().findFragmentById(R.id.from_autocomplete);
 //        Fragment mToFra = getActivity().getSupportFragmentManager().findFragmentById(R.id.to_autocomplete);
 //        mFromFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
 //        });
-        fromAutocomplete.setOnClickListener(new View.OnClickListener() {
+      /*  fromAutocomplete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -286,7 +305,7 @@ public class BookNowFragment extends Fragment {
                 }
             }
         });
-
+*/
 
 
         //Book Button
@@ -323,7 +342,7 @@ public class BookNowFragment extends Fragment {
     }
 
     private void introAnimations() {
-
+/*
         mToText.setTranslationY(Utils.getScreenHeight(getContext()));
         mToText.animate().translationY(0)
                 .setDuration(1200)
@@ -336,6 +355,7 @@ public class BookNowFragment extends Fragment {
         mFromText.animate().setDuration(1200).translationY(0)
                 .setInterpolator(new AccelerateDecelerateInterpolator())
                 .start();
+                */
         mBookButton.setTranslationX(Utils.getScreenWidth(getContext()));
         mBookButton.animate().translationX(0).setDuration(400).setStartDelay(1000)
                 .setInterpolator(new AccelerateDecelerateInterpolator())

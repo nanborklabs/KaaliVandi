@@ -27,6 +27,7 @@ import butterknife.ButterKnife;
 
 /**
  * Created by user on 21-08-2016.
+ *
  */
 public class HomeFragment extends Fragment {
 
@@ -42,7 +43,7 @@ public class HomeFragment extends Fragment {
         super.onCreate(savedInstanceState);
         mPagerAdpater = new BookPageAdapter(getChildFragmentManager());
 
-        setHasOptionsMenu(true);
+
     }
 
     @Override
@@ -59,23 +60,7 @@ public class HomeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.home_fragment,container,false);
-        Toolbar mToolbar =(Toolbar) mView.findViewById(R.id.toolbar);
-        ((AppCompatActivity)getActivity()).setSupportActionBar(mToolbar);
-            final AssetManager am = getContext().getAssets();
-        final Typeface tf = Typeface.createFromAsset(am,"fonts/grand.otf");
-        TextView title = (TextView)mToolbar.findViewById(R.id.tool_bar_text);
-        title.setTypeface(tf);
 
-        ButterKnife.bind(this,mView);
-
-       if (mPagerAdpater != null){
-           mPager.setAdapter(mPagerAdpater);
-       }
-
-        if (mTab != null){
-
-            mTab.setupWithViewPager(mPager);
-        }
         return mView;
     }
 
@@ -133,17 +118,6 @@ public class HomeFragment extends Fragment {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        Log.d(TAG, "onOptionsItemSelected: Fragment"+item.getItemId());
-        switch (item.getItemId()){
-
-
-            case R.id.about_us :
-
-                   break;
-            case R.id.terms :
-                break;
-
-        }
         return true;
     }
 

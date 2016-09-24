@@ -29,7 +29,7 @@ public class TitleTextView extends TextView {
     }
 
     private void applyCustomFont(Context context) {
-        Typeface customFont = FontCache.getTypeface("fonts/fallingsky.otf", context);
+        Typeface customFont = FontCache.getTypeface("fonts/ios_light.ttf", context);
         setTypeface(customFont);
     }
 }

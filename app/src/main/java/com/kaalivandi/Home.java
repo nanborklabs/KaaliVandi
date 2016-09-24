@@ -15,6 +15,7 @@ import android.util.Log;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlacePicker;
@@ -38,7 +39,8 @@ public class Home extends AppCompatActivity implements LoginFragment.login ,Book
         RegisterFragment.Registration, CheckRegistrationFragment.CheckUserPresent
         ,ForgotPassword.forgotInterface
         ,NavigationView.OnNavigationItemSelectedListener,
-        ProfilePage.ProfileEdition
+        ProfilePage.ProfileEdition,
+        ProfileEditFragment.ProfileUpdation
 {
 
     private static final String TAG = "HOME";
@@ -83,7 +85,7 @@ public class Home extends AppCompatActivity implements LoginFragment.login ,Book
         mnavigation.setNavigationItemSelectedListener(this);
         mDrawerLayout.addDrawerListener(mToggle);
         getSupportFragmentManager().beginTransaction().
-                replace(R.id.frag_holder,new HomeFragment())
+                replace(R.id.frag_holder,new BookNowFragment())
                 .addToBackStack(null)
                 .commit();
     }
@@ -192,7 +194,7 @@ public class Home extends AppCompatActivity implements LoginFragment.login ,Book
     @Override
     public void showBookFramgent() {
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.frag_holder, new HomeFragment())
+                .replace(R.id.frag_holder, new BookNowFragment())
                 .commit();
     }
 
@@ -216,7 +218,7 @@ public class Home extends AppCompatActivity implements LoginFragment.login ,Book
             myPrefs.setIsFirsttime(false);
             myPrefs.setIsFirsttime(false);
 
-            showHomeFragment();
+            normalFlow();
         }
 
     }
@@ -312,6 +314,16 @@ public class Home extends AppCompatActivity implements LoginFragment.login ,Book
                 .replace(R.id.frag_holder,new ProfileEditFragment())
                 .commit();
     }
+
+    @Override
+    public void profileUpdated() {
+        Toast.makeText(this,"Profile Updated",Toast.LENGTH_SHORT).show();
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.frag_holder,new BookNowFragment())
+                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                .commit();
+    }
+
 }
 
 

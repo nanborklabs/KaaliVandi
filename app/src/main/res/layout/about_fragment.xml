@@ -2,7 +2,7 @@
 <android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/login_back"
+    android:fillViewport ="true"
   >
     <RelativeLayout
         android:layout_width="match_parent"
@@ -18,9 +18,10 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Kaalivandi "
         android:id="@+id/about_title"
+        android:textStyle="bold"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="39dp"
+        android:layout_marginTop="20dp"
         android:textColor="@color/login_back"
         android:textSize="28sp" />
 
@@ -34,7 +35,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_marginTop="8dp"
-        android:textColor="@color/login_back"
+        android:textColor="@color/cardview_dark_background"
         android:textSize="22sp"
         android:layout_marginRight="16dp"
         android:layout_marginLeft="16dp" />
@@ -44,13 +45,14 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Our Motto"
+        android:textStyle="bold"
         android:id="@+id/about_motto"
         android:layout_below="@+id/about_title_sub"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="41dp"
         android:textColor="@color/login_back"        android:textSize="28sp" />
 
-    <com.kaalivandi.UI.Iosthin
+    <com.kaalivandi.UI.IosLight
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
@@ -62,20 +64,21 @@
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         android:textSize="22sp"
-        android:textColor="@color/login_back"/>
+        android:textColor="@color/cardview_dark_background"/>
 
     <com.kaalivandi.UI.IosLight
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Why Kaalivandi"
+        android:text="Why Kaalivandi ?"
         android:id="@+id/about_y_kaali"
+        android:textStyle="bold"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="39dp"
         android:layout_below="@+id/about_motto_sub"
         android:textColor="@color/login_back"        android:textSize="28sp" />
 
-    <com.kaalivandi.UI.Iosthin
+    <com.kaalivandi.UI.IosLight
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
@@ -84,7 +87,7 @@
         android:layout_below="@+id/about_y_kaali"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:textColor="@color/login_back"
+        android:textColor="@color/cardview_dark_background"
         android:layout_marginRight="16dp"
         android:layout_marginLeft="16dp"
         android:textSize="22sp" />

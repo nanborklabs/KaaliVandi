@@ -25,7 +25,7 @@ public class AboutFragment extends Fragment {
     @BindView(R.id.about_motto)
     IosLight mabout;
     @BindView(R.id.about_motto_sub)
-    Iosthin mAboutSub;
+    IosLight mAboutSub;
 
 
     @BindView(R.id.about_title) IosLight mTitle;
@@ -33,7 +33,7 @@ public class AboutFragment extends Fragment {
     @BindView(R.id.about_title_sub) IosLight mTitleSub;
 
     @BindView(R.id.about_y_kaali) IosLight mYText;
-    @BindView(R.id.about_y_sub) Iosthin mSub;
+    @BindView(R.id.about_y_sub) IosLight mSub;
     @Override
     public void onDestroyView() {
         super.onDestroyView();

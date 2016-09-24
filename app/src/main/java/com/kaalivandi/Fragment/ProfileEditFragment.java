@@ -1,4 +1,4 @@
-package com.kaalivandi.Fragment;
+  package com.kaalivandi.Fragment;
 
 import android.content.Context;
 import android.content.Intent;
@@ -153,6 +153,7 @@ public class ProfileEditFragment extends Fragment {
                       myprefs.setUsername(name);
                       myprefs.setPhone(phone);
                       myprefs.setEmail(email);
+                    mCallback.profileUpdated();
 
 
                 }else{
