@@ -265,6 +265,9 @@ public class Home extends AppCompatActivity implements LoginFragment.login ,Book
 
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
+
+
+        Log.d(TAG, "onNavigationItemSelected: ");
         Fragment mFragment = null;
         switch (item.getItemId()){
             case R.id.book_menu :

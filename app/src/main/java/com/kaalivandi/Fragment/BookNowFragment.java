@@ -91,8 +91,6 @@ public class BookNowFragment extends Fragment {
     Iosthin mRideText;
 
 
-    @BindDrawable(R.drawable.ic_loc_selected)
-    Drawable mLocationSelected;
 
 
     int FROM_PLACE_RESULT = 1;

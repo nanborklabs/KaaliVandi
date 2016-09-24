@@ -1,121 +1,122 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<com.flipboard.bottomsheet.BottomSheetLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/bottomsheet"
+
+<com.flipboard.bottomsheet.BottomSheetLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/bottomsheet"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <android.support.v4.widget.NestedScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
 
 
-<RelativeLayout
+    <RelativeLayout
 
-    android:orientation="vertical" android:layout_width="match_parent"
+        android:orientation="vertical" android:layout_width="match_parent"
 
-    android:layout_height="match_parent">
-
-
+        android:layout_height="wrap_content">
 
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="50dp"
+        <com.kaalivandi.UI.Iosthin
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="* First 3 kms  @   \u20B9199"
+            android:id="@+id/km_text"
+            android:layout_below="@+id/ride_text"
 
-        android:ems="10"
-        android:background="@drawable/book_text_background"
-        android:id="@+id/from_autocomplete"
-        android:text="Click to select"
+            android:visibility="invisible"
 
-        android:gravity="center"
-        android:layout_below="@+id/from_text"
-        android:layout_alignLeft="@+id/from_text"
-        android:layout_alignStart="@+id/from_text"
-        android:layout_alignRight="@+id/book_now_button"
-        android:layout_alignEnd="@+id/book_now_button"
-        android:layout_marginTop="8dp" />
+            android:layout_centerHorizontal="true" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        style="@style/from_to_text"
+        <com.kaalivandi.UI.Iosthin
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Ride at only 18rs/Km"
+
+            android:id="@+id/ride_text"
+            android:paddingLeft="8dp"
+            android:visibility="invisible"
+            android:layout_below="@+id/book_now_button"
+            android:layout_centerHorizontal="true" />
+
+        <com.kaalivandi.UI.IosLight
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+
+            android:ems="10"
+            android:background="@drawable/place_selector"
+            android:id="@+id/from_autocomplete"
+            android:text="Click to select"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentRight="true"
+            android:gravity="center"
+            android:layout_marginTop="8dp"
+            android:textColor="@color/whites"
+            android:textStyle="bold"
+            android:padding="4dp"
+            android:layout_below="@+id/from_text"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp" />
+
+        <com.kaalivandi.UI.IosLight
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Drop/Delivery Location"
+            android:id="@+id/to_text"
+            style="@style/from_to_text"
+            android:textSize="25sp"
+            android:layout_marginTop="23dp"
+            android:layout_below="@+id/from_autocomplete"
+            android:layout_centerHorizontal="true" />
+
+        <com.kaalivandi.UI.IosLight
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:inputType="textMultiLine"
+            android:ems="10"
+            android:id="@+id/to_autocomplete"
+            android:text="Click to Select"
+            android:background="@drawable/place_selector"
+            android:gravity="center"
+            android:textColor="@color/whites"
+            android:textStyle="bold"
+            android:padding="4dp"
+            android:layout_marginTop="17dp"
+            android:layout_below="@+id/to_text"
+            android:layout_alignLeft="@+id/from_autocomplete"
+            android:layout_alignStart="@+id/from_autocomplete"
+            android:layout_alignRight="@+id/from_autocomplete"
+            android:layout_alignEnd="@+id/from_autocomplete" />
+
+        <com.kaalivandi.UI.IosLight
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/from_to_text"
+
+            android:layout_marginTop="15dp"
+            android:text="Pick Up Location"
+            android:gravity="center"
+            android:id="@+id/from_text"
+            android:textSize="25sp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true" />
+
+        <Button
+            android:layout_width="@dimen/button_width"
+            android:layout_height="60dp"
+            android:id="@+id/book_now_button"
+            android:background="@drawable/register_button_background"
+            android:text="Get Fare"
+            android:textColor="@color/whites"
+            android:layout_marginTop="23dp"
+            android:layout_below="@+id/to_autocomplete"
+            android:layout_alignRight="@+id/to_text"
+            android:layout_alignEnd="@+id/to_text"
+            android:layout_alignLeft="@+id/to_text"
+            android:layout_alignStart="@+id/to_text" />
 
 
-        android:text="From "
-        android:gravity="center"
-        android:id="@+id/from_text"
-        android:textSize="25sp"
-        android:layout_alignLeft="@+id/book_now_button"
-        android:layout_alignStart="@+id/book_now_button" />
+    </RelativeLayout>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="To"
-        android:id="@+id/to_text"
-        style="@style/from_to_text"
-        android:textSize="25sp"
-        android:layout_below="@+id/from_autocomplete"
-        android:layout_alignLeft="@+id/from_autocomplete"
-        android:layout_alignStart="@+id/from_autocomplete"
-        android:layout_marginTop="20dp" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="50dp"
-        android:inputType="textMultiLine"
-        android:ems="10"
-        android:id="@+id/to_autocomplete"
-        android:text="Click to Select"
-        android:background="@drawable/book_text_background"
-        android:gravity="center"
-        android:layout_below="@+id/to_text"
-        android:layout_alignRight="@+id/from_autocomplete"
-        android:layout_alignEnd="@+id/from_autocomplete"
-        android:layout_alignLeft="@+id/from_autocomplete"
-        android:layout_alignStart="@+id/from_autocomplete"
-        android:layout_marginTop="8dp" />
-
-
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:id="@+id/book_now_button"
-        android:background="@drawable/register_button_background"
-        android:text="Book"
-        android:layout_alignParentBottom="true"
-        android:layout_marginLeft="20dp"
-        android:layout_marginBottom="10dp"
-        android:layout_marginRight="20dp"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@+id/to_autocomplete"
-        android:layout_marginTop="60dp" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Ride at only 18rs/Km"
-        android:id="@+id/ride_text"
-        android:paddingLeft="8dp"
-        android:layout_below="@+id/to_autocomplete"
-        android:layout_alignLeft="@+id/to_autocomplete"
-        android:layout_alignStart="@+id/to_autocomplete"
-        android:layout_marginTop="12dp"
-        android:visibility="invisible" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="* FIrst 3 kms  @     \u20B9199"
-        android:id="@+id/km_text"
-        android:layout_below="@+id/ride_text"
-        android:layout_alignLeft="@+id/to_autocomplete"
-        android:visibility="invisible" />
-
-</RelativeLayout>
-    </android.support.v4.widget.NestedScrollView>
-    </com.flipboard.bottomsheet.BottomSheetLayout>
+</com.flipboard.bottomsheet.BottomSheetLayout>

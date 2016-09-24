@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.kaalivandi.Prefs.MyPrefs;
 import com.kaalivandi.R;
+import com.kaalivandi.UI.IosLight;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -28,11 +29,11 @@ public class ProfilePage extends Fragment {
     @BindView(R.id.pro_edit)
     ImageView proEdit;
     @BindView(R.id.pro_name_value)
-    TextView nameBox;
+    IosLight nameBox;
     @BindView(R.id.pro_email_value)
-    TextView emailbox;
+    IosLight emailbox;
     @BindView(R.id.pro_number_value)
-    TextView numberBox;
+    IosLight numberBox;
 
     String name;
     String phone;
@@ -70,6 +71,8 @@ public class ProfilePage extends Fragment {
         nameBox.setText(name);
         emailbox.setText(email);
         numberBox.setText(phone);
+
+
         return mView;
     }
 
@@ -122,6 +125,7 @@ public class ProfilePage extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
+        mCallback = null;
     }
 
     @Override
@@ -131,6 +135,9 @@ public class ProfilePage extends Fragment {
 
     @OnClick(R.id.pro_edit)
     public void onClick() {
+        if (mCallback != null){
+            mCallback.editProfile();
+        }
     }
 
     public interface ProfileEdition {
