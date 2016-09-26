@@ -74,20 +74,6 @@
         android:layout_marginLeft="64dp"
         android:textSize="22sp" />
 
-    <com.kaalivandi.UI.IosLight
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="  +91-8675753534"
-        android:id="@+id/textView25"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="89dp"
-        android:layout_below="@+id/textView23"
-        android:layout_alignRight="@+id/textView23"
-        android:layout_alignEnd="@+id/textView23"
-        android:textSize="24sp"
-        android:layout_centerHorizontal="true" />
-
     <com.kaalivandi.UI.Iosthin
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -104,7 +90,20 @@
         android:text="For more Info visit www.kaalivandi.com"
         android:id="@+id/textView26"
         android:layout_below="@+id/textView25"
+        android:layout_marginBottom="16dp"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="12dp" />
+
+    <com.kaalivandi.UI.IosLight
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="  +91-8675753534"
+        android:id="@+id/textView25"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="33dp"
+        android:textSize="24sp"
+        android:layout_below="@+id/textView23"
+        android:layout_toEndOf="@+id/textView22" />
 </RelativeLayout>
 </ScrollView>

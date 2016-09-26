@@ -29,7 +29,7 @@
     <string name="or">Or</string>
     <string name="map_text">Click here to choose from Map</string>
     <string name="pick">CHOOSE PICK UP LOCATION</string>
-    <string name="drop_text">Enter You Drop Location</string>
+    <string name="drop_text">Enter Your Drop Location</string>
     <string name="get_fare">Get Fare</string>
     <string name="ride_at_only_18rs_km">Ride at only 18rs/Km</string>
 </resources>

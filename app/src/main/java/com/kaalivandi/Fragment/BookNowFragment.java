@@ -6,21 +6,23 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateDecelerateInterpolator;
+import android.view.animation.DecelerateInterpolator;
 import android.view.animation.LinearInterpolator;
+import android.view.animation.OvershootInterpolator;
 import android.widget.Button;
-import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -51,27 +53,28 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 
-import butterknife.BindDrawable;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Created by user on 18-08-2016.
  */
 public class BookNowFragment extends Fragment {
 
+    @BindView(R.id.value_pick_up) IosLight valuePickUp;
+    @BindView(R.id.value_drop) IosLight valueDrop;
     private View mView;
 
 
     MyPrefs myPrefs;
 
 
-
-
     @BindView(R.id.folding_cell_drop)
     FoldingCell mDropCell;
 
-    @BindView(R.id.folding_cell_pick) FoldingCell mPickCell;
+    @BindView(R.id.folding_cell_pick)
+    FoldingCell mPickCell;
 
     //button to book oreders
     @BindView(R.id.book_now_button)
@@ -82,6 +85,11 @@ public class BookNowFragment extends Fragment {
     BottomSheetLayout mBottomSheet;
 
 
+
+    @BindView(R.id.card_pick_up)
+    CardView mPickUpcard;
+
+    @BindView(R.id.to_title_view) CardView mDropCard;
     @BindView(R.id.km_text)
     Iosthin mKmText;
 
@@ -89,7 +97,7 @@ public class BookNowFragment extends Fragment {
     Iosthin mRideText;
 
 
-
+    @BindView(R.id.book_now_heading_text) IosLight mTitleText;
 
     int FROM_PLACE_RESULT = 1;
     int TO_PLACE_RESULT = 2;
@@ -165,6 +173,7 @@ public class BookNowFragment extends Fragment {
 
                 //save it for future use
                 mFromPlace = (String) selectedPlace.getAddress();
+                valuePickUp.setText(mFromPlace);
 
                 //flag to infer that from has been completed
                 from_selected = true;
@@ -194,10 +203,14 @@ public class BookNowFragment extends Fragment {
 
 
             }
-            if (resultCode == Activity.RESULT_CANCELED) {
-                Log.d(TAG, "Result cancelled");
+            //No From Place selected
+            else{
+
+                    Toast.makeText(getContext(),"Could Not find Location Please Choose Nearby Location",Toast.LENGTH_SHORT).show();
+                }
             }
-        }
+
+        //To place Result
         if (requestCode == TO_PLACE_RESULT) {
             if (resultCode == Activity.RESULT_OK) {
 
@@ -211,8 +224,13 @@ public class BookNowFragment extends Fragment {
                 dest_Lon = selePlace.getLatLng().longitude;
 
                 //infer that destination is over
+                valueDrop.setText(mToPlace);
                 to_selected = true;
 //
+            }
+            //No To place selected
+            else{
+                Toast.makeText(getContext(),"Could Not find Location Please Choose Nearby Location",Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -251,8 +269,7 @@ public class BookNowFragment extends Fragment {
             public void onClick(View view) {
                 mDropCell.toggle(false);
 
-                folded =false;
-
+                folded = false;
 
 
             }
@@ -356,36 +373,66 @@ public class BookNowFragment extends Fragment {
                 .setInterpolator(new AccelerateDecelerateInterpolator())
                 .start();
                 */
-        mBookButton.setTranslationX(Utils.getScreenWidth(getContext()));
-        mBookButton.animate().translationX(0).setDuration(400).setStartDelay(1000)
-                .setInterpolator(new AccelerateDecelerateInterpolator())
-                .setListener(new Animator.AnimatorListener() {
-                    @Override
-                    public void onAnimationStart(Animator animation) {
+        mTitleText.setAlpha(0);
+        mDropCard.setTranslationY(-(Utils.getScreenHeight(getContext())));
+        mPickUpcard.setTranslationY((Utils.getScreenHeight(getContext())));
 
-                    }
+        mTitleText.animate().alpha(1).setDuration(500).setInterpolator(new DecelerateInterpolator(1.5f)).setListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animator) {
 
-                    @Override
-                    public void onAnimationEnd(Animator animation) {
-                        if (mKmText != null && mRideText != null) {
-                            mKmText.setVisibility(View.VISIBLE);
-                            mRideText.setVisibility(View.VISIBLE);
-                            mKmText.animate().scaleX(1.1f).scaleY(1.1f).setDuration(200).setInterpolator(new LinearInterpolator()).start();
-                            mRideText.animate().scaleX(1.1f).scaleY(1.1f).setDuration(200).setInterpolator(new LinearInterpolator()).start();
-                        }
-                    }
+            }
 
-                    @Override
-                    public void onAnimationCancel(Animator animation) {
+            @Override
+            public void onAnimationEnd(Animator animator) {
 
-                    }
 
-                    @Override
-                    public void onAnimationRepeat(Animator animation) {
+                mPickUpcard.animate().translationY(0).setDuration(1000).setInterpolator(new DecelerateInterpolator()).start();
+                mDropCard.animate().translationY(0).setDuration(1000).setInterpolator(new DecelerateInterpolator()).start();
+                mBookButton.setTranslationX(Utils.getScreenWidth(getContext()));
+                mBookButton.animate().translationX(0).setDuration(500).setStartDelay(1000)
+                        .setInterpolator(new AccelerateDecelerateInterpolator())
+                        .setListener(new Animator.AnimatorListener() {
+                            @Override
+                            public void onAnimationStart(Animator animation) {
 
-                    }
-                })
-                .start();
+                            }
+
+                            @Override
+                            public void onAnimationEnd(Animator animation) {
+                                if (mKmText != null && mRideText != null) {
+                                    mKmText.setVisibility(View.VISIBLE);
+                                    mRideText.setVisibility(View.VISIBLE);
+                                    mKmText.animate().scaleX(1.1f).scaleY(1.1f).setDuration(200).setInterpolator(new LinearInterpolator()).start();
+                                    mRideText.animate().scaleX(1.1f).scaleY(1.1f).setDuration(200).setInterpolator(new LinearInterpolator()).start();
+                                }
+                            }
+
+                            @Override
+                            public void onAnimationCancel(Animator animation) {
+
+                            }
+
+                            @Override
+                            public void onAnimationRepeat(Animator animation) {
+
+                            }
+                        })
+                        .start();
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animator) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animator) {
+
+            }
+        }).start();
+
+
 
 
     }
@@ -742,6 +789,35 @@ public class BookNowFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+    }
+
+    @OnClick({R.id.value_pick_up, R.id.value_drop})
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.value_pick_up:
+
+                try {
+
+                    PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
+                    startActivityForResult(builder.build(getParentFragment().getActivity()), FROM_PLACE_RESULT);
+                } catch (Exception e) {
+                    //no place picker is available, switch to alternate way .. :P who knows?
+                    Log.d(TAG, "Exception " + e.getLocalizedMessage());
+                }
+
+                break;
+            case R.id.value_drop:
+                Log.d(TAG, "onClick: dro clicked");
+                try {
+
+                    final PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
+
+                    startActivityForResult(builder.build(getParentFragment().getActivity()), TO_PLACE_RESULT);
+                } catch (Exception e) {
+                    Log.d(TAG, "Exception " + e.getLocalizedMessage());
+                }
+                break;
+        }
     }
 
 

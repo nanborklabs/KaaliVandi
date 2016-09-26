@@ -70,7 +70,7 @@
                 android:id="@+id/check_button"
                 android:textAllCaps="false"
                 app:srcCompat="@drawable/ic_right"
-
+                android:background="?attr/selectableItemBackground"
                 android:alpha="1"
                 android:layout_marginBottom="21dp"
                 android:layout_alignParentBottom="true"

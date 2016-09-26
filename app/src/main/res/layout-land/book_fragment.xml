@@ -7,116 +7,305 @@
     android:id="@+id/bottomsheet"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
 
-    <RelativeLayout
-
-        android:orientation="vertical" android:layout_width="match_parent"
-
-        android:layout_height="wrap_content">
 
 
-        <com.kaalivandi.UI.Iosthin
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="* First 3 kms  @   \u20B9199"
-            android:id="@+id/km_text"
-            android:layout_below="@+id/ride_text"
+        <RelativeLayout
 
-            android:visibility="invisible"
+            android:orientation="vertical" android:layout_width="match_parent"
 
-            android:layout_centerHorizontal="true" />
-
-        <com.kaalivandi.UI.Iosthin
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Ride at only 18rs/Km"
-
-            android:id="@+id/ride_text"
-            android:paddingLeft="8dp"
-            android:visibility="invisible"
-            android:layout_below="@+id/book_now_button"
-            android:layout_centerHorizontal="true" />
-
-        <com.kaalivandi.UI.IosLight
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
-
-            android:ems="10"
-            android:background="@drawable/place_selector"
-            android:id="@+id/from_autocomplete"
-            android:text="Click to select"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentRight="true"
-            android:gravity="center"
-            android:layout_marginTop="8dp"
-            android:textColor="@color/whites"
-            android:textStyle="bold"
-            android:padding="4dp"
-            android:layout_below="@+id/from_text"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp" />
-
-        <com.kaalivandi.UI.IosLight
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Drop/Delivery Location"
-            android:id="@+id/to_text"
-            style="@style/from_to_text"
-            android:textSize="25sp"
-            android:layout_marginTop="23dp"
-            android:layout_below="@+id/from_autocomplete"
-            android:layout_centerHorizontal="true" />
-
-        <com.kaalivandi.UI.IosLight
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:inputType="textMultiLine"
-            android:ems="10"
-            android:id="@+id/to_autocomplete"
-            android:text="Click to Select"
-            android:background="@drawable/place_selector"
-            android:gravity="center"
-            android:textColor="@color/whites"
-            android:textStyle="bold"
-            android:padding="4dp"
-            android:layout_marginTop="17dp"
-            android:layout_below="@+id/to_text"
-            android:layout_alignLeft="@+id/from_autocomplete"
-            android:layout_alignStart="@+id/from_autocomplete"
-            android:layout_alignRight="@+id/from_autocomplete"
-            android:layout_alignEnd="@+id/from_autocomplete" />
-
-        <com.kaalivandi.UI.IosLight
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            style="@style/from_to_text"
-
-            android:layout_marginTop="15dp"
-            android:text="Pick Up Location"
-            android:gravity="center"
-            android:id="@+id/from_text"
-            android:textSize="25sp"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true" />
-
-        <Button
-            android:layout_width="@dimen/button_width"
-            android:layout_height="60dp"
-            android:id="@+id/book_now_button"
-            android:background="@drawable/register_button_background"
-            android:text="Get Fare"
-            android:textColor="@color/whites"
-            android:layout_marginTop="23dp"
-            android:layout_below="@+id/to_autocomplete"
-            android:layout_alignRight="@+id/to_text"
-            android:layout_alignEnd="@+id/to_text"
-            android:layout_alignLeft="@+id/to_text"
-            android:layout_alignStart="@+id/to_text" />
+            android:layout_height="wrap_content">
 
 
-    </RelativeLayout>
+            <com.kaalivandi.UI.IosLight
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"
+                android:layout_marginStart="32dp"
+                android:textSize="20sp"
+                android:layout_marginTop="20dp"
+                android:id="@+id/book_now_heading_text"
+                android:text="Booking Made Easy"/>
 
+
+            <!--First folding cell-->
+            <com.ramotion.foldingcell.FoldingCell
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/folding_cell_pick"
+                android:clipChildren="false"
+                android:clipToPadding="false"
+                android:layout_margin="16dp"
+                android:layout_below="@+id/book_now_heading_text"
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <!--First chld of pickup-->
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:visibility="gone"
+
+                    android:id="@+id/pickup_content_view"
+                    android:layout_height="wrap_content">
+                    <android.support.v7.widget.CardView
+
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+
+                        >
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <FrameLayout
+                                android:layout_width="match_parent"
+                                android:id="@+id/pic_frame"
+                                android:layout_height="100dp">
+                                <ImageView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    app:srcCompat = "@drawable/ic_truck_from"
+                                    android:scaleType="fitEnd"
+                                    />
+                                <View
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:background="@color/login_back"
+                                    android:alpha="0.7"/>
+                                <com.kaalivandi.UI.IosLight
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:id="@+id/pick_enter_text"
+                                    android:layout_marginTop="16dp"
+                                    android:gravity="start|center_vertical"
+                                    android:textColor="@color/whites"
+                                    android:textStyle="bold"
+                                    android:layout_marginStart="16dp"
+                                    android:text="@string/pickup"/>
+                            </FrameLayout>
+
+
+                            <com.kaalivandi.UI.IosLight
+                                android:layout_width="match_parent"
+                                android:layout_height="100dp"
+
+                                android:id="@+id/value_pick_up"
+                                android:gravity="center"
+                                android:text="@string/map_text"
+                                android:layout_toEndOf="@+id/imageView6"
+                                android:layout_alignParentBottom="true"
+                                android:layout_below="@+id/pic_frame" />
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                app:srcCompat="@drawable/ic_loc_map"
+                                android:id="@+id/imageView6"
+                                android:padding="10dp"
+                                android:layout_alignParentBottom="true"
+                                android:layout_alignParentStart="true" />
+                        </RelativeLayout>
+
+                    </android.support.v7.widget.CardView>
+                </FrameLayout>
+
+                <!--second child/title of pick up-->
+
+                <android.support.v7.widget.CardView
+
+                    android:layout_width="match_parent"
+                    app:cardBackgroundColor="@color/login_text_color"
+                    app:cardCornerRadius="4dp"
+
+                    android:id="@+id/card_pick_up"
+                    android:layout_height="wrap_content">
+
+                    <com.kaalivandi.UI.IosLight
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:id="@+id/pick_up_title"
+
+                        android:gravity="center"
+                        android:layout_marginBottom="20dp"
+                        android:text="@string/pick"
+                        />
+
+
+                </android.support.v7.widget.CardView>
+
+
+            </com.ramotion.foldingcell.FoldingCell>
+
+
+            <!--second folding cell-->
+            <com.ramotion.foldingcell.FoldingCell
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/folding_cell_drop"
+                android:clipChildren="false"
+                android:clipToPadding="false"
+
+
+
+
+                android:layout_below="@id/folding_cell_pick"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <!--First child of drop-->
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:id="@+id/to_content_view"
+                    android:visibility="gone"
+
+                    android:layout_height="wrap_content">
+                    <android.support.v7.widget.CardView
+
+                        android:layout_width="match_parent"
+
+                        android:layout_height="200dp"
+                        android:layout_margin="16dp"
+
+                        >
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+                            <FrameLayout
+                                android:layout_width="match_parent"
+                                android:id="@+id/drop_frame"
+
+                                android:layout_height="100dp">
+                                <View
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:background="@color/login_back"
+                                    android:alpha="0.6"/>
+                                <ImageView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:id="@+id/image_drop"
+                                    app:srcCompat="@drawable/ic_truck_to"
+                                    android:scaleType="fitStart"
+                                    >
+
+
+                                </ImageView>
+
+                                <com.kaalivandi.UI.IosLight
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:id="@+id/to_enter_text"
+                                    android:layout_marginTop="16dp"
+                                    android:gravity="end|center_vertical"
+                                    android:layout_marginEnd="16dp"
+                                    android:textSize="16sp"
+                                    android:textStyle="bold"
+                                    android:textColor="@color/whites"
+                                    android:layout_marginStart="16dp"
+                                    android:text="@string/drop_text"/>
+                            </FrameLayout>
+                            <com.kaalivandi.UI.IosLight
+                                android:layout_width="match_parent"
+                                android:layout_height="100dp"
+
+                                android:id="@+id/value_drop"
+                                android:gravity="center"
+                                android:text="@string/map_text"
+                                android:layout_below="@+id/drop_frame"
+                                android:layout_toEndOf="@+id/imageView7"
+                                android:layout_alignParentBottom="true" />
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                app:srcCompat="@drawable/ic_loc_map"
+                                android:padding="10dp"
+                                android:layout_marginBottom="10dp"
+                                android:layout_below="@id/drop_frame"
+                                android:layout_alignParentBottom="true"
+                                android:layout_alignParentStart="true"
+
+                                android:id="@+id/imageView7" />
+
+                        </RelativeLayout>
+
+                    </android.support.v7.widget.CardView>
+
+                </FrameLayout>
+
+                <!--second child of drop -->
+                <android.support.v7.widget.CardView
+                    android:id="@+id/to_title_view"
+                    android:layout_width="match_parent"
+                    app:cardBackgroundColor="@color/login_text_color"
+                    app:cardCornerRadius="4dp"
+                    android:layout_margin="16dp"
+
+                    android:layout_height="100dp">
+
+
+                    <com.kaalivandi.UI.IosLight
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:layout_marginBottom="20dp"
+
+                        android:id="@+id/drop_title"
+                        android:gravity="center"
+
+                        android:text="@string/drop_text"
+                        />
+
+
+
+
+                </android.support.v7.widget.CardView>
+            </com.ramotion.foldingcell.FoldingCell>
+
+
+            <com.kaalivandi.UI.Iosthin
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="* First 3 kms  @   \u20B9199"
+                android:id="@+id/km_text"
+                android:layout_below="@+id/ride_text"
+
+                android:visibility="invisible"
+
+                android:layout_centerHorizontal="true" />
+
+            <com.kaalivandi.UI.Iosthin
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="@string/ride_at_only_18rs_km"
+
+                android:id="@+id/ride_text"
+
+                android:visibility="invisible"
+                android:layout_below="@+id/book_now_button"
+                android:layout_centerHorizontal="true" />
+
+            <Button
+                android:layout_width="@dimen/button_width"
+                android:layout_height="50dp"
+                android:layout_marginTop="12dp"
+                android:id="@+id/book_now_button"
+                android:background="@drawable/register_button_background"
+                android:text="@string/get_fare"
+                android:textColor="@color/whites"
+                android:layout_below="@id/folding_cell_drop"
+                android:layout_marginEnd="32dp"
+
+
+                android:layout_centerHorizontal="true" />
+
+        </RelativeLayout>
+    </ScrollView>
 </com.flipboard.bottomsheet.BottomSheetLayout>

@@ -30,9 +30,9 @@
             android:layout_height="4dp"
             android:layout_marginTop="4dp"
             android:layout_below="@id/register_title"
-            android:background="@color/register_contrast"
-            android:layout_alignLeft="@id/register_title"
-            android:layout_alignRight="@id/register_title">
+            android:background="#3083c9"
+            android:layout_alignStart="@id/register_title"
+            android:layout_alignEnd="@id/register_title">
 
         </View>
 
@@ -40,7 +40,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
 
-            android:text="Let&apos;s set you up qucikly"
+            android:text="Let&apos;s set you up quickly"
             android:id="@+id/register_sub_title"
             android:layout_below="@+id/register_title"
             android:layout_centerHorizontal="true"
@@ -53,7 +53,7 @@
             android:layout_below="@+id/register_name_ted"
             android:hint="Email Address"
 
-
+            android:layout_marginEnd="16dp"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@+id/reg_user_icon"
             android:layout_toEndOf="@+id/reg_user_icon"
@@ -74,7 +74,8 @@
             android:layout_height="wrap_content"
             android:layout_alignLeft="@+id/register_email_ted"
             android:layout_alignStart="@+id/register_email_ted"
-            android:layout_marginTop="16dp">
+            android:layout_marginTop="16dp"
+            android:layout_alignEnd="@+id/register_email_ted">
             <com.kaalivandi.UI.CEditText
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -92,7 +93,8 @@
             android:layout_height="wrap_content"
             android:layout_alignLeft="@+id/register_phone_ted"
             android:layout_alignStart="@+id/register_phone_ted"
-            android:layout_marginTop="16dp">
+            android:layout_marginTop="16dp"
+            android:layout_alignEnd="@+id/register_phone_ted">
 
             <com.kaalivandi.UI.CEditText
                 android:layout_width="match_parent"
@@ -109,6 +111,7 @@
             android:text="or SignIn"
             android:id="@+id/register_signin"
             android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
             android:textSize="16sp"
 
             android:layout_centerHorizontal="true" />
@@ -118,7 +121,7 @@
             android:id="@+id/register_name_ted"
             android:hint="User Name"
             android:layout_height="60dp"
-
+            android:layout_marginEnd="16dp"
             android:layout_marginTop="40dp"
             android:layout_below="@+id/register_sub_title"
             android:layout_toRightOf="@+id/reg_user_icon"
@@ -182,7 +185,7 @@
             android:layout_marginLeft="24dp"
             android:text="@string/submit"
             android:id="@+id/register_button"
-
+            android:background="@drawable/regsiter_background"
             android:layout_marginTop="45dp"
             android:layout_below="@+id/register_password_ted"
             android:layout_alignParentLeft="true"
