@@ -79,6 +79,8 @@ public class CheckRegistrationFragment extends Fragment {
     AssetManager am;
 
     Typeface tf;
+
+    int count = 0;
     @Override
     public void onDestroyView() {
         super.onDestroyView();
@@ -286,14 +288,18 @@ public class CheckRegistrationFragment extends Fragment {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.d(TAG,"Error" + error.getLocalizedMessage());
 
-                if (mDialog.isShowing()){
-                    mDialog.hide();
+                count++;
+                if(!(count>3)){
+                    // count is not greater than 3 , so send it request again
+                    sendServer(mNumber);
                 }
-                Log.d(TAG, "onErrorResponse: ");
-
-             Toast.makeText(getContext(),"Some Problem Occurred,  Please try Again",Toast.LENGTH_LONG).show();
+                else{
+                    if (mDialog.isShowing()){
+                        mDialog.dismiss();
+                    }
+                    Toast.makeText(getContext(),"Some Error Occurred, Please Make sure you have Internet Connection",Toast.LENGTH_SHORT).show();
+                }
 
             }
         });

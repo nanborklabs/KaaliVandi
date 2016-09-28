@@ -31,4 +31,5 @@
     <dimen name="book_text_margin_top2">60dp</dimen>
     <dimen name="sheet_km_margin">40dp</dimen>
     <dimen name="bottom_margin_button">40dp</dimen>
+    <dimen name="book_text_size">22sp</dimen>
 </resources>

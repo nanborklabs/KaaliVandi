@@ -94,14 +94,14 @@ public class Home extends AppCompatActivity implements LoginFragment.login ,Book
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.frag_holder,new CheckRegistrationFragment())
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                .addToBackStack(null)
                 .commit();
     }
 
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
-        finish();
+      super.onBackPressed();
 
     }
 
@@ -195,6 +195,7 @@ public class Home extends AppCompatActivity implements LoginFragment.login ,Book
     public void showBookFramgent() {
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.frag_holder, new BookNowFragment())
+                .addToBackStack(null)
                 .commit();
     }
 

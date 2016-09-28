@@ -6,7 +6,7 @@
     android:background="#FAF9F9">
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:background="#FAF9F9">
 
 
@@ -19,7 +19,7 @@
         android:layout_alignParentTop="true"
         android:layout_toRightOf="@+id/bottom_fare_text"
         android:text="Hi user"
-        android:textSize="36sp"
+        android:textSize="@dimen/book_text_size"
         android:layout_alignRight="@+id/bottom_card"
         android:layout_alignEnd="@+id/bottom_card"
         android:gravity="center_vertical"
@@ -105,19 +105,6 @@
             <com.kaalivandi.UI.TitleTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="From"
-
-                android:id="@+id/textView14"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_marginTop="16dp"
-                android:layout_marginLeft="32dp" />
-
-            <com.kaalivandi.UI.TitleTextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="Medium Text"
                 android:id="@+id/bottom_from_text_view"
@@ -164,6 +151,19 @@
                 android:layout_marginBottom="16dp"
                 android:scrollIndicators="right"
                 android:nestedScrollingEnabled="true" />
+
+            <com.kaalivandi.UI.TitleTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="From"
+
+                android:id="@+id/textView14"
+                android:layout_marginTop="15dp"
+                android:layout_marginLeft="32dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="32dp" />
 
 
         </RelativeLayout>

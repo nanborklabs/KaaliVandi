@@ -799,7 +799,7 @@ public class BookNowFragment extends Fragment {
                 try {
 
                     PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
-                    startActivityForResult(builder.build(getParentFragment().getActivity()), FROM_PLACE_RESULT);
+                    startActivityForResult(builder.build(getActivity()), FROM_PLACE_RESULT);
                 } catch (Exception e) {
                     //no place picker is available, switch to alternate way .. :P who knows?
                     Log.d(TAG, "Exception " + e.getLocalizedMessage());
@@ -812,7 +812,7 @@ public class BookNowFragment extends Fragment {
 
                     final PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
 
-                    startActivityForResult(builder.build(getParentFragment().getActivity()), TO_PLACE_RESULT);
+                    startActivityForResult(builder.build(getActivity()), TO_PLACE_RESULT);
                 } catch (Exception e) {
                     Log.d(TAG, "Exception " + e.getLocalizedMessage());
                 }

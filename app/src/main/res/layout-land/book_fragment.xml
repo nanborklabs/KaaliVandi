@@ -144,18 +144,56 @@
 
 
             <!--second folding cell-->
+
+
+            <com.kaalivandi.UI.Iosthin
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="* First 3 kms  @   \u20B9199"
+                android:id="@+id/km_text"
+                android:layout_below="@+id/ride_text"
+
+                android:visibility="invisible"
+
+                android:layout_centerHorizontal="true" />
+
+            <com.kaalivandi.UI.Iosthin
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="@string/ride_at_only_18rs_km"
+
+                android:id="@+id/ride_text"
+
+                android:visibility="invisible"
+                android:layout_below="@+id/book_now_button"
+                android:layout_centerHorizontal="true" />
+
+            <Button
+                android:layout_width="@dimen/button_width"
+                android:layout_height="50dp"
+                android:layout_marginTop="12dp"
+                android:id="@+id/book_now_button"
+                android:background="@drawable/register_button_background"
+                android:text="@string/get_fare"
+                android:textColor="@color/whites"
+                android:layout_below="@id/folding_cell_drop"
+                android:layout_marginEnd="32dp"
+
+
+                android:layout_centerHorizontal="true" />
+
             <com.ramotion.foldingcell.FoldingCell
-                xmlns:android="http://schemas.android.com/apk/res/android"
                 android:id="@+id/folding_cell_drop"
                 android:clipChildren="false"
                 android:clipToPadding="false"
 
 
-
-
-                android:layout_below="@id/folding_cell_pick"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/folding_cell_pick"
+                android:layout_alignParentStart="true">
 
                 <!--First child of drop-->
 
@@ -245,9 +283,9 @@
                     android:layout_width="match_parent"
                     app:cardBackgroundColor="@color/login_text_color"
                     app:cardCornerRadius="4dp"
-                    android:layout_margin="16dp"
 
-                    android:layout_height="100dp">
+
+                    android:layout_height="wrap_content">
 
 
                     <com.kaalivandi.UI.IosLight
@@ -262,49 +300,8 @@
                         />
 
 
-
-
                 </android.support.v7.widget.CardView>
             </com.ramotion.foldingcell.FoldingCell>
-
-
-            <com.kaalivandi.UI.Iosthin
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="* First 3 kms  @   \u20B9199"
-                android:id="@+id/km_text"
-                android:layout_below="@+id/ride_text"
-
-                android:visibility="invisible"
-
-                android:layout_centerHorizontal="true" />
-
-            <com.kaalivandi.UI.Iosthin
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="@string/ride_at_only_18rs_km"
-
-                android:id="@+id/ride_text"
-
-                android:visibility="invisible"
-                android:layout_below="@+id/book_now_button"
-                android:layout_centerHorizontal="true" />
-
-            <Button
-                android:layout_width="@dimen/button_width"
-                android:layout_height="50dp"
-                android:layout_marginTop="12dp"
-                android:id="@+id/book_now_button"
-                android:background="@drawable/register_button_background"
-                android:text="@string/get_fare"
-                android:textColor="@color/whites"
-                android:layout_below="@id/folding_cell_drop"
-                android:layout_marginEnd="32dp"
-
-
-                android:layout_centerHorizontal="true" />
 
         </RelativeLayout>
     </ScrollView>
