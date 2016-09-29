@@ -10,11 +10,14 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.support.v7.app.AppCompatActivity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import com.google.android.gms.location.places.Place;
@@ -33,6 +36,7 @@ import com.kaalivandi.Fragment.HomeFragment;
 import com.kaalivandi.Fragment.LoginFragment;
 import com.kaalivandi.Fragment.RegisterFragment;
 import com.kaalivandi.Prefs.MyPrefs;
+import com.kaalivandi.UI.CEditText;
 
 public class Home extends AppCompatActivity implements LoginFragment.login ,BookNowFragment.Kaalivandi
         , BookedFragment.Booking, DialogInterface.OnCancelListener ,
@@ -150,10 +154,51 @@ public class Home extends AppCompatActivity implements LoginFragment.login ,Book
     public void loggedin(boolean ok) {
         if (ok) {
             //ok loggede in
-            showHomeFragment();
+           GetNameUserDialog();
 
         }else{
             showLoginPage();
+        }
+    }
+
+    private void GetNameUserDialog() {
+
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
+        LayoutInflater inflater = this.getLayoutInflater();
+        final View dialogView = inflater.inflate(R.layout.user_detials_dialog, null);
+        dialogBuilder.setView(dialogView);
+
+        final CEditText email = (CEditText) dialogView.findViewById(R.id.alert_email);
+       final  CEditText name = (CEditText)dialogView.findViewById(R.id.alert_name);
+
+        dialogBuilder.setTitle("One More Step");
+
+        dialogBuilder.setPositiveButton("Done", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                String mname = name.getText().toString();
+                String mEmail = email.getText().toString();
+                saveToprefs(mname,mEmail);
+                showHomeFragment();
+
+            }
+        });
+        dialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                //pass
+            }
+        });
+        AlertDialog b = dialogBuilder.create();
+        b.show();
+    }
+
+    private void saveToprefs(String mname, String mEmail) {
+        if(myPrefs != null){
+            myPrefs.setEmail(mEmail);
+            myPrefs.setUsername(mname);
+        }else{
+            myPrefs = new MyPrefs(getBaseContext());
+            myPrefs.setUsername(mname);
+            myPrefs.setEmail(mEmail);
         }
     }
 
@@ -303,6 +348,7 @@ public class Home extends AppCompatActivity implements LoginFragment.login ,Book
         }
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.frag_holder,mFragment)
+                .addToBackStack(null)
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                 .commit();
         return true;

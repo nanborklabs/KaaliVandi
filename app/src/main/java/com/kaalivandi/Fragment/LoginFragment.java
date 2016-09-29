@@ -19,6 +19,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -151,7 +152,9 @@ public class LoginFragment extends Fragment {
         mForgot.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                if (callback!= null){
+                    callback.forogotPassword();
+                }
             }
         });
 
@@ -214,7 +217,8 @@ public class LoginFragment extends Fragment {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.d(TAG, "onErrorResponse: ");
+
+                Toast.makeText(getContext(),"Error Occured Please Try again",Toast.LENGTH_SHORT).show();
 
             }
         });

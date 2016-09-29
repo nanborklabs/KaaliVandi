@@ -185,7 +185,7 @@
             android:layout_marginLeft="24dp"
             android:text="@string/submit"
             android:id="@+id/register_button"
-            android:background="@drawable/regsiter_background"
+            android:background="@drawable/register_button_background"
             android:layout_marginTop="45dp"
             android:layout_below="@+id/register_password_ted"
             android:layout_alignParentLeft="true"

@@ -62,7 +62,10 @@ public class AboutFragment extends Fragment {
                     if (event.getAction() == KeyEvent.ACTION_UP && keyCode == KeyEvent.KEYCODE_BACK) {
 
                         // handle back button
-                        getActivity().getSupportFragmentManager().popBackStack();
+                        if (getActivity().getSupportFragmentManager().getBackStackEntryCount()>0){
+                            getActivity().getSupportFragmentManager().popBackStack();
+
+                        }
 
                         return true;
 

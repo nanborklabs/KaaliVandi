@@ -26,14 +26,15 @@ import butterknife.OnClick;
 public class ProfilePage extends Fragment {
 
 
-    @BindView(R.id.pro_edit)
-    ImageView proEdit;
+
     @BindView(R.id.pro_name_value)
     IosLight nameBox;
     @BindView(R.id.pro_email_value)
     IosLight emailbox;
     @BindView(R.id.pro_number_value)
     IosLight numberBox;
+
+
 
     String name;
     String phone;
