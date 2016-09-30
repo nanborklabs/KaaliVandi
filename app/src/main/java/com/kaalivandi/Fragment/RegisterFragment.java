@@ -90,6 +90,8 @@ public class RegisterFragment extends Fragment {
 
     private KaalivandRequestQueue mRequestQueue;
 
+    int count = 0;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -285,7 +287,7 @@ public class RegisterFragment extends Fragment {
                     }
                     AlertDialog.Builder alertDialog = new AlertDialog.Builder(getContext());
                     alertDialog.setTitle("Not Registered");
-                    alertDialog.setMessage("Some Error occurred , Please try again");
+                    alertDialog.setMessage("Please Enter valid Credentials");
                     alertDialog.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
@@ -301,7 +303,7 @@ public class RegisterFragment extends Fragment {
                     }
                     AlertDialog.Builder alertDialog = new AlertDialog.Builder(getContext());
                     alertDialog.setTitle("Not Registered");
-                    alertDialog.setMessage("Some Error occurred , Please try again");
+                    alertDialog.setMessage("Error occurred , Please try again");
                     alertDialog.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
@@ -319,21 +321,28 @@ public class RegisterFragment extends Fragment {
             @Override
             public void onErrorResponse(VolleyError error) {
 
-                if (mDialog.isShowing()) {
-                    mDialog.dismiss();
+
+                if (!(count>3)){
+
+                    count++;
+                    register(muser, mPass, mPhone, mEmail);
                 }
-
-                AlertDialog.Builder alertDialog = new AlertDialog.Builder(getContext());
-                alertDialog.setTitle("Not Registered");
-                alertDialog.setMessage("Some Error occurred , Please try again");
-                alertDialog.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-
+                else{
+                    if (mDialog.isShowing()){
+                        mDialog.dismiss();
                     }
-                });
-                alertDialog.show();
-                mCallback.notRegisterered();
+                    AlertDialog.Builder alertDialog = new AlertDialog.Builder(getContext());
+                    alertDialog.setTitle("Not Registered");
+                    alertDialog.setMessage("Please Make sure you have an internet Connection");
+                    alertDialog.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                        }
+                    });
+                    alertDialog.show();
+                    mCallback.notRegisterered();
+                }
 
             }
         });

@@ -147,8 +147,17 @@ public class Home extends AppCompatActivity implements LoginFragment.login ,Book
       return true;
     }
 
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
 
 
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+    }
 
     @Override
     public void loggedin(boolean ok) {

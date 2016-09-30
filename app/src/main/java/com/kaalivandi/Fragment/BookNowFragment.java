@@ -135,6 +135,14 @@ public class BookNowFragment extends Fragment {
 
     private ProgressDialog mDialog;
 
+    //save instance state ARG
+    private static final String IS_FROM_SELECTED ="IS_FROM_SELECTED";
+    private static final String IS_TO_SELECTED ="IS_TO_SELECTED";
+    private static  String FROM_PLACE = "";
+    private static String TO_PLACE = "";
+
+
+
     @Override
     public void onAttach(Context context) {
         this.mContext = context;
@@ -252,6 +260,19 @@ public class BookNowFragment extends Fragment {
         mView = inflater.inflate(R.layout.book_fragment, container, false);
         ButterKnife.bind(this, mView);
 
+        if (savedInstanceState != null){
+            from_selected = savedInstanceState.getBoolean(IS_FROM_SELECTED);
+            to_selected = savedInstanceState.getBoolean(IS_TO_SELECTED);
+            if (from_selected){
+                mFromPlace = savedInstanceState.getString(FROM_PLACE);
+                valuePickUp.setText(mFromPlace);
+            }
+            if (to_selected){
+                mToPlace = savedInstanceState.getString(TO_PLACE);
+                valueDrop.setText(mToPlace);
+            }
+
+        }
 
         mDialog = new ProgressDialog(getContext());
         LatLng msouth = new LatLng(10.97, 76.96);
@@ -374,6 +395,7 @@ public class BookNowFragment extends Fragment {
                 .start();
                 */
         mTitleText.setAlpha(0);
+        mBookButton.setAlpha(0);
         mDropCard.setTranslationY(-(Utils.getScreenHeight(getContext())));
         mPickUpcard.setTranslationY((Utils.getScreenHeight(getContext())));
 
@@ -390,7 +412,7 @@ public class BookNowFragment extends Fragment {
                 mPickUpcard.animate().translationY(0).setDuration(1000).setInterpolator(new DecelerateInterpolator()).start();
                 mDropCard.animate().translationY(0).setDuration(1000).setInterpolator(new DecelerateInterpolator()).start();
                 mBookButton.setTranslationX(Utils.getScreenWidth(getContext()));
-                mBookButton.animate().translationX(0).setDuration(500).setStartDelay(1000)
+                mBookButton.animate().alpha(1).translationX(0).setDuration(500).setStartDelay(1000)
                         .setInterpolator(new AccelerateDecelerateInterpolator())
                         .setListener(new Animator.AnimatorListener() {
                             @Override
@@ -772,7 +794,24 @@ public class BookNowFragment extends Fragment {
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
+        //saving form place
+        Log.d(TAG, "onSaveInstanceState: ");
+        if (from_selected){
+
+            outState.putBoolean(IS_FROM_SELECTED,from_selected);
+            outState.putString(FROM_PLACE,mFromPlace);
+        }
+
+        //saving to Place
+        if (to_selected){
+
+            outState.putBoolean(IS_TO_SELECTED,to_selected);
+            outState.putString(TO_PLACE,mToPlace);
+        }
+
+
         super.onSaveInstanceState(outState);
+
     }
 
     @Override
